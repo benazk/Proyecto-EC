@@ -1,8 +1,4 @@
-// Curso 2025-2026
 
-/*-------------------------------------
-rutinasAtencion.c
--------------------------------------*/
 
 #include <nds.h>
 #include <stdio.h>
@@ -11,14 +7,14 @@ rutinasAtencion.c
 #include "fondos.h"
 #include "sprites.h"
 
-int ESTADO; // Para controlar el estado del autómata en que esté
+int Estado; // Para controlar el estado del autómata en que esté
 int seg3;   // Para ver si pasan tres segundos
 
 void RutAtencionTeclado (){
-	if (ESTADO == CERRADA){	
+	if (Estado == MENU){	
 		if (TeclaPulsada()==A)
 		{
-			ESTADO=ABIERTA;
+			
 			visualizarPuertaAbierta();
 			seg3=0;
 			MostrarRombo(1, 5, 5);
@@ -31,21 +27,21 @@ void RutAtencionTempo(){
 	static int tick=0;
 	static int seg=0;
 
-	if (ESTADO!=ESPERA){
+	if (Estado!=MENU){
 		tick++; 
 		if (tick==5)
 		{
 			seg++;
 			iprintf("\x1b[13;5HSegundos que han pasado=%d", seg);
 			tick=0;
-			if (ESTADO == ABIERTA)
+			if (Estado == MENU)
 			{
 				seg3++;
 				if (seg3==3)
 				{
 					visualizarPuerta();
 					seg3=0;
-					ESTADO=CERRADA;
+					Estado=STATS;
 					BorrarRombo(1, 5, 5);
 					BorrarRomboGrande(2, 100, 100);
 				}
@@ -62,5 +58,4 @@ void EstablecerVectorInt(){
 	irqSet(IRQ_KEYS, RutAtencionTeclado);
 }
 
-/***********************2025-2026*******************************/
 

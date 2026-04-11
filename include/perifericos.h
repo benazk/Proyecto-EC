@@ -1,8 +1,3 @@
-// Curso 2025-2026
-
-/*-------------------------------------
-perifericos.h
--------------------------------------*/
 
 extern int TeclaDetectada();
 extern int TeclaPulsada();
@@ -15,6 +10,5 @@ extern void InhibirIntTempo();
 extern void PonerEnMarchaTempo();
 extern void PararTempo();
 
-/***********************2025-2026*******************************/
 
 

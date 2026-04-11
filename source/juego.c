@@ -1,9 +1,4 @@
-// Curso 2025-2026
 
-/*---------------------------------------------------------------------------------
-Este código se ha desarrollado basándose en el código de dovoto "Simple sprite demo" 
-y en otro ejemplo de Jaeden Ameronen
----------------------------------------------------------------------------------*/
 
 
 #include <nds.h> 		// Librería de la NDS
@@ -23,11 +18,11 @@ int tiempo;
 void juego()
 {
 
-	ESTADO=ESPERA;
+	Estado=MENU;
 	// Escribe en la fila 22 columna 5 de la pantalla
 	iprintf("\x1b[22;5HPrueba de escritura");
 
-	//******************************* EN LA 2.ACTIVIDAD ********************************//
+	
         // LLAMADAS A REALIZAR (ORDEN RECOMENDADO):
 	// Configurar el teclado.
 	// Configurar el temporizador.
@@ -35,7 +30,7 @@ void juego()
 	// Habilitar las interrupciones del teclado.
 	// Habilitar las interrupciones del temporizador.
 	// Habilitar interrupciones.
-	//******************************************************************************//
+
 
 	ConfigurarTeclado(0x4000 | (1 << 3));
 	int seg;
@@ -43,28 +38,27 @@ void juego()
 	int timer_control = 0x0060;
 	ConfigurarTemporizador(latch, timer_control);
 	int tecla = 0;
-	while(1)
-	{
+	while(1){
+		switch(Estado){
+			case MENU:
+				tecla=TeclaPulsada();
+				if(tecla==START){
 
-      /*******************************EN LA 1.ACTIVIDAD *****************************************/
-		/* Si el estado es ESPERA: codificar aquí la encuesta del teclado, sacar por pantalla la tecla que se ha pulsado, y si se pulsa la tecla START cambiar de estado */
-	if(ESTADO==ESPERA)
-	    tecla=TeclaPulsada();
-	    if(tecla==START){
-
-			visualizarPuerta();
-			seg=0;
-	        ESTADO=CERRADA;
-			PonerEnMarchaTempo();
-	    }
-	    else{
-		iprintf("\x1b[23;5H Se pulsa %d", tecla);
-	    }
+					visualizarPuerta();
+					seg=0;
+					PonerEnMarchaTempo();
+				}
+				else{
+				iprintf("\x1b[23;5H Se pulsa %d", tecla);
+				}
+				break;
+			case JUEGO:
+				break;
+			case STATS:
+				break;
+		}
+		DeshabilitarInterrrupciones();
 	}
-	DeshabilitarInterrrupciones();
-	// Inhibir las interrupciones al final
 }
-
-/***********************2025-2026*******************************/
 
 

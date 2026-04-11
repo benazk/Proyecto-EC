@@ -1,8 +1,3 @@
-// Curso 2025-2026
-
-/*-------------------------------------
-           definiciones.h
--------------------------------------*/
 #include <nds.h> 		// Librería de la NDS
 #include <stdio.h>		// Librería de entrada/salida estándar de C
 #include <stdlib.h>		// Librería estándar de C para reserva de memoria y conversiones numéricas
@@ -43,14 +38,11 @@ touchPosition PANT_DAT;
 #define R			8 
 #define L			9
 
-// Nombres asignados a los estados
-typedef enum estadosJuego{ MENU=0, JUEGO=1, STATS=2}
-typedef enum subEstadosJuego{ IDLE=0, MOVIENDO=1, HIT=2, PAUSA=3}
-#define ESPERA                  0
-#define CERRADA                 1
-#define ABIERTA                 2
+// Enums asignados a los estados y subestados (Automatas)
+extern const enum estadosJuego{ MENU=0, JUEGO=1, STATS=2} estadosJuego;
+extern const enum subEstadosJuego{ IDLE=0, MOVIENDO=1, HIT=2, PAUSA=3} subEstadosJuego;
 
-extern int ESTADO;
+extern int Estado; // Este es el estado de la partida
+extern int subEstado; // Este es el sub estado de la partida
 
-/***********************2025-2026*******************************/
 

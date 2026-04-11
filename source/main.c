@@ -1,9 +1,4 @@
-// Curso 2025-2026
 
-/*---------------------------------------------------------------------------------
-Este código se ha desarrollado basándose en el código de dovoto "Simple sprite demo" 
-y en otro ejemplo de Jaeden Ameronen
----------------------------------------------------------------------------------*/
 
 #include <nds.h> 		// Librería de la NDS
 #include <stdio.h>		// Librería de entrada/salida estándar de C
@@ -18,18 +13,15 @@ y en otro ejemplo de Jaeden Ameronen
 #include "juego.h"
 
 
-//---------------------------------------------------------------------------------
 int main(void) {
-//---------------------------------------------------------------------------------
+
 
 	inicializarGraficosSprites();
 	HabilitarInterrupciones();
-	// Llamada al juego que vosotros programaréis
 	juego();
 
 	return 0;
 
 }
 
-/***********************2025-2026*******************************/
 

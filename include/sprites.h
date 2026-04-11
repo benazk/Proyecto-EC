@@ -1,4 +1,4 @@
-// Curso 2025-2026
+
 
 extern u16* gfx;
 extern u16* gfx2;
@@ -34,5 +34,4 @@ extern void MostrarRomboGrande(int indice, int x, int y);
 extern void BorrarRomboGrande(int indice, int x, int y);
 /* Esta función borra de la pantalla el rombo grande con el índice que se le indique como parámetro */
 
-/***********************2025-2026*******************************/
 
