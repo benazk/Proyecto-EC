@@ -44,6 +44,8 @@ touchPosition PANT_DAT;
 #define L			9
 
 // Nombres asignados a los estados
+typedef enum estadosJuego{ MENU=0, JUEGO=1, STATS=2}
+typedef enum subEstadosJuego{ IDLE=0, MOVIENDO=1, HIT=2, PAUSA=3}
 #define ESPERA                  0
 #define CERRADA                 1
 #define ABIERTA                 2

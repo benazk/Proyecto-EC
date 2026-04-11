@@ -27,7 +27,7 @@ int main(void) {
 	// Llamada al juego que vosotros programaréis
 	juego();
 
-	return(0);
+	return 0;
 
 }
 
