@@ -8,7 +8,6 @@ typedef struct {
     int x;
     int y;
     bool vida;
-    
 }Prota;
 
 typedef struct {

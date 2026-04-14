@@ -6,21 +6,16 @@
 #include "perifericos.h"
 #include "fondos.h"
 #include "sprites.h"
-
-int Estado; // Para controlar el estado del autómata en que esté
+int Estado;
 int seg3;   // Para ver si pasan tres segundos
 
 void RutAtencionTeclado (){
 	if (Estado == MENU){	
-		if (TeclaPulsada()==A)
-		{
-			
-			visualizarPuertaAbierta();
-			seg3=0;
-			MostrarRombo(1, 5, 5);
-			MostrarRomboGrande(2, 100, 100);
+		if (TeclaPulsada()==A){
+			MostrarPersonaje(1, 5, 5);
 		}
 	}
+	iprintf("\x1b[0;5H Deberia de generarse el personaje");
 }
 
 void RutAtencionTempo(){
@@ -39,11 +34,7 @@ void RutAtencionTempo(){
 				seg3++;
 				if (seg3==3)
 				{
-					visualizarPuerta();
 					seg3=0;
-					Estado=STATS;
-					BorrarRombo(1, 5, 5);
-					BorrarRomboGrande(2, 100, 100);
 				}
 			}
 					
@@ -52,9 +43,7 @@ void RutAtencionTempo(){
 }
 
 void EstablecerVectorInt(){
-	// Para el Timer 0
 	irqSet(IRQ_TIMER0, RutAtencionTempo);
-	// Para el Teclado
 	irqSet(IRQ_KEYS, RutAtencionTeclado);
 }
 
