@@ -24,5 +24,6 @@ extern void MostrarPersonaje(int indice, int x, int y);
 
 extern void BorrarPersonaje(int indice, int x, int y);
 
-
+extern u8 personaje[1024];
+extern u8 tileFlor[1024];
 

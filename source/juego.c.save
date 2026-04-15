@@ -26,39 +26,33 @@ void initStructs(){
 int tiempo;
 int tecla;
 void juego(){
-	
 	initStructs();
 	MostrarPersonaje(0,personaje.x, personaje.y);
 	Estado=MENU;
 	
+        // LLAMADAS A REALIZAR (ORDEN RECOMENDADO):
 	// Configurar el teclado.
 	// Configurar el temporizador.
 	// Establecer las rutinas de atención a interrupciones.
 	// Habilitar las interrupciones del teclado.
 	// Habilitar las interrupciones del temporizador.
 	// Habilitar interrupciones.
+
+
 	ConfigurarTeclado(0x4000 | 0x03FF);
-	
 	int latch = 58982;//(int)(65536 - (33554432/1024)*1/5);
-	int timer_control = 0x0043;
+	int timer_control = 0x0083;
 	ConfigurarTemporizador(latch, timer_control);
-
-	EstablecerVectorInt();
-
-	HabilitarIntTeclado();
-
 	HabilitarIntTempo();
-
 	PonerEnMarchaTempo();
-
-	HabilitarInterrupciones();
-
-	
-
 	while(1){
 		switch(Estado){
 			case MENU:
-				tecla = -1;
+				if(TeclaDetectada()){
+					tecla=TeclaPulsada();
+					iprintf("\x1b[23;1H Tecla %d", tecla);
+				}
+				else tecla = -1;
 				break;
 			case JUEGO:
 				break;

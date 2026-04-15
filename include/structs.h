@@ -9,12 +9,17 @@ typedef struct {
     bool vivo;
 }Prota;
 
-/*typedef struct {
+typedef struct {
     int altura;
     float tiempo;
-    
-}Nivel;*/
+}Nivel;
 
+typedef struct{
+    u8* spriteBitMap;
+    u16* palette;
+    int x;
+    int y;
+}Tile;
 
 /*typedef struct {
     int monedas;
