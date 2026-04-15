@@ -1,4 +1,4 @@
-juego.o: /home/user/SharedFolder/Proyecto-EC/source/juego.c \
+juego.o: /home/user/SharedFiles/Proyecto-EC/source/juego.c \
   /opt/devkitPro/libnds/include/nds.h \
   /opt/devkitPro/libnds/include/nds/libversion.h \
   /opt/devkitPro/libnds/include/nds/ndstypes.h \
@@ -47,11 +47,12 @@ juego.o: /home/user/SharedFolder/Proyecto-EC/source/juego.c \
   /opt/devkitPro/libnds/include/nds/arm9/sprite.h \
   /opt/devkitPro/libnds/include/nds/system.h \
   /opt/devkitPro/libnds/include/nds/arm9/decompress.h \
-  /home/user/SharedFolder/Proyecto-EC/include/definiciones.h \
-  /home/user/SharedFolder/Proyecto-EC/include/perifericos.h \
-  /home/user/SharedFolder/Proyecto-EC/include/rutinasAtencion.h \
-  /home/user/SharedFolder/Proyecto-EC/include/fondos.h \
-  /home/user/SharedFolder/Proyecto-EC/include/structs.h
+  /home/user/SharedFiles/Proyecto-EC/include/definiciones.h \
+  /home/user/SharedFiles/Proyecto-EC/include/perifericos.h \
+  /home/user/SharedFiles/Proyecto-EC/include/rutinasAtencion.h \
+  /home/user/SharedFiles/Proyecto-EC/include/fondos.h \
+  /home/user/SharedFiles/Proyecto-EC/include/sprites.h \
+  /home/user/SharedFiles/Proyecto-EC/include/structs.h
 
 /opt/devkitPro/libnds/include/nds.h:
 
@@ -149,12 +150,14 @@ juego.o: /home/user/SharedFolder/Proyecto-EC/source/juego.c \
 
 /opt/devkitPro/libnds/include/nds/arm9/decompress.h:
 
-/home/user/SharedFolder/Proyecto-EC/include/definiciones.h:
+/home/user/SharedFiles/Proyecto-EC/include/definiciones.h:
 
-/home/user/SharedFolder/Proyecto-EC/include/perifericos.h:
+/home/user/SharedFiles/Proyecto-EC/include/perifericos.h:
 
-/home/user/SharedFolder/Proyecto-EC/include/rutinasAtencion.h:
+/home/user/SharedFiles/Proyecto-EC/include/rutinasAtencion.h:
 
-/home/user/SharedFolder/Proyecto-EC/include/fondos.h:
+/home/user/SharedFiles/Proyecto-EC/include/fondos.h:
 
-/home/user/SharedFolder/Proyecto-EC/include/structs.h:
+/home/user/SharedFiles/Proyecto-EC/include/sprites.h:
+
+/home/user/SharedFiles/Proyecto-EC/include/structs.h:

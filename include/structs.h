@@ -6,11 +6,7 @@
 typedef struct {
     int x;
     int y;
-<<<<<<< HEAD
-    bool vida;
-=======
     bool vivo;
->>>>>>> 1e0a5e7909fefeb6292a4216c9db0b7398d33f0b
 }Prota;
 
 /*typedef struct {

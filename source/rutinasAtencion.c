@@ -8,10 +8,11 @@
 #include "sprites.h"
 #include "structs.h"
 int Estado;
-int seg3;   // Para ver si pasan tres segundos
+static int tick=0;
+static int seg=0;
 Prota personaje;
 void RutAtencionTeclado (){
-	int tecla = TeclaPulsada()
+	int tecla = TeclaPulsada();
 	if (Estado == MENU){	
 		if (tecla==DERECHA){
 			personaje.x += 32;
@@ -29,32 +30,16 @@ void RutAtencionTeclado (){
 			personaje.y += 32;
 			MostrarPersonaje(0,personaje.x, personaje.y);
 		}
-		iprintf("\x1b[0;5H mover derecha");
 	}
 	
 }
 
 void RutAtencionTempo(){
-	static int tick=0;
-	static int seg=0;
-
-	if (Estado!=MENU){
-		tick++; 
-		if (tick==5)
-		{
-			seg++;
-			iprintf("\x1b[13;5HSegundos que han pasado=%d", seg);
-			tick=0;
-			if (Estado == MENU)
-			{
-				seg3++;
-				if (seg3==3)
-				{
-					seg3=0;
-				}
-			}
-					
-		}
+	tick++; 
+	if (tick==5){
+		seg++;
+		iprintf("\x1b[13;5HSegundos que han pasado=%d", seg);
+		tick=0;
 	}
 }
 

@@ -12,6 +12,7 @@
 #include "perifericos.h"
 #include "rutinasAtencion.h"
 #include "fondos.h"
+#include "sprites.h"
 #include "structs.h"
 Prota personaje;
 
@@ -28,9 +29,6 @@ void juego(){
 	initStructs();
 	MostrarPersonaje(0,personaje.x, personaje.y);
 	Estado=MENU;
-	// Escribe en la fila 22 columna 5 de la pantalla
-	iprintf("\x1b[22;5HPrueba de escritura");
-
 	
         // LLAMADAS A REALIZAR (ORDEN RECOMENDADO):
 	// Configurar el teclado.
@@ -42,10 +40,9 @@ void juego(){
 
 
 	ConfigurarTeclado(0x4000 | 0x03FF);
-	//int seg;
-	//int latch = (int)(65536 - (33554432/1024)/5);
-	//int timer_control = 0x0060;
-	//ConfigurarTemporizador(latch, timer_control);
+	int latch = (int)(65536 - (33554432/1024)*1/1);
+	int timer_control = 0x00FF;
+	ConfigurarTemporizador(latch, timer_control);
 
 	while(1){
 		switch(Estado){
