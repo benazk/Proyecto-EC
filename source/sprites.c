@@ -78,7 +78,7 @@ void GuardarSpritesMemoria(){
 /* Esta función dibuja un personaje en la posición x, y de pantalla. A cada personaje que se quiera mostrar en pantalla se le debe asignar un índice distinto, un valor entre 0 y 126 */
 
 void MostrarPersonaje(int indice, int x, int y){ 
-oamSet(&oamMain, // main graphics engine context
+	oamSet(&oamMain, // main graphics engine context
 		indice,           // oam index (0 to 127)  
 		x, y,   // x and y pixel location of the sprite
 		0,                    // priority, lower renders last (on top)
@@ -92,28 +92,26 @@ oamSet(&oamMain, // main graphics engine context
 		false, false, // vflip, hflip
 		false	// apply mosaic
 		); 
-
-	  
-oamUpdate(&oamMain);  
+	oamUpdate(&oamMain);  
 }
 
 void BorrarPersonaje(int indice, int x, int y){
 
-oamSet(&oamMain, // main graphics engine context
-		indice,           // oam index (0 to 127)  
-		x, y,   // x and y pixel location of the sprite
-		0,                    // priority, lower renders last (on top)
-		0,			  // this is the palette index if multiple palettes or the alpha value if bmp sprite	
-		SpriteSize_32x32,     
-		SpriteColorFormat_256Color, 
-		gfxpersonaje,// +16*16/2,  // pointer to the loaded graphics
-		-1,                  // sprite rotation data  
-		false,               // double the size when rotating?
-		true,			// hide the sprite?
-		false, false, // vflip, hflip
-		false	// apply mosaic
-		); 
-oamUpdate(&oamMain); 
+	oamSet(&oamMain, // main graphics engine context
+			indice,           // oam index (0 to 127)  
+			x, y,   // x and y pixel location of the sprite
+			0,                    // priority, lower renders last (on top)
+			0,			  // this is the palette index if multiple palettes or the alpha value if bmp sprite	
+			SpriteSize_32x32,     
+			SpriteColorFormat_256Color, 
+			gfxpersonaje,// +16*16/2,  // pointer to the loaded graphics
+			-1,                  // sprite rotation data  
+			false,               // double the size when rotating?
+			true,			// hide the sprite?
+			false, false, // vflip, hflip
+			false	// apply mosaic
+			); 
+	oamUpdate(&oamMain); 
 
 }
 

@@ -12,12 +12,21 @@
 #include "perifericos.h"
 #include "rutinasAtencion.h"
 #include "fondos.h"
+#include "structs.h"
+Prota personaje;
+
+
+void initStructs(){
+	personaje.x = 96;
+	personaje.y = 32;
+}
+
 
 int tiempo;
 int tecla;
 void juego(){
-
-
+	initStructs();
+	MostrarPersonaje(0,personaje.x, personaje.y);
 	Estado=MENU;
 	// Escribe en la fila 22 columna 5 de la pantalla
 	iprintf("\x1b[22;5HPrueba de escritura");

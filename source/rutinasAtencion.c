@@ -6,16 +6,32 @@
 #include "perifericos.h"
 #include "fondos.h"
 #include "sprites.h"
+#include "structs.h"
 int Estado;
 int seg3;   // Para ver si pasan tres segundos
-
+Prota personaje;
 void RutAtencionTeclado (){
+	int tecla = TeclaPulsada()
 	if (Estado == MENU){	
-		if (TeclaPulsada()==A){
-			MostrarPersonaje(1, 5, 5);
+		if (tecla==DERECHA){
+			personaje.x += 32;
+			MostrarPersonaje(0,personaje.x, personaje.y);
 		}
+		if (tecla==IZQUIERDA){
+			personaje.x -= 32;
+			MostrarPersonaje(0,personaje.x, personaje.y);
+		}
+		if (tecla==ARRIBA){
+			personaje.y -= 32;
+			MostrarPersonaje(0,personaje.x, personaje.y);
+		}
+		if (tecla==ABAJO){
+			personaje.y += 32;
+			MostrarPersonaje(0,personaje.x, personaje.y);
+		}
+		iprintf("\x1b[0;5H mover derecha");
 	}
-	iprintf("\x1b[0;5H Deberia de generarse el personaje");
+	
 }
 
 void RutAtencionTempo(){

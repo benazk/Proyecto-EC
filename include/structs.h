@@ -1,28 +1,23 @@
 #include <nds.h>
-#include <stdio.h
+#include <stdio.h>
 #include <stdlib.h>	
 #include <unistd.h>	
 
 typedef struct {
-    NDS sprite;
     int x;
     int y;
-    bool vida;
+    bool vivo;
 }Prota;
 
-typedef struct {
-
-}Sprite32;
-
-typedef struct {
-    int monedas;
-    int nivelNum;
-    Nivel *nivActual;
-
-}Stats;
-
-typedef struct {
+/*typedef struct {
     int altura;
     float tiempo;
     
-}Nivel;
+}Nivel;*/
+
+
+/*typedef struct {
+    int monedas;
+    int nivelNum;
+    Nivel *nivActual;
+}Stats;*/
