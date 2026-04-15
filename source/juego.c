@@ -33,10 +33,10 @@ void juego()
 
 
 	ConfigurarTeclado(0x4000 | (1 << 3));
-	int seg;
-	int latch = (int)(65536 - (33554432/1024)/5);
-	int timer_control = 0x0060;
-	ConfigurarTemporizador(latch, timer_control);
+	//int seg;
+	//int latch = (int)(65536 - (33554432/1024)/5);
+	//int timer_control = 0x0060;
+	//ConfigurarTemporizador(latch, timer_control);
 	int tecla = 0;
 	while(1){
 		switch(Estado){
