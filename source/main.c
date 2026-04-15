@@ -15,7 +15,8 @@
 
 int main(void) {
 
-
+	EstablecerVectorInt();
+	HabilitarIntTeclado();
 	inicializarGraficosSprites();
 	HabilitarInterrupciones();
 	juego();

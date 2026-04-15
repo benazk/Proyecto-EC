@@ -1,24 +1,22 @@
 
 #include <nds.h>
 #include <stdio.h>
+#include <math.h>
 #include "definiciones.h"
-
-
-int tecla; // Variable para guardar la tecla pulsada; valorar si es necesaria
+ // Variable para guardar la tecla pulsada; valorar si es necesaria
 
 
 
 int TeclaDetectada() {
-	if ((~TECLAS_DAT & 0x03ff)!=0) return 1;
-	else return 0;
-
+	return ((~TECLAS_DAT) & 0x03ff)!=0;
 }
 
 int TeclaPulsada(){
-	int i;
-	for(i = 0; i<10;i++){
-	    if(!(TECLAS_DAT & (2^i))) return i;
+	int i;	
+	for(i = 0; i < 10;i++){
+		if(~TECLAS_DAT & 0x1<<i ) return i;
 	}
+	return -1;
 }
 
 void ConfigurarTeclado(int Conf_Tec){

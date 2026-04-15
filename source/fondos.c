@@ -33,5 +33,5 @@ void visualizarPuertaAbierta() {
     //                 PuertaAbiertaBitmapLen); // Longitud en bytes, variable que se genera automáticamente
 }
 
-/***********************2025-2026*******************************/
+
 

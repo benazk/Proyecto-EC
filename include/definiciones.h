@@ -20,7 +20,7 @@
 #define TIMER0_CNT   (*(vuint16*)0x04000102) // Registro de control del temporizador
 #define TIMER0_DAT    (*(vuint16*)0x04000100) // Registro de datos del temporizador
 
-
+extern int tecla;
 
 // Acceso a los registros de la pantalla táctil
 touchPosition PANT_DAT;

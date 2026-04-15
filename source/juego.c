@@ -12,12 +12,21 @@
 #include "perifericos.h"
 #include "rutinasAtencion.h"
 #include "fondos.h"
+#include "structs.h"
+Prota personaje;
+
+
+void initStructs(){
+	personaje.x = 96;
+	personaje.y = 32;
+}
+
 
 int tiempo;
-
-void juego()
-{
-
+int tecla;
+void juego(){
+	initStructs();
+	MostrarPersonaje(0,personaje.x, personaje.y);
 	Estado=MENU;
 	// Escribe en la fila 22 columna 5 de la pantalla
 	iprintf("\x1b[22;5HPrueba de escritura");
@@ -32,32 +41,26 @@ void juego()
 	// Habilitar interrupciones.
 
 
-	ConfigurarTeclado(0x4000 | (1 << 3));
+	ConfigurarTeclado(0x4000 | 0x03FF);
 	//int seg;
 	//int latch = (int)(65536 - (33554432/1024)/5);
 	//int timer_control = 0x0060;
 	//ConfigurarTemporizador(latch, timer_control);
-	int tecla = 0;
+
 	while(1){
 		switch(Estado){
 			case MENU:
-				tecla=TeclaPulsada();
-				if(tecla==START){
-
-					visualizarPuerta();
-					seg=0;
-					PonerEnMarchaTempo();
+				if(TeclaDetectada()){
+					tecla=TeclaPulsada();
+					iprintf("\x1b[23;1H %d", tecla);	
 				}
-				else{
-				iprintf("\x1b[23;5H Se pulsa %d", tecla);
-				}
+				else tecla = -1;
 				break;
 			case JUEGO:
 				break;
 			case STATS:
 				break;
 		}
-		DeshabilitarInterrrupciones();
 	}
 }
 
