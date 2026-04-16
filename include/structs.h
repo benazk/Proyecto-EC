@@ -16,7 +16,8 @@ typedef struct {
 
 typedef struct{
     u8* spriteBitMap;
-    u16* palette;
+    u16* gfxpoint;
+    int spriteID;
     int x;
     int y;
 }Tile;

@@ -5,9 +5,11 @@ extern u16* gfx2;
 extern u16* gfx3;
 extern u16* gfxSub;
 
+extern u16* gfxpersonaje;
+extern u16* florSuelo;
 extern void memoriaReserva();
 
-extern void EstablecerPaletaPrincipal();
+extern void EstablecerPaletaPrincipal(int spriteID)
 /* Para cada uno de los 256 valores que puede tomar un Píxel le da un color en la pantalla principal. El valor 0 es transparente y los valores sin definir, negros */
 
 
@@ -15,14 +17,12 @@ extern void EstablecerPaletaSecundaria();
 /* Para cada uno de los 256 valores que puede tomar un Píxel le da un color en la pantalla secundaria. El valor 0 es transparente y los valores sin definir negros */
 
 
-extern void GuardarSpritesMemoria();
+extern void GuardarSpritesMemoria(u16* gfxpoint, u8* bitMap, int spriteSize);
 /* Carga en memoria los Sprites dibujados */
 
+extern void MostrarSprite(int indice, int x, int y, int spriteSize, u16* gfxpoint);
 
-
-extern void MostrarPersonaje(int indice, int x, int y);
-
-extern void BorrarPersonaje(int indice, int x, int y);
+extern void BorrarSprite(int indice, int x, int y, u16* gfxpoint);
 
 extern u8 personaje[1024];
 extern u8 tileFlor[1024];

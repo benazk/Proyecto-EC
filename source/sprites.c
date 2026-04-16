@@ -10,21 +10,33 @@
 
 
 u16* gfxpersonaje;
+u16* florSuelo;
 /* Reservar memoria para cada sprite que se quiera mostrar en pantalla */
 void memoriaReserva(){
 	/* Por cada sprite que se quiera incluir en la pantalla principal hay que hacer algo equivalente a lo que sigue */
 	gfxpersonaje= oamAllocateGfx(&oamMain, SpriteSize_32x32, SpriteColorFormat_256Color);
+	florSuelo = oamAllocateGfx(&oamMain, SpriteSize_32x32, SpriteColorFormat_256Color);
 }
 
 /* A cada uno de los 256 valores que puede tomar un píxel en la PALETA PRINCIPAL
    se le puede asignar un color. El valor 0 es transparente. Los valores sin definir son negros. 
    MODIFICAR SEGÚN LOS COLORES QUE QUERAIS UTILIZAR EN VUESTROS SPRITES */
-void EstablecerPaletaPrincipal() {
-	SPRITE_PALETTE[0] = RGB15(0,0,0);
-	SPRITE_PALETTE[1] = RGB15(4,3,6);
-	SPRITE_PALETTE[2] = RGB15(31,31,31);
-	SPRITE_PALETTE[3] = RGB15(0,0,0);
-	SPRITE_PALETTE[4] = RGB15(27,13,4);
+void EstablecerPaletaPrincipal(int spriteID) {
+	switch(spriteID){
+		case PERSONAJE:
+			SPRITE_PALETTE[0] = RGB15(0,0,0);
+			SPRITE_PALETTE[1] = RGB15(4,3,6);
+			SPRITE_PALETTE[2] = RGB15(31,31,31);
+			SPRITE_PALETTE[3] = RGB15(0,0,0);
+			SPRITE_PALETTE[4] = RGB15(27,13,4);
+			break;
+		case FLOR_SUELO:
+			SPRITE_PALETTE[0] = RGB15(12,23,5);
+			SPRITE_PALETTE[1] = RGB15(30,29,6);
+			SPRITE_PALETTE[2] = RGB15(17,17,0);
+			SPRITE_PALETTE[3] = RGB15(18,27,9);
+			break;
+	}
 }
 
 /* Definición de un sprite de 16x16 píxeles para dibujar un rombo */
@@ -102,50 +114,124 @@ u8 tileFlor[1024] = {
 
 /* Carga en memoria cada uno de los sprites que hemos dibujado */
 
-void GuardarSpritesMemoria(){ 
+void GuardarSpritesMemoria(u16* gfxpoint, u8* bitMap, int spriteSize){ 
 	int i;
-	for(i = 0; i < 32 * 32 / 2; i++) {	
-		gfxpersonaje[i] = personaje[i*2] | (personaje[(i*2)+1]<<8);				
+	for(i = 0; i < spriteSize * spriteSize / 2; i++) {	
+		gfxpoint[i] = bitMap[i*2] | (bitMap[(i*2)+1]<<8);				
 	}
 }
 
 /* Esta función dibuja un personaje en la posición x, y de pantalla. A cada personaje que se quiera mostrar en pantalla se le debe asignar un índice distinto, un valor entre 0 y 126 */
 
-void MostrarPersonaje(int indice, int x, int y){ 
-	oamSet(&oamMain, // main graphics engine context
-		indice,           // oam index (0 to 127)  
-		x, y,   // x and y pixel location of the sprite
-		0,                    // priority, lower renders last (on top)
-		0,			  // this is the palette index if multiple palettes or the alpha value if bmp sprite	
-		SpriteSize_32x32,     
-		SpriteColorFormat_256Color, 
-		gfxpersonaje,// +16*16/2,   // pointer to the loaded graphics
-		-1,                  // sprite rotation data  
-		false,               // double the size when rotating?
-		false,			// hide the sprite?
-		false, false, // vflip, hflip
-		false	// apply mosaic
-		); 
-	oamUpdate(&oamMain);  
-}
-
-void BorrarPersonaje(int indice, int x, int y){
-
-	oamSet(&oamMain, // main graphics engine context
+void MostrarSprite(int indice, int x, int y, int spriteSize, u16* gfxpoint){ 
+	switch(spriteSize){
+		case 1:
+			oamSet(&oamMain, // main graphics engine context
 			indice,           // oam index (0 to 127)  
 			x, y,   // x and y pixel location of the sprite
 			0,                    // priority, lower renders last (on top)
 			0,			  // this is the palette index if multiple palettes or the alpha value if bmp sprite	
 			SpriteSize_32x32,     
 			SpriteColorFormat_256Color, 
-			gfxpersonaje,// +16*16/2,  // pointer to the loaded graphics
+			gfxpoint,// +16*16/2,   // pointer to the loaded graphics
+			-1,                  // sprite rotation data  
+			false,               // double the size when rotating?
+			false,			// hide the sprite?
+			false, false, // vflip, hflip
+			false	// apply mosaic
+			); 
+			oamUpdate(&oamMain);  
+		break;
+		case 2:
+			oamSet(&oamMain, // main graphics engine context
+			indice,           // oam index (0 to 127)  
+			x, y,   // x and y pixel location of the sprite
+			0,                    // priority, lower renders last (on top)
+			0,			  // this is the palette index if multiple palettes or the alpha value if bmp sprite	
+			SpriteSize_16x16,     
+			SpriteColorFormat_256Color, 
+			gfxpoint,// +16*16/2,   // pointer to the loaded graphics
+			-1,                  // sprite rotation data  
+			false,               // double the size when rotating?
+			false,			// hide the sprite?
+			false, false, // vflip, hflip
+			false	// apply mosaic
+			); 
+			oamUpdate(&oamMain);  
+		break;
+		case 3:
+			oamSet(&oamMain, // main graphics engine context
+			indice,           // oam index (0 to 127)  
+			x, y,   // x and y pixel location of the sprite
+			0,                    // priority, lower renders last (on top)
+			0,			  // this is the palette index if multiple palettes or the alpha value if bmp sprite	
+			SpriteSize_64x64,     
+			SpriteColorFormat_256Color, 
+			gfxpoint,// +16*16/2,   // pointer to the loaded graphics
+			-1,                  // sprite rotation data  
+			false,               // double the size when rotating?
+			false,			// hide the sprite?
+			false, false, // vflip, hflip
+			false	// apply mosaic
+			); 
+			oamUpdate(&oamMain);  
+		break;
+
+	}
+}
+void BorrarSprite(int indice, int x, int y, int spriteSize, u16* gfxpoint){
+	switch(spriteSize){
+		case 1:
+		oamSet(&oamMain, // main graphics engine context
+			indice,           // oam index (0 to 127)  
+			x, y,   // x and y pixel location of the sprite
+			0,                    // priority, lower renders last (on top)
+			0,			  // this is the palette index if multiple palettes or the alpha value if bmp sprite	
+			SpriteSize_32x32,     
+			SpriteColorFormat_256Color, 
+			gfxpoint,// +16*16/2,  // pointer to the loaded graphics
 			-1,                  // sprite rotation data  
 			false,               // double the size when rotating?
 			true,			// hide the sprite?
 			false, false, // vflip, hflip
 			false	// apply mosaic
 			); 
-	oamUpdate(&oamMain); 
+			oamUpdate(&oamMain); 
+			break;
+		case 2:
+			oamSet(&oamMain, // main graphics engine context
+			indice,           // oam index (0 to 127)  
+			x, y,   // x and y pixel location of the sprite
+			0,                    // priority, lower renders last (on top)
+			0,			  // this is the palette index if multiple palettes or the alpha value if bmp sprite	
+			SpriteSize_16x16,     
+			SpriteColorFormat_256Color, 
+			gfxpoint,// +16*16/2,  // pointer to the loaded graphics
+			-1,                  // sprite rotation data  
+			false,               // double the size when rotating?
+			true,			// hide the sprite?
+			false, false, // vflip, hflip
+			false	// apply mosaic
+			); 
+			oamUpdate(&oamMain); 
+			break;
+		case 3: 
+			oamSet(&oamMain, // main graphics engine context
+			indice,           // oam index (0 to 127)  
+			x, y,   // x and y pixel location of the sprite
+			0,                    // priority, lower renders last (on top)
+			0,			  // this is the palette index if multiple palettes or the alpha value if bmp sprite	
+			SpriteSize_64x64,     
+			SpriteColorFormat_256Color, 
+			gfxpoint,// +16*16/2,  // pointer to the loaded graphics
+			-1,                  // sprite rotation data  
+			false,               // double the size when rotating?
+			true,			// hide the sprite?
+			false, false, // vflip, hflip
+			false	// apply mosaic
+			); 
+			oamUpdate(&oamMain); 
+	}
 
 }
 
