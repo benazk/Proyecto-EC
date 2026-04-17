@@ -42,8 +42,9 @@ touchPosition PANT_DAT;
 extern const enum estadosJuego{ MENU=0, JUEGO=1, STATS=2} estadosJuego;
 extern const enum subEstadosJuego{ IDLE=0, MOVIENDO=1, HIT=2, PAUSA=3} subEstadosJuego;
 
-extern const enum spritesId{ PERSONAJE=0, FLOR_SUELO=1, AGUA_CUEVA=2} spritesId;
+extern const enum spritesId{ PERSONAJE=0, FLOR_SUELO=1, AGUA_CUEVA=2} spritesId; // Para asignar cada sprite con un switch dependiendo del sprite necesario.
 
+extern const enum spriteSizes{ SPRITE_CUSTOM=0, SPRITE32=1, SPRITE16=2, SPRITE64=3}spriteSizes; // Para asignar tamaños de sprites 
 extern int Estado; // Este es el estado de la partida
 extern int subEstado; // Este es el sub estado de la partida
 

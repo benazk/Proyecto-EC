@@ -11,6 +11,7 @@
 
 u16* gfxpersonaje;
 u16* florSuelo;
+
 /* Reservar memoria para cada sprite que se quiera mostrar en pantalla */
 void memoriaReserva(){
 	/* Por cada sprite que se quiera incluir en la pantalla principal hay que hacer algo equivalente a lo que sigue */
@@ -38,13 +39,13 @@ void EstablecerPaletaPrincipal(int spriteID) {
 			break;
 	}
 }
-
+void EstablecerPaletaSecundaria() {}
 /* Definición de un sprite de 16x16 píxeles para dibujar un rombo */
 /* Por la forma que tienen de trabajar los bancos de memoria, la imagen del sprite se divide en bloques de 8x8 píxeles. Los primeros 64 (8x8) píxeles que indicamos
 aparecerán en el cuadrante superior izquierdo de la imagen del sprite, los siguientes 64 en el cuadrante superior derecho, los siguientes en el cuadrante inferior izquierdo y los
 últimos en el cuadrante inferior derecho */
 
-u8 personaje[1024] = {
+u8 personajeMap[1024] = {
 	0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 
 	0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,0,0,0,1,1,1,0,1,0,0,1,1,0,0,0,0,0,1,0,0,0,0,0,0,1,1,0,0,0,0,0,0,1,0,0,0,0,0,0,0,
@@ -78,7 +79,7 @@ u8 personaje[1024] = {
 	4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,3,3,4,4,4,4,4,3,3,3,3,4,4,4,1,3,2,2,3,3,1,1,1,3,2,2,3,3,1,0,0,3,3,3,3,0,0,0,0,0,3,3,0,0,0,0,0,
 };
 u8 tileFlor[1024] = {
-	0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,1,1,1,1,0,0,0,1,1,2,2,1,1,0,0,1,1,2,2,1,1,0,0,0,1,1,1,1,0,
+	1,2,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,1,1,1,1,0,0,0,1,1,2,2,1,1,0,0,1,1,2,2,1,1,0,0,0,1,1,1,1,0,
 
 	0,0,0,0,0,0,0,0,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 
@@ -116,16 +117,21 @@ u8 tileFlor[1024] = {
 
 void GuardarSpritesMemoria(u16* gfxpoint, u8* bitMap, int spriteSize){ 
 	int i;
-	for(i = 0; i < spriteSize * spriteSize / 2; i++) {	
-		gfxpoint[i] = bitMap[i*2] | (bitMap[(i*2)+1]<<8);				
+	switch(spriteSize){
+		case SPRITE32:
+			for(i = 0; i < 32 * 32 / 2; i++) {	
+				gfxpoint[i] = bitMap[i*2] | (bitMap[(i*2)+1]<<8);				
+			}
+			break;
 	}
+	
 }
 
 /* Esta función dibuja un personaje en la posición x, y de pantalla. A cada personaje que se quiera mostrar en pantalla se le debe asignar un índice distinto, un valor entre 0 y 126 */
 
 void MostrarSprite(int indice, int x, int y, int spriteSize, u16* gfxpoint){ 
 	switch(spriteSize){
-		case 1:
+		case SPRITE32:
 			oamSet(&oamMain, // main graphics engine context
 			indice,           // oam index (0 to 127)  
 			x, y,   // x and y pixel location of the sprite
@@ -139,10 +145,9 @@ void MostrarSprite(int indice, int x, int y, int spriteSize, u16* gfxpoint){
 			false,			// hide the sprite?
 			false, false, // vflip, hflip
 			false	// apply mosaic
-			); 
-			oamUpdate(&oamMain);  
+			);  
 		break;
-		case 2:
+		case SPRITE16:
 			oamSet(&oamMain, // main graphics engine context
 			indice,           // oam index (0 to 127)  
 			x, y,   // x and y pixel location of the sprite
@@ -157,9 +162,8 @@ void MostrarSprite(int indice, int x, int y, int spriteSize, u16* gfxpoint){
 			false, false, // vflip, hflip
 			false	// apply mosaic
 			); 
-			oamUpdate(&oamMain);  
 		break;
-		case 3:
+		case SPRITE64:
 			oamSet(&oamMain, // main graphics engine context
 			indice,           // oam index (0 to 127)  
 			x, y,   // x and y pixel location of the sprite
@@ -173,15 +177,14 @@ void MostrarSprite(int indice, int x, int y, int spriteSize, u16* gfxpoint){
 			false,			// hide the sprite?
 			false, false, // vflip, hflip
 			false	// apply mosaic
-			); 
-			oamUpdate(&oamMain);  
+			);  
 		break;
 
 	}
 }
 void BorrarSprite(int indice, int x, int y, int spriteSize, u16* gfxpoint){
 	switch(spriteSize){
-		case 1:
+		case SPRITE32:
 		oamSet(&oamMain, // main graphics engine context
 			indice,           // oam index (0 to 127)  
 			x, y,   // x and y pixel location of the sprite
@@ -196,9 +199,8 @@ void BorrarSprite(int indice, int x, int y, int spriteSize, u16* gfxpoint){
 			false, false, // vflip, hflip
 			false	// apply mosaic
 			); 
-			oamUpdate(&oamMain); 
 			break;
-		case 2:
+		case SPRITE16:
 			oamSet(&oamMain, // main graphics engine context
 			indice,           // oam index (0 to 127)  
 			x, y,   // x and y pixel location of the sprite
@@ -213,9 +215,9 @@ void BorrarSprite(int indice, int x, int y, int spriteSize, u16* gfxpoint){
 			false, false, // vflip, hflip
 			false	// apply mosaic
 			); 
-			oamUpdate(&oamMain); 
+
 			break;
-		case 3: 
+		case SPRITE64: 
 			oamSet(&oamMain, // main graphics engine context
 			indice,           // oam index (0 to 127)  
 			x, y,   // x and y pixel location of the sprite
@@ -230,7 +232,7 @@ void BorrarSprite(int indice, int x, int y, int spriteSize, u16* gfxpoint){
 			false, false, // vflip, hflip
 			false	// apply mosaic
 			); 
-			oamUpdate(&oamMain); 
+			
 	}
 
 }

@@ -122,8 +122,7 @@ void inicializarGraficosSprites()
 	inicializarFondos();
 	initSpriteMem();
 	memoriaReserva();
-	EstablecerPaletaPrincipal();
-	GuardarSpritesMemoria();
+
 }
 
 /***********************2025-2026*******************************/

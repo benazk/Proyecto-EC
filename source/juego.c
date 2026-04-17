@@ -14,8 +14,9 @@
 #include "fondos.h"
 #include "sprites.h"
 #include "structs.h"
-Prota personaje;
+#include "maps.h"
 
+Prota personaje;
 
 void initStructs(){
 	personaje.x = 96;
@@ -25,10 +26,10 @@ void initStructs(){
 
 int tiempo;
 int tecla;
+int spriteIndice;
 void juego(){
 	
 	initStructs();
-	MostrarPersonaje(0,personaje.x, personaje.y);
 	Estado=MENU;
 	
 	// Configurar el teclado.
@@ -38,7 +39,7 @@ void juego(){
 	// Habilitar las interrupciones del temporizador.
 	// Habilitar interrupciones.
 	ConfigurarTeclado(0x4000 | 0x03FF);
-	
+
 	int latch = 58982;//(int)(65536 - (33554432/1024)*1/5);
 	int timer_control = 0x0043;
 	ConfigurarTemporizador(latch, timer_control);
@@ -54,7 +55,13 @@ void juego(){
 	HabilitarInterrupciones();
 
 	
-
+	// Con esta configuración muestra al personaje
+	renderMapa(1);
+	EstablecerPaletaPrincipal(0);
+	GuardarSpritesMemoria(gfxpersonaje, personajeMap, SPRITE32);
+	MostrarSprite(0,personaje.x, personaje.y, 1, gfxpersonaje); 
+	oamUpdate(&oamMain);
+	
 	while(1){
 		switch(Estado){
 			case MENU:
@@ -65,6 +72,7 @@ void juego(){
 			case STATS:
 				break;
 		}
+		
 	}
 }
 

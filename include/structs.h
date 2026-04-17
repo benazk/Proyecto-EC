@@ -1,3 +1,6 @@
+
+#ifndef STRUCTS_H
+#define STRUCTS_H
 #include <nds.h>
 #include <stdio.h>
 #include <stdlib.h>	
@@ -20,6 +23,7 @@ typedef struct{
     int spriteID;
     int x;
     int y;
+    int spriteSize;
 }Tile;
 
 /*typedef struct {
@@ -27,3 +31,4 @@ typedef struct{
     int nivelNum;
     Nivel *nivActual;
 }Stats;*/
+#endif
