@@ -17,16 +17,18 @@
 #include "maps.h"
 
 Prota personaje;
-
+int scrollY;
 void initStructs(){
 	personaje.x = 96;
-	personaje.y = 32;
+	personaje.y = 160;
+	scrollY = 0;
 }
 
 
 int tiempo;
 int tecla;
 int spriteIndice;
+
 void juego(){
 	
 	initStructs();
@@ -76,4 +78,9 @@ void juego(){
 	}
 }
 
-
+bool VerificarColision(int x1, int x2, int y1, int y2, int width1, int width2, int height1, int height2){ // Sirve para saber si ha habido una colisión entre dos entidades
+    bool collision = false;
+    if ((x1 < (x2 + width2) && (x1 + width1) > x2) &&
+        (y1 < (y2 + height2) && (y1 + height1) > y2)) collision = true;
+    return collision;
+}

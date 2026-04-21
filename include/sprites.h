@@ -10,6 +10,7 @@ extern u16* gfxSub;
 
 extern u16* gfxpersonaje;
 extern u16* florSuelo;
+extern u16* aguaSuelo;
 
 extern void memoriaReserva();
 
@@ -30,4 +31,5 @@ extern void BorrarSprite(int indice, int x, int y, int spriteSize, u16* gfxpoint
 
 extern u8 personajeMap[1024];
 extern u8 tileFlor[1024];
+extern u8 tileAgua[1024];
 #endif

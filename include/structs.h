@@ -26,6 +26,17 @@ typedef struct{
     int spriteSize;
 }Tile;
 
+typedef struct{
+    int posx;
+    int posy;
+    u8* spriteBitMap;
+    u16* gfxpoint;
+    int spriteID;
+    int spriteSize;
+    void (*GestionPosicion)(int *posx,int *posy);
+}Enemigo;
+
+
 /*typedef struct {
     int monedas;
     int nivelNum;
