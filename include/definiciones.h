@@ -23,7 +23,7 @@
 extern int tecla;
 
 // Acceso a los registros de la pantalla táctil
-touchPosition PANT_DAT;
+extern touchPosition PANT_DAT;
 
 // Nombres asignados a las teclas para facilitar la comprensión de nuestro código
 
@@ -45,11 +45,13 @@ extern const enum subEstadosJuego{ IDLE=0, MOVIENDO=1, HIT=2, PAUSA=3} subEstado
 extern const enum spritesId{ 
     PERSONAJE=0,
     FLOR_SUELO=1,
-    AGUA_SUELO=2
+    AGUA_SUELO=2,
+    COCHE_SPRITE=3,
 } spritesId; // Para asignar cada sprite con un switch-case dependiendo del sprite necesario.
 
 extern const enum spriteSizes{ SPRITE_CUSTOM=0, SPRITE32=1, SPRITE16=2, SPRITE64=3}spriteSizes; // Para asignar tamaños de sprites tambien con un switch-case
 extern int Estado; // Este es el estado de la partida
 extern int subEstado; // Este es el sub estado de la partida
-extern int scrollY;
+int scrollY;
+int spriteIndice;
 

@@ -12,11 +12,13 @@
 u16* gfxpersonaje;
 u16* florSuelo;
 u16* aguaSuelo;
+u16* gfxCoche;
 
 /* Reservar memoria para cada sprite que se quiera mostrar en pantalla */
 void memoriaReserva(){
 	/* Por cada sprite que se quiera incluir en la pantalla principal hay que hacer algo equivalente a lo que sigue */
-	gfxpersonaje= oamAllocateGfx(&oamMain, SpriteSize_32x32, SpriteColorFormat_256Color);
+	gfxpersonaje = oamAllocateGfx(&oamMain, SpriteSize_32x32, SpriteColorFormat_256Color);
+	gfxCoche = oamAllocateGfx(&oamMain, SpriteSize_32x32, SpriteColorFormat_256Color);
 	florSuelo = oamAllocateGfx(&oamMain, SpriteSize_32x32, SpriteColorFormat_256Color);
 	aguaSuelo = oamAllocateGfx(&oamMain, SpriteSize_32x32, SpriteColorFormat_256Color);
 }
@@ -43,6 +45,8 @@ void EstablecerPaletaPrincipal(int spriteID) {
 			SPRITE_PALETTE[9] = RGB15(11,13,27);
 			SPRITE_PALETTE[10] = RGB15(12,18,31);
 			break;
+		case COCHE_SPRITE:
+			SPRITE_PALETTE[11] = RGB15(12,9,0);	
 	}
 }
 void EstablecerPaletaSecundaria() {}
@@ -117,6 +121,39 @@ u8 tileFlor[1024] = {
 u8 tileAgua[1024] = {
 	9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,10,9,9,9,9,9,9,9,9,10,10,9,9,9,9,9,9,9,9,10,9,9,9,9,9,9,9,9,9,9,9,10,9,9,9,9,9,9,9,10,9,9,9,9,10,10,10,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,10,9,9,9,9,9,9,9,10,10,9,9,9,9,9,9,9,10,10,9,9,9,9,9,9,9,10,10,10,10,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,10,9,9,9,9,9,10,10,9,9,9,9,10,10,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,10,10,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,10,10,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,10,9,9,9,9,9,9,10,9,9,9,9,9,10,10,9,9,9,10,10,10,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,10,9,9,9,9,9,9,9,10,9,9,9,9,9,9,9,9,10,9,9,9,9,9,9,9,9,10,9,9,9,9,9,9,9,9,10,10,10,10,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,10,9,9,9,9,9,9,9,9,10,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,10,9,9,9,9,9,9,9,10,9,9,10,9,9,9,9,9,9,9,9,10,10,10,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,10,9,9,9,9,9,9,10,9,9,9,9,9,10,10,9,9,9,9,10,10,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,10,9,9,9,9,9,9,9,9,10,9,9,9,9,9,9,9,9,10,9,9,9,9,9,9,9,9,10,10,10,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,10,9,9,9,9,9,9,10,9,9,9,9,9,10,10,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,
 };
+u8 cocheMap[1024] = {
+	11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,
+
+	11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,
+
+	11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,
+
+	11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,
+
+	11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,
+	
+	11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,
+	
+	11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,
+	
+	11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,
+	
+	11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,
+	
+	11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,
+	
+	11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,
+	
+	11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,
+	
+	11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,
+	
+	11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,
+	
+	11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,
+	
+	11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,
+};
 
 
 /* Carga en memoria cada uno de los sprites que hemos dibujado */
@@ -135,13 +172,13 @@ void GuardarSpritesMemoria(u16* gfxpoint, u8* bitMap, int spriteSize){
 
 /* Esta función dibuja un sprite en la posición x, y de pantalla. A cada sprite que se quiera mostrar en pantalla se le debe asignar un índice distinto, un valor entre 0 y 126 */
 
-void MostrarSprite(int indice, int x, int y, int spriteSize, u16* gfxpoint){ 
+void MostrarSprite(int indice, int x, int y, int spriteSize, u16* gfxpoint, int zIndex){ //Le paso el puntero del gfx, la posicion, el indice de sprite, el tamaño y el zIndex
 	switch(spriteSize){
 		case SPRITE32:
 			oamSet(&oamMain, // main graphics engine context
 			indice,           // oam index (0 to 127)  
 			x, y,   // x and y pixel location of the sprite
-			0,                    // priority, lower renders last (on top)
+			zIndex,                    // priority, lower renders last (on top)
 			0,			  // this is the palette index if multiple palettes or the alpha value if bmp sprite	
 			SpriteSize_32x32,     
 			SpriteColorFormat_256Color, 
@@ -157,7 +194,7 @@ void MostrarSprite(int indice, int x, int y, int spriteSize, u16* gfxpoint){
 			oamSet(&oamMain, // main graphics engine context
 			indice,           // oam index (0 to 127)  
 			x, y,   // x and y pixel location of the sprite
-			0,                    // priority, lower renders last (on top)
+			zIndex,                    // priority, lower renders last (on top)
 			0,			  // this is the palette index if multiple palettes or the alpha value if bmp sprite	
 			SpriteSize_16x16,     
 			SpriteColorFormat_256Color, 
@@ -173,7 +210,7 @@ void MostrarSprite(int indice, int x, int y, int spriteSize, u16* gfxpoint){
 			oamSet(&oamMain, // main graphics engine context
 			indice,           // oam index (0 to 127)  
 			x, y,   // x and y pixel location of the sprite
-			0,                    // priority, lower renders last (on top)
+			zIndex,                    // priority, lower renders last (on top)
 			0,			  // this is the palette index if multiple palettes or the alpha value if bmp sprite	
 			SpriteSize_64x64,     
 			SpriteColorFormat_256Color, 
@@ -188,13 +225,13 @@ void MostrarSprite(int indice, int x, int y, int spriteSize, u16* gfxpoint){
 
 	}
 }
-void BorrarSprite(int indice, int x, int y, int spriteSize, u16* gfxpoint){
+void BorrarSprite(int indice, int x, int y, int spriteSize, u16* gfxpoint, int zIndex){
 	switch(spriteSize){
 		case SPRITE32:
 		oamSet(&oamMain, // main graphics engine context
 			indice,           // oam index (0 to 127)  
 			x, y,   // x and y pixel location of the sprite
-			0,                    // priority, lower renders last (on top)
+			zIndex,                    // priority, lower renders last (on top)
 			0,			  // this is the palette index if multiple palettes or the alpha value if bmp sprite	
 			SpriteSize_32x32,     
 			SpriteColorFormat_256Color, 
@@ -210,7 +247,7 @@ void BorrarSprite(int indice, int x, int y, int spriteSize, u16* gfxpoint){
 			oamSet(&oamMain, // main graphics engine context
 			indice,           // oam index (0 to 127)  
 			x, y,   // x and y pixel location of the sprite
-			0,                    // priority, lower renders last (on top)
+			zIndex,                    // priority, lower renders last (on top)
 			0,			  // this is the palette index if multiple palettes or the alpha value if bmp sprite	
 			SpriteSize_16x16,     
 			SpriteColorFormat_256Color, 
@@ -227,7 +264,7 @@ void BorrarSprite(int indice, int x, int y, int spriteSize, u16* gfxpoint){
 			oamSet(&oamMain, // main graphics engine context
 			indice,           // oam index (0 to 127)  
 			x, y,   // x and y pixel location of the sprite
-			0,                    // priority, lower renders last (on top)
+			zIndex,                    // priority, lower renders last (on top)
 			0,			  // this is the palette index if multiple palettes or the alpha value if bmp sprite	
 			SpriteSize_64x64,     
 			SpriteColorFormat_256Color, 

@@ -7,5 +7,5 @@ rutinasAtencion.h
 extern void RutAtencionTeclado ();
 extern void RutAtencionTempo();
 extern void EstablecerVectorInt();
-
+extern float Lerp(float start, float end, float amount);
 

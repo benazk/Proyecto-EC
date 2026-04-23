@@ -6,18 +6,18 @@
 #include <stdlib.h>	
 #include <unistd.h>	
 
-typedef struct {
+typedef struct { //Prota
     int x;
     int y;
     bool vivo;
 }Prota;
 
-typedef struct {
+typedef struct { // AÚN NO HE HECHO NADA CON ESTO
     int altura;
     float tiempo;
 }Nivel;
 
-typedef struct{
+typedef struct{  //Esto será para poner tiles (tambien pueden ser adornos encima del suelo u obstáculos estáticos)
     u8* spriteBitMap;
     u16* gfxpoint;
     int spriteID;
@@ -26,14 +26,15 @@ typedef struct{
     int spriteSize;
 }Tile;
 
-typedef struct{
-    int posx;
-    int posy;
+typedef struct{  //El struct que contiene los datos de los enemigos 
+    //void (*GestionPosicion)(int *posx,int *posy); es una funcion asignada al struct (algo así como un método de clase)
     u8* spriteBitMap;
     u16* gfxpoint;
-    int spriteID;
-    int spriteSize;
-    void (*GestionPosicion)(int *posx,int *posy);
+    int posx;
+    int posy;
+    int spriteID; 
+    int spriteSize; // Tamaño de sprite para oam
+    int spriteIndice; // El num de sprite a pasarle al oam
 }Enemigo;
 
 

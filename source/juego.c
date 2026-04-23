@@ -17,22 +17,31 @@
 #include "maps.h"
 
 Prota personaje;
-int scrollY;
+Enemigo enemigo;
+
+int tiempo;
+int tecla;
+extern int spriteIndice;
+extern int scrollY;
+
 void initStructs(){
 	personaje.x = 96;
 	personaje.y = 160;
+	enemigo.posx = 128;
+	enemigo.posy = 128;
+	enemigo.gfxpoint = gfxCoche;
+	enemigo.spriteBitMap = cocheMap;
+	enemigo.spriteID = COCHE_SPRITE;
 	scrollY = 0;
 }
 
 
-int tiempo;
-int tecla;
-int spriteIndice;
+
 
 void juego(){
-	
+	spriteIndice = 1; // No está en 0 ya que el personaje es el indice 0
 	initStructs();
-	Estado=MENU;
+	Estado=JUEGO;
 	
 	// Configurar el teclado.
 	// Configurar el temporizador.
@@ -44,6 +53,7 @@ void juego(){
 
 	int latch = 58982;//(int)(65536 - (33554432/1024)*1/5);
 	int timer_control = 0x0043;
+
 	ConfigurarTemporizador(latch, timer_control);
 
 	EstablecerVectorInt();
@@ -57,17 +67,16 @@ void juego(){
 	HabilitarInterrupciones();
 
 	
-	// Con esta configuración muestra al personaje
+	// Con esta configuración muestra al personaje y el mapa
 	renderMapa(1);
 	EstablecerPaletaPrincipal(0);
 	GuardarSpritesMemoria(gfxpersonaje, personajeMap, SPRITE32);
-	MostrarSprite(0,personaje.x, personaje.y, 1, gfxpersonaje); 
+	MostrarSprite(0,personaje.x, personaje.y, 1, gfxpersonaje, 0); 
 	oamUpdate(&oamMain);
 	
-	while(1){
+	while(1){ //Bucle del juego
 		switch(Estado){
 			case MENU:
-				tecla = -1;
 				break;
 			case JUEGO:
 				break;

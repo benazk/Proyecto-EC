@@ -8,26 +8,29 @@
 #include "sprites.h"
 #include "structs.h"
 #include "maps.h"
+#include "gestionEntidades.h"
 int Estado;
 static int tick=0;
 static int seg=0;
-Prota personaje;
+static float moverEntidad=1.0f;
+extern Prota personaje;
+extern Enemigo enemigo;
 void RutAtencionTeclado (){
 	int tecla = TeclaPulsada();
-	if (Estado == MENU){
+	if (Estado == JUEGO){
 		iprintf("\x1b[0;0H scroll vertical: %d", scrollY);
 		if (tecla==DERECHA && personaje.x < 224){
 			personaje.x += 32;
 			GuardarSpritesMemoria(gfxpersonaje, personajeMap, 32);
 			EstablecerPaletaPrincipal(0);
-			MostrarSprite(0,personaje.x, personaje.y, 1, gfxpersonaje); //Esto es mayormente estático, ya que estoy mostrando siempre al personaje y siempre tiene el mismo id de sprite
+			MostrarSprite(0,personaje.x, personaje.y, 1, gfxpersonaje, 0); //Esto es mayormente estático, ya que estoy mostrando siempre al personaje y siempre tiene el mismo id de sprite
 			oamUpdate(&oamMain);
 		}
 		if (tecla==IZQUIERDA && personaje.x > 0){
 			personaje.x -= 32;
 			GuardarSpritesMemoria(gfxpersonaje, personajeMap, 32);
 			EstablecerPaletaPrincipal(0);
-			MostrarSprite(0,personaje.x, personaje.y, 1, gfxpersonaje);
+			MostrarSprite(0,personaje.x, personaje.y, 1, gfxpersonaje, 0);
 			oamUpdate(&oamMain);
 		}
 		if (tecla==ARRIBA && personaje.y > 0){
@@ -36,7 +39,7 @@ void RutAtencionTeclado (){
 			renderMapa(1);
 			GuardarSpritesMemoria(gfxpersonaje, personajeMap, 32);
 			EstablecerPaletaPrincipal(0);
-			MostrarSprite(0,personaje.x, personaje.y, 1, gfxpersonaje);
+			MostrarSprite(0,personaje.x, personaje.y, 1, gfxpersonaje, 0);
 			oamUpdate(&oamMain);
 		}
 		if (tecla==ABAJO && personaje.y < 160 ){
@@ -45,7 +48,7 @@ void RutAtencionTeclado (){
 			renderMapa(1);
 			GuardarSpritesMemoria(gfxpersonaje, personajeMap, 32);
 			EstablecerPaletaPrincipal(0);
-			MostrarSprite(0,personaje.x, personaje.y, 1, gfxpersonaje);
+			MostrarSprite(0,personaje.x, personaje.y, 1, gfxpersonaje, 0);
 			oamUpdate(&oamMain);
 		}
 	}
@@ -53,12 +56,25 @@ void RutAtencionTeclado (){
 	
 }
 
+float Lerp(float start, float end, float amount){
+    float result = start + amount*(end - start);
+    return result;
+}
+
 void RutAtencionTempo(){
-	tick++; 
-	if (tick==5){
-		seg++;
-		//iprintf("\x1b[5;5H %dseg(s)", seg);
-		tick=0;
+	moverEntidad -= 0.2f;
+	float alpha_range = (1.0f - moverEntidad) / 1.0f;
+	if(moverEntidad==0.0f) moverEntidad=1.0f;
+	switch(Estado){
+		case MENU:
+			break;
+		case JUEGO:
+			if(Estado==PAUSA) break;
+			iprintf("\x1b[23;0H Lerp %f", Lerp(0.0f, 32.0f, moverEntidad));
+			enemigo.posx = Lerp(enemigo.posx, enemigo.posx + 32, alpha_range);
+			movEnemigo();
+			renderMapa(1);
+			oamUpdate(&oamMain);
 	}
 }
 
