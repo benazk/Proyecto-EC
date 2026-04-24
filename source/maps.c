@@ -7,7 +7,7 @@
 
 extern Enemigo enemigo;
 
-Tile map1[96] = { //El mapa ocupa toda la pantalla y esta compuesto de structs de tipo Tile
+Tile map1[96] = { //El mapa ocupa toda la pantalla y esta compuesto de structs de tipo Tile (de structs.h en /included/)
     {tileFlor, NULL, FLOR_SUELO, 0, 0, SPRITE32},{tileFlor, NULL, FLOR_SUELO, 32, 0, SPRITE32},{tileFlor, NULL, FLOR_SUELO, 64, 0, SPRITE32},{tileFlor, NULL, FLOR_SUELO, 96, 0, SPRITE32},{tileFlor, NULL, FLOR_SUELO, 128, 0, SPRITE32},{tileFlor, NULL, FLOR_SUELO, 160, 0, SPRITE32},{tileFlor, NULL, FLOR_SUELO, 192, 0, SPRITE32},{tileFlor, NULL, FLOR_SUELO, 224, 0, SPRITE32},
     
     {tileFlor, NULL, FLOR_SUELO, 0, 0, SPRITE32},{tileFlor, NULL, FLOR_SUELO, 32, 0, SPRITE32},{tileFlor, NULL, FLOR_SUELO, 64, 0, SPRITE32},{tileFlor, NULL, FLOR_SUELO, 96, 0, SPRITE32},{tileFlor, NULL, FLOR_SUELO, 128, 0, SPRITE32},{tileFlor, NULL, FLOR_SUELO, 160, 0, SPRITE32},{tileFlor, NULL, FLOR_SUELO, 192, 0, SPRITE32},{tileFlor, NULL, FLOR_SUELO, 224, 0, SPRITE32},
@@ -41,7 +41,7 @@ void renderMapa(int tipoMapa){ //Pinta el mapa en pantalla
         GuardarSpritesMemoria(aguaSuelo, tileAgua, SPRITE32);  
         GuardarSpritesMemoria(gfxCoche, cocheMap, SPRITE32);
         spriteIndice = 1;
-        for (i = scrollY*8; i < 48 + scrollY*8; i++){
+        for (i = scrollY*8; i < 48 + scrollY*8; i++){ // Lo del scrollY aqui es como un viewport
             switch(map1[i].spriteID){ // Esto se pone asi porque no se puede asignar un puntero al gfx antes de iniciar un programa
                 case FLOR_SUELO:
                     map1[i].gfxpoint = florSuelo;
@@ -62,7 +62,7 @@ void renderMapa(int tipoMapa){ //Pinta el mapa en pantalla
         }
         EstablecerPaletaPrincipal(COCHE_SPRITE);
         enemigo.spriteIndice = spriteIndice;
-        MostrarSprite(spriteIndice, enemigo.posx, enemigo.posy, SPRITE32, gfxCoche, 1);
+        MostrarSprite(spriteIndice, enemigo.posx, enemigo.posy + scrollY*32, SPRITE32, gfxCoche, 1);
         spriteIndice++;
         oamUpdate(&oamMain);
         i = 0;

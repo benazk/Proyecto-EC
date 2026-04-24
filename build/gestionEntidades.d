@@ -1,5 +1,5 @@
 gestionEntidades.o:  \
- /home/user/SharedFolder/Proyecto-EC/source/gestionEntidades.c \
+ /home/user/SharedFiles/Proyecto-EC/source/gestionEntidades.c \
   /opt/devkitPro/libnds/include/nds.h \
   /opt/devkitPro/libnds/include/nds/libversion.h \
   /opt/devkitPro/libnds/include/nds/ndstypes.h \
@@ -48,9 +48,9 @@ gestionEntidades.o:  \
   /opt/devkitPro/libnds/include/nds/arm9/sprite.h \
   /opt/devkitPro/libnds/include/nds/system.h \
   /opt/devkitPro/libnds/include/nds/arm9/decompress.h \
-  /home/user/SharedFolder/Proyecto-EC/include/gestionEntidades.h \
-  /home/user/SharedFolder/Proyecto-EC/include/definiciones.h \
-  /home/user/SharedFolder/Proyecto-EC/include/structs.h
+  /home/user/SharedFiles/Proyecto-EC/include/gestionEntidades.h \
+  /home/user/SharedFiles/Proyecto-EC/include/definiciones.h \
+  /home/user/SharedFiles/Proyecto-EC/include/structs.h
 
 /opt/devkitPro/libnds/include/nds.h:
 
@@ -148,8 +148,8 @@ gestionEntidades.o:  \
 
 /opt/devkitPro/libnds/include/nds/arm9/decompress.h:
 
-/home/user/SharedFolder/Proyecto-EC/include/gestionEntidades.h:
+/home/user/SharedFiles/Proyecto-EC/include/gestionEntidades.h:
 
-/home/user/SharedFolder/Proyecto-EC/include/definiciones.h:
+/home/user/SharedFiles/Proyecto-EC/include/definiciones.h:
 
-/home/user/SharedFolder/Proyecto-EC/include/structs.h:
+/home/user/SharedFiles/Proyecto-EC/include/structs.h:

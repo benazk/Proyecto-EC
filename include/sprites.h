@@ -8,10 +8,11 @@ extern u16* gfx2;
 extern u16* gfx3;
 extern u16* gfxSub;
 
-extern u16* gfxpersonaje;
-extern u16* gfxCoche;
-extern u16* florSuelo;
-extern u16* aguaSuelo;
+// Estas variables son punteros a espacios de memoria que guardarán los sprites
+u16* gfxpersonaje;
+u16* gfxCoche;
+u16* florSuelo;
+u16* aguaSuelo;
 
 extern void memoriaReserva();
 

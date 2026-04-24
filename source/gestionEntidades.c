@@ -5,6 +5,6 @@
 extern Enemigo enemigo;
 
 void movEnemigo(){
-    enemigo.posx+=6;
+    enemigo.posx+=3;
 }
 

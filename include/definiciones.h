@@ -26,17 +26,19 @@ extern int tecla;
 extern touchPosition PANT_DAT;
 
 // Nombres asignados a las teclas para facilitar la comprensión de nuestro código
+extern const enum teclas{
+    A=0, 
+    B=1,
+    SELECT=2,
+    START=3,
+    DERECHA=4, 
+    IZQUIERDA=5,
+    ARRIBA=6, 
+    ABAJO=7,
+    R=8,
+    L=9
+}teclas;
 
-#define A			0 
-#define B			1
-#define SELECT			2 
-#define START			3
-#define DERECHA		        4 
-#define IZQUIERDA		5
-#define ARRIBA			6 
-#define ABAJO			7
-#define R			8 
-#define L			9
 
 // Enums asignados a los estados y subestados (Automatas)
 extern const enum estadosJuego{ MENU=0, JUEGO=1, STATS=2} estadosJuego;
@@ -50,8 +52,8 @@ extern const enum spritesId{
 } spritesId; // Para asignar cada sprite con un switch-case dependiendo del sprite necesario.
 
 extern const enum spriteSizes{ SPRITE_CUSTOM=0, SPRITE32=1, SPRITE16=2, SPRITE64=3}spriteSizes; // Para asignar tamaños de sprites tambien con un switch-case
-extern int Estado; // Este es el estado de la partida
-extern int subEstado; // Este es el sub estado de la partida
+int Estado; // Este es el estado de la partida
+int subEstado; // Este es el sub estado de la partida
 int scrollY;
 int spriteIndice;
 

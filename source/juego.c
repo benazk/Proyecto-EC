@@ -24,7 +24,7 @@ int tecla;
 extern int spriteIndice;
 extern int scrollY;
 
-void initStructs(){
+void initStructs(){ //Esto pone valores por defecto a structs estaticos con una sola instancia y a algunas variables
 	personaje.x = 96;
 	personaje.y = 160;
 	enemigo.posx = 128;
@@ -51,7 +51,7 @@ void juego(){
 	// Habilitar interrupciones.
 	ConfigurarTeclado(0x4000 | 0x03FF);
 
-	int latch = 58982;//(int)(65536 - (33554432/1024)*1/5);
+	int latch = 58982;//(int)(65536 - (33554432/1024)*1/5); 5 interrupciones por segundo, 5 ticks/s
 	int timer_control = 0x0043;
 
 	ConfigurarTemporizador(latch, timer_control);

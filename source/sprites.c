@@ -9,10 +9,10 @@
 #include "definiciones.h"
 
 
-u16* gfxpersonaje;
-u16* florSuelo;
-u16* aguaSuelo;
-u16* gfxCoche;
+extern u16* gfxpersonaje;
+extern u16* florSuelo;
+extern u16* aguaSuelo;
+extern u16* gfxCoche;
 
 /* Reservar memoria para cada sprite que se quiera mostrar en pantalla */
 void memoriaReserva(){
@@ -26,7 +26,7 @@ void memoriaReserva(){
 /* A cada uno de los 256 valores que puede tomar un píxel en la PALETA PRINCIPAL
    se le puede asignar un color. El valor 0 es transparente. Los valores sin definir son negros. 
    MODIFICAR SEGÚN LOS COLORES QUE QUERAIS UTILIZAR EN VUESTROS SPRITES */
-void EstablecerPaletaPrincipal(int spriteID) {
+void EstablecerPaletaPrincipal(int spriteID) { //Como se puede ver, por cada sprite se le asigna a SPRITE_PALETTE en un indice un color. el indice no puede repetirse
 	switch(spriteID){
 		case PERSONAJE:
 			SPRITE_PALETTE[0] = RGB15(0,0,0);
@@ -49,10 +49,10 @@ void EstablecerPaletaPrincipal(int spriteID) {
 			SPRITE_PALETTE[11] = RGB15(12,9,0);	
 	}
 }
-void EstablecerPaletaSecundaria() {}
+void EstablecerPaletaSecundaria() {} //Ignoramos esto por ahora
 
 
-u8 personajeMap[1024] = {
+u8 personajeMap[1024] = {// Los números que hay son indices en la paleta de sprites
 	0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 
 	0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,0,0,0,1,1,1,0,1,0,0,1,1,0,0,0,0,0,1,0,0,0,0,0,0,1,1,0,0,0,0,0,0,1,0,0,0,0,0,0,0,
@@ -157,13 +157,12 @@ u8 cocheMap[1024] = {
 
 
 /* Carga en memoria cada uno de los sprites que hemos dibujado */
-
 void GuardarSpritesMemoria(u16* gfxpoint, u8* bitMap, int spriteSize){ 
 	int i;
 	switch(spriteSize){
 		case SPRITE32:
 			for(i = 0; i < 32 * 32 / 2; i++) {	
-				gfxpoint[i] = bitMap[i*2] | (bitMap[(i*2)+1]<<8);				
+				gfxpoint[i] = bitMap[i*2] | (bitMap[(i*2)+1]<<8);//Guarda en gfxpoint(puntero a sprite ya guardado en VRAM) los valores del bitMap (personajeMap...)			
 			}
 			break;
 	}
@@ -172,11 +171,12 @@ void GuardarSpritesMemoria(u16* gfxpoint, u8* bitMap, int spriteSize){
 
 /* Esta función dibuja un sprite en la posición x, y de pantalla. A cada sprite que se quiera mostrar en pantalla se le debe asignar un índice distinto, un valor entre 0 y 126 */
 
-void MostrarSprite(int indice, int x, int y, int spriteSize, u16* gfxpoint, int zIndex){ //Le paso el puntero del gfx, la posicion, el indice de sprite, el tamaño y el zIndex
+void MostrarSprite(int indice, int x, int y, int spriteSize, u16* gfxpoint, int zIndex){
+	 //Le paso el puntero del gfx de la VRAM, la posicion, el indice de sprite, el tamaño y el zIndex
 	switch(spriteSize){
 		case SPRITE32:
 			oamSet(&oamMain, // main graphics engine context
-			indice,           // oam index (0 to 127)  
+			indice,           // indice de sprite (0 to 127)  
 			x, y,   // x and y pixel location of the sprite
 			zIndex,                    // priority, lower renders last (on top)
 			0,			  // this is the palette index if multiple palettes or the alpha value if bmp sprite	
@@ -192,7 +192,7 @@ void MostrarSprite(int indice, int x, int y, int spriteSize, u16* gfxpoint, int 
 		break;
 		case SPRITE16:
 			oamSet(&oamMain, // main graphics engine context
-			indice,           // oam index (0 to 127)  
+			indice,           // indice de sprite (0 to 127) 
 			x, y,   // x and y pixel location of the sprite
 			zIndex,                    // priority, lower renders last (on top)
 			0,			  // this is the palette index if multiple palettes or the alpha value if bmp sprite	
@@ -208,7 +208,7 @@ void MostrarSprite(int indice, int x, int y, int spriteSize, u16* gfxpoint, int 
 		break;
 		case SPRITE64:
 			oamSet(&oamMain, // main graphics engine context
-			indice,           // oam index (0 to 127)  
+			indice,          // indice de sprite (0 to 127) 
 			x, y,   // x and y pixel location of the sprite
 			zIndex,                    // priority, lower renders last (on top)
 			0,			  // this is the palette index if multiple palettes or the alpha value if bmp sprite	
@@ -225,11 +225,11 @@ void MostrarSprite(int indice, int x, int y, int spriteSize, u16* gfxpoint, int 
 
 	}
 }
-void BorrarSprite(int indice, int x, int y, int spriteSize, u16* gfxpoint, int zIndex){
+void BorrarSprite(int indice, int x, int y, int spriteSize, u16* gfxpoint, int zIndex){ //Hace lo mismo que MostrarSprite, solo que este pone el bool de oculto a true
 	switch(spriteSize){
 		case SPRITE32:
 		oamSet(&oamMain, // main graphics engine context
-			indice,           // oam index (0 to 127)  
+			indice,           // indice de sprite (0 to 127)  
 			x, y,   // x and y pixel location of the sprite
 			zIndex,                    // priority, lower renders last (on top)
 			0,			  // this is the palette index if multiple palettes or the alpha value if bmp sprite	
@@ -245,7 +245,7 @@ void BorrarSprite(int indice, int x, int y, int spriteSize, u16* gfxpoint, int z
 			break;
 		case SPRITE16:
 			oamSet(&oamMain, // main graphics engine context
-			indice,           // oam index (0 to 127)  
+			indice,           // indice de sprite (0 to 127) 
 			x, y,   // x and y pixel location of the sprite
 			zIndex,                    // priority, lower renders last (on top)
 			0,			  // this is the palette index if multiple palettes or the alpha value if bmp sprite	
@@ -262,7 +262,7 @@ void BorrarSprite(int indice, int x, int y, int spriteSize, u16* gfxpoint, int z
 			break;
 		case SPRITE64: 
 			oamSet(&oamMain, // main graphics engine context
-			indice,           // oam index (0 to 127)  
+			indice,           // indice de sprite (0 to 127) 
 			x, y,   // x and y pixel location of the sprite
 			zIndex,                    // priority, lower renders last (on top)
 			0,			  // this is the palette index if multiple palettes or the alpha value if bmp sprite	
