@@ -1,4 +1,4 @@
-fondos.o: /home/user/SharedFiles/Proyecto-EC/source/fondos.c \
+fondos.o: /home/user/SharedFolder/Proyecto-EC/source/fondos.c \
   /opt/devkitPro/libnds/include/nds.h \
   /opt/devkitPro/libnds/include/nds/libversion.h \
   /opt/devkitPro/libnds/include/nds/ndstypes.h \
@@ -47,8 +47,8 @@ fondos.o: /home/user/SharedFiles/Proyecto-EC/source/fondos.c \
   /opt/devkitPro/libnds/include/nds/arm9/sprite.h \
   /opt/devkitPro/libnds/include/nds/system.h \
   /opt/devkitPro/libnds/include/nds/arm9/decompress.h \
-  /home/user/SharedFiles/Proyecto-EC/include/fondos.h \
-  /home/user/SharedFiles/Proyecto-EC/include/graficos.h
+  /home/user/SharedFolder/Proyecto-EC/include/fondos.h \
+  /home/user/SharedFolder/Proyecto-EC/include/graficos.h
 
 /opt/devkitPro/libnds/include/nds.h:
 
@@ -146,6 +146,6 @@ fondos.o: /home/user/SharedFiles/Proyecto-EC/source/fondos.c \
 
 /opt/devkitPro/libnds/include/nds/arm9/decompress.h:
 
-/home/user/SharedFiles/Proyecto-EC/include/fondos.h:
+/home/user/SharedFolder/Proyecto-EC/include/fondos.h:
 
-/home/user/SharedFiles/Proyecto-EC/include/graficos.h:
+/home/user/SharedFolder/Proyecto-EC/include/graficos.h:

@@ -15,9 +15,13 @@
 #include "sprites.h"
 #include "structs.h"
 #include "maps.h"
+#include "gestionEntidades.h"
 
 Prota personaje;
-Enemigo enemigo;
+
+Enemigo enemigos[MAX_ENEMIGOS];
+int numEnemigos = 0;
+
 
 int tiempo;
 int tecla;
@@ -27,11 +31,6 @@ extern int scrollY;
 void initStructs(){ //Esto pone valores por defecto a structs estaticos con una sola instancia y a algunas variables
 	personaje.x = 96;
 	personaje.y = 160;
-	enemigo.posx = 128;
-	enemigo.posy = 128;
-	enemigo.gfxpoint = gfxCoche;
-	enemigo.spriteBitMap = cocheMap;
-	enemigo.spriteID = COCHE_SPRITE;
 	scrollY = 0;
 }
 
@@ -92,4 +91,29 @@ bool VerificarColision(int x1, int x2, int y1, int y2, int width1, int width2, i
     if ((x1 < (x2 + width2) && (x1 + width1) > x2) &&
         (y1 < (y2 + height2) && (y1 + height1) > y2)) collision = true;
     return collision;
+}
+
+
+
+
+void spawnEnemigo(int x, int y, int tipoEnemigo, int dir) { // Pone un enemigo en el array de enemigos 
+	
+    if (numEnemigos >= MAX_ENEMIGOS) return;
+    Enemigo *e = &enemigos[numEnemigos++];
+    e->posx = x;
+    e->posy = y;
+	e->spriteID = tipoEnemigo;
+    e->gestorEnemigo = GM;
+	e->direccion = dir;
+	switch(tipoEnemigo){
+		case COCHE_SPRITE:
+			e->gfxpoint = gfxCoche;
+			e->spriteBitMap = cocheMap;
+			e->spriteSize = SPRITE32;
+			break;
+	}
+	EstablecerPaletaPrincipal(tipoEnemigo);
+	e->spriteIndice = spriteIndice;
+	MostrarSprite(spriteIndice, e->posx, e->posy + scrollY*32, e->spriteSize, e->gfxpoint, 1);
+	spriteIndice++; 
 }

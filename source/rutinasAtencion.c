@@ -14,21 +14,19 @@ static int tick=0;
 static int seg=0;
 static float moverEntidad=1.0f;
 extern Prota personaje;
-extern Enemigo enemigo;
+
 void RutAtencionTeclado (){
 	int tecla = TeclaPulsada(); //Función de perifericos.c que mira que bit de TECLAS_DAT está activo
 	if (Estado == JUEGO){ //Las variables en mayúsculas van a ser elementos de enums
 		iprintf("\x1b[0;0H scroll vertical: %d", scrollY);
 		if (tecla==DERECHA && personaje.x < 224){ // Gestiona cuando el usuario pulsa DERECHA
-			personaje.x += 32;
-			
+			personaje.x += 32; 
 			EstablecerPaletaPrincipal(0);
 			MostrarSprite(0,personaje.x, personaje.y, 1, gfxpersonaje, 0); //Esto es mayormente estático, ya que estoy mostrando siempre al personaje y siempre tiene el mismo id de sprite
 			oamUpdate(&oamMain);
 		}
 		if (tecla==IZQUIERDA && personaje.x > 0){
 			personaje.x -= 32;
-			
 			EstablecerPaletaPrincipal(0);
 			MostrarSprite(0,personaje.x, personaje.y, 1, gfxpersonaje, 0);
 			oamUpdate(&oamMain);
@@ -70,10 +68,9 @@ void RutAtencionTempo(){ // Para gestionar cada tick del temporizador
 			break;
 		case JUEGO:
 			if(Estado==PAUSA) break;
-			//iprintf("\x1b[23;0H Lerp %f", Lerp(0.0f, 32.0f, moverEntidad));
 			//enemigo.posx = Lerp(enemigo.posx, enemigo.posx + 32, alpha_range);
 			movEnemigo();
-			renderMapa(1);
+			//renderMapa(1);
 			oamUpdate(&oamMain);
 	}
 }

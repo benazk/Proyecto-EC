@@ -39,6 +39,8 @@ extern const enum teclas{
     L=9
 }teclas;
 
+extern const enum direccion{NORTE=0, ESTE=1, SUR=2, OESTE=3} direc;
+
 
 // Enums asignados a los estados y subestados (Automatas)
 extern const enum estadosJuego{ MENU=0, JUEGO=1, STATS=2} estadosJuego;
@@ -56,4 +58,4 @@ int Estado; // Este es el estado de la partida
 int subEstado; // Este es el sub estado de la partida
 int scrollY;
 int spriteIndice;
-
+#define MAX_ENEMIGOS 12
