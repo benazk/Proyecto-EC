@@ -58,4 +58,5 @@ int Estado; // Este es el estado de la partida
 int subEstado; // Este es el sub estado de la partida
 int scrollY;
 int spriteIndice;
+int numEnemigos
 #define MAX_ENEMIGOS 12
