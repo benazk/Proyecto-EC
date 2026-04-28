@@ -94,9 +94,10 @@ bool VerificarColision(int x1, int x2, int y1, int y2, int width1, int width2, i
 	if ((x1 < (x2 + width2) && (x1 + width1) > x2) && (y1 < (y2 + height2) && (y1 + height1) > y2)) 
 		collision = true;
 	
-	iprintf("\x1b[%d;0H No se si hay colision, pero %d %d %d %d", a, x1, y1, x2, y2);
+	iprintf("\x1b[%d;0H Personaje: (%d %d), Enemigo:(%d %d)", a, x1, y1, x2, y2);
 	collisionOffsetx = abs(x2 - x1);
 	collisionOffsety = abs(y2 - y1);
+	iprintf("\x1b[10;0H CollisionOffset: (%d %d)", collisionOffsetx, collisionOffsety);
 	return collision;
 }
 

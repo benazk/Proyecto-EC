@@ -26,8 +26,7 @@ void GM(Enemigo *self){ // Como se mueve de izquierda a derecha y viceversa, ten
     if(VerificarColision(self->posx, personaje.x, self->posy + scrollY*32, personaje.y, 32, 32, 32, 32, self->direccion) && collisionOffsetx < 10 && collisionOffsetx==0){
         iprintf("\x1b[5;0H colision entre prota y \"tronco\"");
         personaje.x = self->posx;
-        EstablecerPaletaPrincipal(0);
-        MostrarSprite(0,personaje.x, personaje.y, 1, gfxpersonaje, 0);
+
     }
     else iprintf("\x1b[5;0H                                ");
     

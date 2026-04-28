@@ -51,7 +51,8 @@ maps.o: /home/user/SharedFolder/Proyecto-EC/source/maps.c \
   /home/user/SharedFolder/Proyecto-EC/include/maps.h \
   /home/user/SharedFolder/Proyecto-EC/include/structs.h \
   /home/user/SharedFolder/Proyecto-EC/include/definiciones.h \
-  /home/user/SharedFolder/Proyecto-EC/include/structs.h
+  /home/user/SharedFolder/Proyecto-EC/include/structs.h \
+  /home/user/SharedFolder/Proyecto-EC/include/juego.h
 
 /opt/devkitPro/libnds/include/nds.h:
 
@@ -158,3 +159,5 @@ maps.o: /home/user/SharedFolder/Proyecto-EC/source/maps.c \
 /home/user/SharedFolder/Proyecto-EC/include/definiciones.h:
 
 /home/user/SharedFolder/Proyecto-EC/include/structs.h:
+
+/home/user/SharedFolder/Proyecto-EC/include/juego.h:
