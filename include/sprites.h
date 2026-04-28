@@ -1,6 +1,7 @@
 
 #ifndef SPRITES_H
 #define SPRITES_H
+
 #include <nds.h>
 
 extern u16* gfx;
@@ -35,4 +36,5 @@ extern u8 personajeMap[1024];
 extern u8 cocheMap[1024];
 extern u8 tileFlor[1024];
 extern u8 tileAgua[1024];
+
 #endif

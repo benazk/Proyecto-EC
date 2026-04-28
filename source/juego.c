@@ -27,6 +27,9 @@ int tiempo;
 int tecla;
 extern int spriteIndice;
 extern int scrollY;
+extern int collisionOffsetx;
+extern int collisionOffsety;
+
 
 void initStructs(){ //Esto pone valores por defecto a structs estaticos con una sola instancia y a algunas variables
 	personaje.x = 96;
@@ -50,8 +53,8 @@ void juego(){
 	// Habilitar interrupciones.
 	ConfigurarTeclado(0x4000 | 0x03FF);
 
-	int latch = 58982;//(int)(65536 - (33554432/1024)*1/5); 5 interrupciones por segundo, 5 ticks/s
-	int timer_control = 0x0043;
+	int latch = 58982;//(int)(65536 - (33554432/256)*1/20); 20 interrupciones por segundo, 20 ticks/s
+	int timer_control = 0x0042;
 
 	ConfigurarTemporizador(latch, timer_control);
 
@@ -86,11 +89,15 @@ void juego(){
 	}
 }
 
-bool VerificarColision(int x1, int x2, int y1, int y2, int width1, int width2, int height1, int height2){ // Sirve para saber si ha habido una colisión entre dos entidades
+bool VerificarColision(int x1, int x2, int y1, int y2, int width1, int width2, int height1, int height2, int a){ // Sirve para saber si ha habido una colisión entre dos entidades
     bool collision = false;
-    if ((x1 < (x2 + width2) && (x1 + width1) > x2) &&
-        (y1 < (y2 + height2) && (y1 + height1) > y2)) collision = true;
-    return collision;
+	if ((x1 < (x2 + width2) && (x1 + width1) > x2) && (y1 < (y2 + height2) && (y1 + height1) > y2)) 
+		collision = true;
+	
+	iprintf("\x1b[%d;0H No se si hay colision, pero %d %d %d %d", a, x1, y1, x2, y2);
+	collisionOffsetx = abs(x2 - x1);
+	collisionOffsety = abs(y2 - y1);
+	return collision;
 }
 
 
@@ -103,7 +110,7 @@ void spawnEnemigo(int x, int y, int tipoEnemigo, int dir) { // Pone un enemigo e
     e->posx = x;
     e->posy = y;
 	e->spriteID = tipoEnemigo;
-    e->gestorEnemigo = GM;
+    e->gestorEnemigo = &GM;
 	e->direccion = dir;
 	switch(tipoEnemigo){
 		case COCHE_SPRITE:

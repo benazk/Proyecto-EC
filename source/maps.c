@@ -44,7 +44,6 @@ void renderMapa(int tipoMapa){ //Pinta el mapa en pantalla
                 case FLOR_SUELO:
                     map1[i].gfxpoint = florSuelo;
                     EstablecerPaletaPrincipal(FLOR_SUELO);
-                    iprintf("\x1b[23;%dH flor", i);
                     break;
                 case AGUA_SUELO:
                     map1[i].gfxpoint = aguaSuelo;
@@ -58,9 +57,16 @@ void renderMapa(int tipoMapa){ //Pinta el mapa en pantalla
             }
             spriteIndice++;
             if(map1[i].enemigoSpawn){ // Esto tendria que estar dentro del switch case del spriteID pero aun solo hay un tipo de "enemigo"
-                if(map1[i].x < 32) spawnEnemigo(map1[i].x - 16, map1[i].y, COCHE_SPRITE, ESTE);
-                if(map1[i].x > 192) spawnEnemigo(map1[i].x + 16, map1[i].y, COCHE_SPRITE, OESTE);
+                if(map1[i].x < 32) spawnEnemigo(map1[i].x, map1[i].y, COCHE_SPRITE, ESTE);
+                if(map1[i].x > 192) spawnEnemigo(map1[i].x, map1[i].y, COCHE_SPRITE, OESTE);
                 map1[i].enemigoSpawn = false;
+            }
+            extern Enemigo enemigos[MAX_ENEMIGOS];
+            extern int numEnemigos;
+            int j;
+            for (j = 0; j < numEnemigos; j++) {
+                EstablecerPaletaPrincipal(enemigos[j].spriteID);
+                MostrarSprite(enemigos[j].spriteIndice,enemigos[j].posx,enemigos[j].posy + scrollY * 32,enemigos[j].spriteSize,enemigos[j].gfxpoint,1);
             }
             
         }

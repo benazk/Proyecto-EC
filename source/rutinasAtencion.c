@@ -59,7 +59,7 @@ float Lerp(float start, float end, float amount){ // No prestar atención
     return result;
 }
 
-void RutAtencionTempo(){ // Para gestionar cada tick del temporizador
+void RutAtencionTempo(){ // Para gestionar cada tick del temporizador, serán 20 ticks/s si estamos en el juego
 	moverEntidad -= 0.2f;
 	//float alpha_range = (1.0f - moverEntidad) / 1.0f;
 	if(moverEntidad==0.0f) moverEntidad=1.0f;
@@ -70,7 +70,7 @@ void RutAtencionTempo(){ // Para gestionar cada tick del temporizador
 			if(Estado==PAUSA) break;
 			//enemigo.posx = Lerp(enemigo.posx, enemigo.posx + 32, alpha_range);
 			movEnemigo();
-			//renderMapa(1);
+			renderMapa(1);
 			oamUpdate(&oamMain);
 	}
 }
