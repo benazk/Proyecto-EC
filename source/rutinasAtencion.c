@@ -20,12 +20,11 @@ void RutAtencionTeclado (){
 	int tecla = TeclaPulsada(); //Función de perifericos.c que mira que bit de TECLAS_DAT está activo
 	switch(Estado){ //Las variables en mayúsculas van a ser elementos de enums
 		//iprintf("\x1b[0;0H scroll vertical: %d", scrollY);
-		case MENU:
-		
-
+		case MENU: // Las teclas que se usan en el menú son todas por encuesta (No haremos la B, START y SELECT por interrupción)
 		break;
 
 		case JUEGO:
+		if(subEstado==PAUSA) break;
 		if (tecla==DERECHA && personaje.x < 224){ // Gestiona cuando el usuario pulsa DERECHA
 			personaje.x += 32;
 			map1[personaje.posEnMapa].estaPersonaje = false;

@@ -8,7 +8,7 @@
 extern Enemigo enemigos[MAX_ENEMIGOS];
 extern int numEnemigos;
 extern Prota personaje;
-Tile map1[96] = { //El mapa ocupa toda la pantalla y esta compuesto de structs de tipo Tile (de structs.h en /included/)
+Tile map1[112] = { //El mapa ocupa toda la pantalla y esta compuesto de structs de tipo Tile (de structs.h en /included/)
     {tileFlor, NULL, FLOR_SUELO, 0, 0, SPRITE32, false, true, false},{tileFlor, NULL, FLOR_SUELO, 32, 0, SPRITE32, false, true, false},{tileFlor, NULL, FLOR_SUELO, 64, 0, SPRITE32, false, true, false},{tileFlor, NULL, FLOR_SUELO, 96, 0, SPRITE32, false, true, true /*AQUI EMPIEZA EL PERSONAJE*/ } ,{tileFlor, NULL, FLOR_SUELO, 128, 0, SPRITE32, false, true, false},{tileFlor, NULL, FLOR_SUELO, 160, 0, SPRITE32, false, true, false},{tileFlor, NULL, FLOR_SUELO, 192, 0, SPRITE32, false, true, false},{tileFlor, NULL, FLOR_SUELO, 224, 0, SPRITE32, false, true, false},
     
     {tileFlor, NULL, FLOR_SUELO, 0, 0, SPRITE32, false, true, false},{tileFlor, NULL, FLOR_SUELO, 32, 0, SPRITE32, false, true, false},{tileFlor, NULL, FLOR_SUELO, 64, 0, SPRITE32, false, true, false},{tileFlor, NULL, FLOR_SUELO, 96, 0, SPRITE32, false, true, false},{tileFlor, NULL, FLOR_SUELO, 128, 0, SPRITE32, false, true, false},{tileFlor, NULL, FLOR_SUELO, 160, 0, SPRITE32, false, true, false},{tileFlor, NULL, FLOR_SUELO, 192, 0, SPRITE32, false, true, false},{tileFlor, NULL, FLOR_SUELO, 224, 0, SPRITE32, false, true, false},

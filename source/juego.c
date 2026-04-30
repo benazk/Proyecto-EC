@@ -1,7 +1,8 @@
 
 
 
-#include <nds.h> 		// Librería de la NDS
+#include <nds.h>
+ 		// Librería de la NDS
 #include <stdio.h>		// Librería de entrada/salida estándar de C
 #include <stdlib.h>		// Librería estándar de C para reserva de memoria y conversiones numéricas
 #include <unistd.h>		// Librería para asegurar la compatibilidad entre sistemas operativos
@@ -52,7 +53,7 @@ void juego(){
 	// Habilitar las interrupciones del teclado.
 	// Habilitar las interrupciones del temporizador.
 	// Habilitar interrupciones.
-	ConfigurarTeclado(0x4000 | 0x03FF);
+	ConfigurarTeclado(0x4000 | 0x03F1); // Como las teclas SELECT, START y B van por interrupción, se pondrán sus bits a 1, es decir 0100 0011 1111 0001 o 0x43F1     
 
 	int latch = 58982;//(int)(65536 - (33554432/256)*1/20); 20 interrupciones por segundo, 20 ticks/s
 	int timer_control = 0x0042;
@@ -61,7 +62,7 @@ void juego(){
 
 	EstablecerVectorInt();
 
-	HabilitarIntTeclado();
+	
 
 	
 
@@ -82,6 +83,7 @@ void juego(){
 				if(!TeclaDetectada()) break;
 				else  tecla = TeclaPulsada();
 				if(tecla==START){ //Lleva al juego, muestra el mapa y todo.
+					HabilitarIntTeclado();
 					HabilitarIntTempo();
 					PonerEnMarchaTempo();
 					renderMapa(1);
@@ -90,9 +92,11 @@ void juego(){
 					MostrarSprite(0,personaje.x, personaje.y, 1, gfxpersonaje, 0); 
 					oamUpdate(&oamMain);
 					Estado=JUEGO;
+					subEstado=IDLE;
+					consoleClear();
 				}
 				if(tecla==SELECT){ //Si la tecla es select, te lleva a las stats
-		
+
 				}
 				if(tecla==B){ // Cierra el emulador
 					swiSoftReset();//Funcion de nds para "apagar" la consola
@@ -100,12 +104,34 @@ void juego(){
 				break;
 			case JUEGO:
 				if(!TeclaDetectada()) break;
-				else  tecla = TeclaPulsada();
+				else tecla = TeclaPulsada();
+				switch (subEstado){
+					case IDLE:
+						if(tecla==SELECT){
+							iprintf("\x1b[4;2H PAUSADO");
+							DeshabilitarInterrrupciones();
+							PararTempo();
+							consoleClear();
+							subEstado=PAUSA;
+						}
+						break;
+					case PAUSA:
+						if(tecla==SELECT){
+							iprintf("\x1b[4;2H DESPAUSADO");
+							HabilitarInterrupciones();
+							PonerEnMarchaTempo();
+							consoleClear();
+							subEstado=IDLE;
+						}
+						break;	
+					default:
+						break;
+				}
 				break;
 			case STATS:
 				if(!TeclaDetectada()) break;
 				else  tecla = TeclaPulsada();
-				break;
+				break;  
 		}
 		
 	}

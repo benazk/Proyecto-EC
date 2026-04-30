@@ -1,6 +1,7 @@
 
 
-#include <nds.h> 		// Librería de la NDS
+#include <nds.h> 
+#include <nds/arm9/console.h>		// Librerías de la NDS
 #include <stdio.h>		// Librería de entrada/salida estándar de C
 #include <stdlib.h>		// Librería estándar de C para reserva de memoria y conversiones numéricas
 #include <unistd.h>		// Librería para asegurar la compatibilidad entre sistemas operativos
@@ -14,7 +15,7 @@
 
 
 int main(void) {
-
+ 	consoleDemoInit();
 	inicializarGraficosSprites();
 	juego();
 

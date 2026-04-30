@@ -37,8 +37,7 @@ void HabilitarIntTeclado(){
     HabilitarInterrupciones();
 }
 
-void InhibirIntTeclado()
-{
+void InhibirIntTeclado(){
 	DeshabilitarInterrrupciones();
     IE &= ~(1 << 12);
     HabilitarInterrupciones();
