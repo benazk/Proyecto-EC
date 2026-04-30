@@ -23,12 +23,15 @@ void movEnemigo(){
 void GM(Enemigo *self){ // Como se mueve de izquierda a derecha y viceversa, tengo una variable dirección y vuelvo a dibujar el sprite cada vez que lo muevo
     if(self->direccion==OESTE) self->posx-=1;
     else if(self->direccion==ESTE) self->posx+=1;
-    if(VerificarColision(self->posx, personaje.x, self->posy + scrollY*32, personaje.y, 32, 32, 32, 32, self->direccion) && collisionOffsetx < 10 && collisionOffsetx==0){
+    if(VerificarColision(self->posx, personaje.x, self->posy + scrollY*32, personaje.y, 32, 32, 32, 32, self->direccion) && collisionOffsetx < 16 && collisionOffsety==0 && personaje.x > 0 && personaje.x < 224){
+        personaje.enBarca = true;
         iprintf("\x1b[5;0H colision entre prota y \"tronco\"");
         personaje.x = self->posx;
-
+        if((personaje.x % 32)==0 && self->direccion == ESTE){
+            personaje.posEnMapa++;
+        }
+        if((personaje.x % 32)==0 && self->direccion == OESTE){
+            personaje.posEnMapa--;
+        }
     }
-    else iprintf("\x1b[5;0H                                ");
-    
-
 }

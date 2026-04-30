@@ -9,7 +9,9 @@
 typedef struct { //Prota
     int x;
     int y;
+    int posEnMapa;
     bool vivo;
+    bool enBarca;  
 }Prota;
 
 typedef struct { // AÚN NO HE HECHO NADA CON ESTO
@@ -26,6 +28,7 @@ typedef struct{  //Esto será para poner tiles (tambien pueden ser adornos encim
     int spriteSize;
     bool enemigoSpawn;
     bool caminable;
+    bool estaPersonaje;
 }Tile;
 
 typedef struct Enemigo Enemigo;

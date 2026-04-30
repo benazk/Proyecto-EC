@@ -9,29 +9,33 @@ extern Enemigo enemigos[MAX_ENEMIGOS];
 extern int numEnemigos;
 extern Prota personaje;
 Tile map1[96] = { //El mapa ocupa toda la pantalla y esta compuesto de structs de tipo Tile (de structs.h en /included/)
-    {tileFlor, NULL, FLOR_SUELO, 0, 0, SPRITE32, false, true},{tileFlor, NULL, FLOR_SUELO, 32, 0, SPRITE32, false, true},{tileFlor, NULL, FLOR_SUELO, 64, 0, SPRITE32, false, true},{tileFlor, NULL, FLOR_SUELO, 96, 0, SPRITE32, false, true},{tileFlor, NULL, FLOR_SUELO, 128, 0, SPRITE32, false, true},{tileFlor, NULL, FLOR_SUELO, 160, 0, SPRITE32, false, true},{tileFlor, NULL, FLOR_SUELO, 192, 0, SPRITE32, false, true},{tileFlor, NULL, FLOR_SUELO, 224, 0, SPRITE32, false, true},
+    {tileFlor, NULL, FLOR_SUELO, 0, 0, SPRITE32, false, true, false},{tileFlor, NULL, FLOR_SUELO, 32, 0, SPRITE32, false, true, false},{tileFlor, NULL, FLOR_SUELO, 64, 0, SPRITE32, false, true, false},{tileFlor, NULL, FLOR_SUELO, 96, 0, SPRITE32, false, true, true /*AQUI EMPIEZA EL PERSONAJE*/ } ,{tileFlor, NULL, FLOR_SUELO, 128, 0, SPRITE32, false, true, false},{tileFlor, NULL, FLOR_SUELO, 160, 0, SPRITE32, false, true, false},{tileFlor, NULL, FLOR_SUELO, 192, 0, SPRITE32, false, true, false},{tileFlor, NULL, FLOR_SUELO, 224, 0, SPRITE32, false, true, false},
     
-    {tileFlor, NULL, FLOR_SUELO, 0, 0, SPRITE32, false, true},{tileFlor, NULL, FLOR_SUELO, 32, 0, SPRITE32, false, true},{tileFlor, NULL, FLOR_SUELO, 64, 0, SPRITE32, false, true},{tileFlor, NULL, FLOR_SUELO, 96, 0, SPRITE32, false, true},{tileFlor, NULL, FLOR_SUELO, 128, 0, SPRITE32, false, true},{tileFlor, NULL, FLOR_SUELO, 160, 0, SPRITE32, false, true},{tileFlor, NULL, FLOR_SUELO, 192, 0, SPRITE32, false, true},{tileFlor, NULL, FLOR_SUELO, 224, 0, SPRITE32, false, true},
+    {tileFlor, NULL, FLOR_SUELO, 0, 0, SPRITE32, false, true, false},{tileFlor, NULL, FLOR_SUELO, 32, 0, SPRITE32, false, true, false},{tileFlor, NULL, FLOR_SUELO, 64, 0, SPRITE32, false, true, false},{tileFlor, NULL, FLOR_SUELO, 96, 0, SPRITE32, false, true, false},{tileFlor, NULL, FLOR_SUELO, 128, 0, SPRITE32, false, true, false},{tileFlor, NULL, FLOR_SUELO, 160, 0, SPRITE32, false, true, false},{tileFlor, NULL, FLOR_SUELO, 192, 0, SPRITE32, false, true, false},{tileFlor, NULL, FLOR_SUELO, 224, 0, SPRITE32, false, true, false},
     
-    {tileFlor, NULL, FLOR_SUELO, 0, 0, SPRITE32, false, true},{tileFlor, NULL, FLOR_SUELO, 32, 0, SPRITE32, false, true},{tileFlor, NULL, FLOR_SUELO, 64, 0, SPRITE32, false, true},{tileFlor, NULL, FLOR_SUELO, 96, 0, SPRITE32, false, true},{tileFlor, NULL, FLOR_SUELO, 128, 0, SPRITE32, false, true},{tileFlor, NULL, FLOR_SUELO, 160, 0, SPRITE32, false, true},{tileFlor, NULL, FLOR_SUELO, 192, 0, SPRITE32, false, true},{tileFlor, NULL, FLOR_SUELO, 224, 0, SPRITE32, false, true},
+    {tileFlor, NULL, FLOR_SUELO, 0, 0, SPRITE32, false, true, false},{tileFlor, NULL, FLOR_SUELO, 32, 0, SPRITE32, false, true, false},{tileFlor, NULL, FLOR_SUELO, 64, 0, SPRITE32, false, true, false},{tileFlor, NULL, FLOR_SUELO, 96, 0, SPRITE32, false, true, false},{tileFlor, NULL, FLOR_SUELO, 128, 0, SPRITE32, false, true, false},{tileFlor, NULL, FLOR_SUELO, 160, 0, SPRITE32, false, true, false},{tileFlor, NULL, FLOR_SUELO, 192, 0, SPRITE32, false, true, false},{tileFlor, NULL, FLOR_SUELO, 224, 0, SPRITE32, false, true, false},
     
-    {tileAgua, NULL, AGUA_SUELO, 0, 0, SPRITE32, true, false},{tileAgua, NULL, AGUA_SUELO, 32, 0, SPRITE32, false, false},{tileAgua, NULL, AGUA_SUELO, 64, 0, SPRITE32, false, false},{tileAgua, NULL, AGUA_SUELO, 96, 0, SPRITE32, false, false},{tileAgua, NULL, AGUA_SUELO, 128, 0, SPRITE32, false, false},{tileAgua, NULL, AGUA_SUELO, 160, 0, SPRITE32, false, false},{tileAgua, NULL, AGUA_SUELO, 192, 0, SPRITE32, false, false},{tileAgua, NULL, AGUA_SUELO, 224, 0, SPRITE32, false, false},
+    {tileAgua, NULL, AGUA_SUELO, 0, 0, SPRITE32, true, false, false},{tileAgua, NULL, AGUA_SUELO, 32, 0, SPRITE32, false, false, false},{tileAgua, NULL, AGUA_SUELO, 64, 0, SPRITE32, false, false, false},{tileAgua, NULL, AGUA_SUELO, 96, 0, SPRITE32, false, false, false},{tileAgua, NULL, AGUA_SUELO, 128, 0, SPRITE32, false, false, false},{tileAgua, NULL, AGUA_SUELO, 160, 0, SPRITE32, false, false, false},{tileAgua, NULL, AGUA_SUELO, 192, 0, SPRITE32, false, false, false},{tileAgua, NULL, AGUA_SUELO, 224, 0, SPRITE32, false, false, false},
     
-    {tileAgua, NULL, AGUA_SUELO, 0, 0, SPRITE32, false, false},{tileAgua, NULL, AGUA_SUELO, 32, 0, SPRITE32, false, false},{tileAgua, NULL, AGUA_SUELO, 64, 0, SPRITE32, false, false},{tileAgua, NULL, AGUA_SUELO, 96, 0, SPRITE32, false, false},{tileAgua, NULL, AGUA_SUELO, 128, 0, SPRITE32, false, false},{tileAgua, NULL, AGUA_SUELO, 160, 0, SPRITE32, false, false},{tileAgua, NULL, AGUA_SUELO, 192, 0, SPRITE32, false, false},{tileAgua, NULL, AGUA_SUELO, 224, 0, SPRITE32, true, false},
+    {tileAgua, NULL, AGUA_SUELO, 0, 0, SPRITE32, false, false, false},{tileAgua, NULL, AGUA_SUELO, 32, 0, SPRITE32, false, false, false},{tileAgua, NULL, AGUA_SUELO, 64, 0, SPRITE32, false, false, false},{tileAgua, NULL, AGUA_SUELO, 96, 0, SPRITE32, false, false, false},{tileAgua, NULL, AGUA_SUELO, 128, 0, SPRITE32, false, false, false},{tileAgua, NULL, AGUA_SUELO, 160, 0, SPRITE32, false, false, false},{tileAgua, NULL, AGUA_SUELO, 192, 0, SPRITE32, false, false, false},{tileAgua, NULL, AGUA_SUELO, 224, 0, SPRITE32, true, false, false},
     
-    {tileFlor, NULL, FLOR_SUELO, 0, 0, SPRITE32, false, true},{tileFlor, NULL, FLOR_SUELO, 32, 0, SPRITE32, false, true},{tileFlor, NULL, FLOR_SUELO, 64, 0, SPRITE32, false, true},{tileFlor, NULL, FLOR_SUELO, 96, 0, SPRITE32, false, true},{tileFlor, NULL, FLOR_SUELO, 128, 0, SPRITE32, false, true},{tileFlor, NULL, FLOR_SUELO, 160, 0, SPRITE32, false, true},{tileFlor, NULL, FLOR_SUELO, 192, 0, SPRITE32, false, true},{tileFlor, NULL, FLOR_SUELO, 224, 0, SPRITE32, false, true},
+    {tileFlor, NULL, FLOR_SUELO, 0, 0, SPRITE32, false, true, false},{tileFlor, NULL, FLOR_SUELO, 32, 0, SPRITE32, false, true, false},{tileFlor, NULL, FLOR_SUELO, 64, 0, SPRITE32, false, true, false},{tileFlor, NULL, FLOR_SUELO, 96, 0, SPRITE32, false, true, false},{tileFlor, NULL, FLOR_SUELO, 128, 0, SPRITE32, false, true, false},{tileFlor, NULL, FLOR_SUELO, 160, 0, SPRITE32, false, true, false},{tileFlor, NULL, FLOR_SUELO, 192, 0, SPRITE32, false, true, false},{tileFlor, NULL, FLOR_SUELO, 224, 0, SPRITE32, false, true, false},
 
-    {tileFlor, NULL, FLOR_SUELO, 0, 0, SPRITE32, false, true},{tileFlor, NULL, FLOR_SUELO, 32, 0, SPRITE32, false, true},{tileFlor, NULL, FLOR_SUELO, 64, 0, SPRITE32, false, true},{tileFlor, NULL, FLOR_SUELO, 96, 0, SPRITE32, false, true},{tileFlor, NULL, FLOR_SUELO, 128, 0, SPRITE32, false, true},{tileFlor, NULL, FLOR_SUELO, 160, 0, SPRITE32, false, true},{tileFlor, NULL, FLOR_SUELO, 192, 0, SPRITE32, false, true},{tileFlor, NULL, FLOR_SUELO, 224, 0, SPRITE32, false, true},
+    {tileFlor, NULL, FLOR_SUELO, 0, 0, SPRITE32, false, true, false},{tileFlor, NULL, FLOR_SUELO, 32, 0, SPRITE32, false, true, false},{tileFlor, NULL, FLOR_SUELO, 64, 0, SPRITE32, false, true, false},{tileFlor, NULL, FLOR_SUELO, 96, 0, SPRITE32, false, true, false},{tileFlor, NULL, FLOR_SUELO, 128, 0, SPRITE32, false, true, false},{tileFlor, NULL, FLOR_SUELO, 160, 0, SPRITE32, false, true, false},{tileFlor, NULL, FLOR_SUELO, 192, 0, SPRITE32, false, true, false},{tileFlor, NULL, FLOR_SUELO, 224, 0, SPRITE32, false, true, false},
     
-    {tileFlor, NULL, FLOR_SUELO, 0, 0, SPRITE32, false, true},{tileFlor, NULL, FLOR_SUELO, 32, 0, SPRITE32, false, true},{tileFlor, NULL, FLOR_SUELO, 64, 0, SPRITE32, false, true},{tileFlor, NULL, FLOR_SUELO, 96, 0, SPRITE32, false, true},{tileFlor, NULL, FLOR_SUELO, 128, 0, SPRITE32, false, true},{tileFlor, NULL, FLOR_SUELO, 160, 0, SPRITE32, false, true}, {tileFlor, NULL, FLOR_SUELO, 192, 0, SPRITE32, false, true},{tileFlor, NULL, FLOR_SUELO, 224, 0, SPRITE32, false, true},
+    {tileFlor, NULL, FLOR_SUELO, 0, 0, SPRITE32, false, true, false},{tileFlor, NULL, FLOR_SUELO, 32, 0, SPRITE32, false, true, false},{tileFlor, NULL, FLOR_SUELO, 64, 0, SPRITE32, false, true, false},{tileFlor, NULL, FLOR_SUELO, 96, 0, SPRITE32, false, true, false},{tileFlor, NULL, FLOR_SUELO, 128, 0, SPRITE32, false, true, false},{tileFlor, NULL, FLOR_SUELO, 160, 0, SPRITE32, false, true, false}, {tileFlor, NULL, FLOR_SUELO, 192, 0, SPRITE32, false, true, false},{tileFlor, NULL, FLOR_SUELO, 224, 0, SPRITE32, false, true, false},
     
-    {tileFlor, NULL, FLOR_SUELO, 0, 0, SPRITE32, false, true},{tileFlor, NULL, FLOR_SUELO, 32, 0, SPRITE32, false, true},{tileFlor, NULL, FLOR_SUELO, 64, 0, SPRITE32, false, true},{tileFlor, NULL, FLOR_SUELO, 96, 0, SPRITE32, false, true},{tileFlor, NULL, FLOR_SUELO, 128, 0, SPRITE32, false, true},{tileFlor, NULL, FLOR_SUELO, 160, 0, SPRITE32, false, true},{tileFlor, NULL, FLOR_SUELO, 192, 0, SPRITE32, false, true},{tileFlor, NULL, FLOR_SUELO, 224, 0, SPRITE32, false, true},
+    {tileFlor, NULL, FLOR_SUELO, 0, 0, SPRITE32, false, true, false},{tileFlor, NULL, FLOR_SUELO, 32, 0, SPRITE32, false, true, false},{tileFlor, NULL, FLOR_SUELO, 64, 0, SPRITE32, false, true, false},{tileFlor, NULL, FLOR_SUELO, 96, 0, SPRITE32, false, true, false},{tileFlor, NULL, FLOR_SUELO, 128, 0, SPRITE32, false, true, false},{tileFlor, NULL, FLOR_SUELO, 160, 0, SPRITE32, false, true, false},{tileFlor, NULL, FLOR_SUELO, 192, 0, SPRITE32, false, true, false},{tileFlor, NULL, FLOR_SUELO, 224, 0, SPRITE32, false, true, false},
     
-    {tileFlor, NULL, FLOR_SUELO, 0, 0, SPRITE32, false, true},{tileFlor, NULL, FLOR_SUELO, 32, 0, SPRITE32, false, true},{tileFlor, NULL, FLOR_SUELO, 64, 0, SPRITE32, false, true},{tileFlor, NULL, FLOR_SUELO, 96, 0, SPRITE32, false, true},{tileFlor, NULL, FLOR_SUELO, 128, 0, SPRITE32, false, true},{tileFlor, NULL, FLOR_SUELO, 160, 0, SPRITE32, false, true},{tileFlor, NULL, FLOR_SUELO, 192, 0, SPRITE32, false, true},{tileFlor, NULL, FLOR_SUELO, 224, 0, SPRITE32, false, true},
+    {tileFlor, NULL, FLOR_SUELO, 0, 0, SPRITE32, false, true, false},{tileFlor, NULL, FLOR_SUELO, 32, 0, SPRITE32, false, true, false},{tileFlor, NULL, FLOR_SUELO, 64, 0, SPRITE32, false, true, false},{tileFlor, NULL, FLOR_SUELO, 96, 0, SPRITE32, false, true, false},{tileFlor, NULL, FLOR_SUELO, 128, 0, SPRITE32, false, true, false},{tileFlor, NULL, FLOR_SUELO, 160, 0, SPRITE32, false, true, false},{tileFlor, NULL, FLOR_SUELO, 192, 0, SPRITE32, false, true, false},{tileFlor, NULL, FLOR_SUELO, 224, 0, SPRITE32, false, true, false},
     
-    {tileFlor, NULL, FLOR_SUELO, 0, 0, SPRITE32, false, true},{tileFlor, NULL, FLOR_SUELO, 32, 0, SPRITE32, false, true},{tileFlor, NULL, FLOR_SUELO, 64, 0, SPRITE32, false, true},{tileFlor, NULL, FLOR_SUELO, 96, 0, SPRITE32, false, true},{tileFlor, NULL, FLOR_SUELO, 128, 0, SPRITE32, false, true},{tileFlor, NULL, FLOR_SUELO, 160, 0, SPRITE32, false, true},{tileFlor, NULL, FLOR_SUELO, 192, 0, SPRITE32, false, true},{tileFlor, NULL, FLOR_SUELO, 224, 0, SPRITE32, false, true},
+    {tileFlor, NULL, FLOR_SUELO, 0, 0, SPRITE32, false, true, false},{tileFlor, NULL, FLOR_SUELO, 32, 0, SPRITE32, false, true, false},{tileFlor, NULL, FLOR_SUELO, 64, 0, SPRITE32, false, true, false},{tileFlor, NULL, FLOR_SUELO, 96, 0, SPRITE32, false, true, false},{tileFlor, NULL, FLOR_SUELO, 128, 0, SPRITE32, false, true, false},{tileFlor, NULL, FLOR_SUELO, 160, 0, SPRITE32, false, true, false},{tileFlor, NULL, FLOR_SUELO, 192, 0, SPRITE32, false, true, false},{tileFlor, NULL, FLOR_SUELO, 224, 0, SPRITE32, false, true, false},
     
-    {tileFlor, NULL, FLOR_SUELO, 0, 0, SPRITE32, false, true},{tileFlor, NULL, FLOR_SUELO, 32, 0, SPRITE32, false, true},{tileFlor, NULL, FLOR_SUELO, 64, 0, SPRITE32, false, true},{tileFlor, NULL, FLOR_SUELO, 96, 0, SPRITE32, false, true},{tileFlor, NULL, FLOR_SUELO, 128, 0, SPRITE32, false, true},{tileFlor, NULL, FLOR_SUELO, 160, 0, SPRITE32, false, true},{tileFlor, NULL, FLOR_SUELO, 192, 0, SPRITE32, false, true},{tileFlor, NULL, FLOR_SUELO, 224, 0, SPRITE32, false, true}
+    {tileFlor, NULL, FLOR_SUELO, 0, 0, SPRITE32, false, true, false},{tileFlor, NULL, FLOR_SUELO, 32, 0, SPRITE32, false, true, false},{tileFlor, NULL, FLOR_SUELO, 64, 0, SPRITE32, false, true, false},{tileFlor, NULL, FLOR_SUELO, 96, 0, SPRITE32, false, true, false},{tileFlor, NULL, FLOR_SUELO, 128, 0, SPRITE32, false, true, false},{tileFlor, NULL, FLOR_SUELO, 160, 0, SPRITE32, false, true, false},{tileFlor, NULL, FLOR_SUELO, 192, 0, SPRITE32, false, true, false},{tileFlor, NULL, FLOR_SUELO, 224, 0, SPRITE32, false, true, false},
+    
+    {tileAgua, NULL, AGUA_SUELO, 0, 0, SPRITE32, false, false, false},{tileAgua, NULL, AGUA_SUELO, 32, 0, SPRITE32, false, false, false},{tileAgua, NULL, AGUA_SUELO, 64, 0, SPRITE32, false, false, false},{tileAgua, NULL, AGUA_SUELO, 96, 0, SPRITE32, false, false, false},{tileAgua, NULL, AGUA_SUELO, 128, 0, SPRITE32, false, false, false},{tileAgua, NULL, AGUA_SUELO, 160, 0, SPRITE32, false, false, false},{tileAgua, NULL, AGUA_SUELO, 192, 0, SPRITE32, false, false, false},{tileAgua, NULL, AGUA_SUELO, 224, 0, SPRITE32, true, false, false},
+    
+    {tileAgua, NULL, AGUA_SUELO, 0, 0, SPRITE32, true, false, false},{tileAgua, NULL, AGUA_SUELO, 32, 0, SPRITE32, false, false, false},{tileAgua, NULL, AGUA_SUELO, 64, 0, SPRITE32, false, false, false},{tileAgua, NULL, AGUA_SUELO, 96, 0, SPRITE32, false, false, false},{tileAgua, NULL, AGUA_SUELO, 128, 0, SPRITE32, false, false, false},{tileAgua, NULL, AGUA_SUELO, 160, 0, SPRITE32, false, false, false},{tileAgua, NULL, AGUA_SUELO, 192, 0, SPRITE32, false, false, false},{tileAgua, NULL, AGUA_SUELO, 224, 0, SPRITE32, false, false, false},
 };
 void renderMapa(int tipoMapa){ //Pinta el mapa en pantalla 
     if (48 + scrollY*8 > 96) return;
@@ -65,24 +69,29 @@ void renderMapa(int tipoMapa){ //Pinta el mapa en pantalla
                 map1[i].enemigoSpawn = false;
             }
 
-            int j;
-            for (j = 0; j < numEnemigos; j++) { // Actualiza la posicion de los enemigos cada tick del reloj
-                EstablecerPaletaPrincipal(enemigos[j].spriteID);
-                MostrarSprite(enemigos[j].spriteIndice,enemigos[j].posx,enemigos[j].posy + scrollY * 32,enemigos[j].spriteSize,enemigos[j].gfxpoint,1);
-                if(enemigos[j].posx > 256 || enemigos[j].posx < -32){ //Si el enemigo se sale de la pantalla, será "eliminado" de la lista de enemigos (su pointer a la funcion GM será null)
-                    enemigos[j].posx = 0;
-                    enemigos[j].posy = 0;
-                    enemigos[j].spriteSize = 0;
-                    enemigos[j].spriteID = 0;
-                    enemigos[j].gfxpoint = NULL;
-                    enemigos[j].gestorEnemigo = NULL;
-                }
-            }
-            EstablecerPaletaPrincipal(0); // Lo mismo con el personaje
-            MostrarSprite(0,personaje.x, personaje.y, 1, gfxpersonaje, 0);
+            
             
         }
+        int j;
+        for (j = 0; j < numEnemigos; j++) { // Actualiza la posicion de los enemigos cada tick del reloj
+            EstablecerPaletaPrincipal(enemigos[j].spriteID);
+            //enemigos[j].posy = enemigos[j].posy + scrollY*32;
+            MostrarSprite(enemigos[j].spriteIndice, enemigos[j].posx, enemigos[j].posy + scrollY*32, enemigos[j].spriteSize, enemigos[j].gfxpoint, 1);
+            if(enemigos[j].posx > 256 || enemigos[j].posx < -32 || enemigos[j].posy + scrollY*32 > 192 || enemigos[j].posy + scrollY*32 < -32){ //Si el enemigo se sale de la pantalla, será "eliminado" de la lista de enemigos (su pointer a la funcion GM será null)
+                enemigos[j].posx = 0;
+                enemigos[j].posy = 0;
+                enemigos[j].spriteSize = 0;
+                enemigos[j].spriteID = 0;
+                enemigos[j].gfxpoint = NULL;
+                enemigos[j].gestorEnemigo = NULL;
+                numEnemigos--;
+            }
+        }
+        EstablecerPaletaPrincipal(0); // Lo mismo con el personaje
+        MostrarSprite(0,personaje.x, personaje.y, 1, gfxpersonaje, 0);
         oamUpdate(&oamMain);
+        if(!map1[personaje.posEnMapa].caminable && !personaje.enBarca) exit(0); // Esto comprueba si el personaje no esta en la barca y en una zona no caminable (muere en tal caso)
+        j = 0;
         i = 0;
         //break;
     //}

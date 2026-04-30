@@ -34,6 +34,7 @@ extern int collisionOffsety;
 void initStructs(){ //Esto pone valores por defecto a structs estaticos con una sola instancia y a algunas variables
 	personaje.x = 96;
 	personaje.y = 160;
+	personaje.posEnMapa = 3;
 	scrollY = 0;
 }
 
