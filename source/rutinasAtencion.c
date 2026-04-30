@@ -18,9 +18,14 @@ extern Prota personaje;
 void RutAtencionTeclado (){
 	DeshabilitarInterrrupciones();
 	int tecla = TeclaPulsada(); //Función de perifericos.c que mira que bit de TECLAS_DAT está activo
-	if (Estado == JUEGO){ //Las variables en mayúsculas van a ser elementos de enums
+	switch(Estado){ //Las variables en mayúsculas van a ser elementos de enums
 		//iprintf("\x1b[0;0H scroll vertical: %d", scrollY);
+		case MENU:
 		
+
+		break;
+
+		case JUEGO:
 		if (tecla==DERECHA && personaje.x < 224){ // Gestiona cuando el usuario pulsa DERECHA
 			personaje.x += 32;
 			map1[personaje.posEnMapa].estaPersonaje = false;
@@ -90,6 +95,7 @@ void RutAtencionTeclado (){
 		}
 		iprintf("\x1b[7;0H Indice del mapa personaje: %d", personaje.posEnMapa);
 		iprintf("\x1b[8;0H Está en zona caminable?: %d", map1[personaje.posEnMapa].caminable);
+		break;
 	}
 	//iprintf("\x1b[23;0H Tecla %d", tecla);
 	HabilitarInterrupciones();

@@ -44,7 +44,7 @@ void initStructs(){ //Esto pone valores por defecto a structs estaticos con una 
 void juego(){
 	spriteIndice = 1; // No está en 0 ya que el personaje es el indice 0
 	initStructs();
-	Estado=JUEGO;
+	Estado=MENU;
 	
 	// Configurar el teclado.
 	// Configurar el temporizador.
@@ -63,27 +63,48 @@ void juego(){
 
 	HabilitarIntTeclado();
 
-	HabilitarIntTempo();
-
-	PonerEnMarchaTempo();
+	
 
 	HabilitarInterrupciones();
 
 	
 	// Con esta configuración muestra al personaje y el mapa
-	renderMapa(1);
-	EstablecerPaletaPrincipal(0);
-	GuardarSpritesMemoria(gfxpersonaje, personajeMap, SPRITE32);
-	MostrarSprite(0,personaje.x, personaje.y, 1, gfxpersonaje, 0); 
-	oamUpdate(&oamMain);
+	
 	
 	while(1){ //Bucle del juego
+		int tecla;
 		switch(Estado){
+			
 			case MENU:
+				iprintf("\x1b[4;2H Jugar (START)");
+				iprintf("\x1b[12;2H Stats (SELECT)");
+				iprintf("\x1b[20;2H Salir (B)");
+				if(!TeclaDetectada()) break;
+				else  tecla = TeclaPulsada();
+				if(tecla==START){ //Lleva al juego, muestra el mapa y todo.
+					HabilitarIntTempo();
+					PonerEnMarchaTempo();
+					renderMapa(1);
+					EstablecerPaletaPrincipal(0);
+					GuardarSpritesMemoria(gfxpersonaje, personajeMap, SPRITE32);
+					MostrarSprite(0,personaje.x, personaje.y, 1, gfxpersonaje, 0); 
+					oamUpdate(&oamMain);
+					Estado=JUEGO;
+				}
+				if(tecla==SELECT){ //Si la tecla es select, te lleva a las stats
+		
+				}
+				if(tecla==B){ // Cierra el emulador
+					swiSoftReset();//Funcion de nds para "apagar" la consola
+				}
 				break;
 			case JUEGO:
+				if(!TeclaDetectada()) break;
+				else  tecla = TeclaPulsada();
 				break;
 			case STATS:
+				if(!TeclaDetectada()) break;
+				else  tecla = TeclaPulsada();
 				break;
 		}
 		
