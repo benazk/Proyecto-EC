@@ -29,8 +29,9 @@ void RutAtencionTeclado (){
 			map1[personaje.posEnMapa].estaPersonaje = false;
 			personaje.posEnMapa++;
 			map1[personaje.posEnMapa].estaPersonaje = true;
-			if(personaje.enBarca && map1[personaje.posEnMapa].spriteID != AGUA_SUELO) personaje.enBarca = false;
-			//estaPersonaje();
+			estaPersonaje();
+			if(!subirBarca && map1[personaje.posEnMapa].spriteID != AGUA_SUELO)
+				subirBarca = false;
 
 		}
 		else if (tecla==IZQUIERDA && personaje.x > 0){
@@ -38,8 +39,7 @@ void RutAtencionTeclado (){
 			map1[personaje.posEnMapa].estaPersonaje = false;
 			personaje.posEnMapa--;
 			map1[personaje.posEnMapa].estaPersonaje = true;
-			if(personaje.enBarca && map1[personaje.posEnMapa].spriteID != AGUA_SUELO) personaje.enBarca = false;
-			//estaPersonaje();
+			estaPersonaje();
 		}
 		else if (tecla==ARRIBA && personaje.y > 0){
 			if(personaje.y < 159 && scrollY < personaje.estadisticas->nivActual->altura) scrollY++;
@@ -49,7 +49,7 @@ void RutAtencionTeclado (){
 			map1[personaje.posEnMapa].estaPersonaje = true;
 			
 			int res = personaje.x % 32;
-			if(personaje.enBarca &&  res != 0 && map1[personaje.posEnMapa].spriteID != AGUA_SUELO) { // Si al salir de la barca,y el sprite no esta alineado con la tile (personaje.x mod spriteSize)
+			if(subirBarca &&  res != 0 && map1[personaje.posEnMapa].spriteID != AGUA_SUELO) { // Si al salir de la barca,y el sprite no esta alineado con la tile (personaje.x mod spriteSize)
 				if(personaje.x % 32 > 16){ // Con respecto a la izquierda de la tile
 					personaje.posEnMapa++;
 					personaje.x = personaje.x  + (32 - res/*para llegar a lo que queda del resto de 32*/) % 32; // Esto alinea el personaje con una tile (la más cercana)
@@ -59,8 +59,7 @@ void RutAtencionTeclado (){
 					personaje.x = personaje.x - res;
 				}
 			} 
-			if(personaje.enBarca && map1[personaje.posEnMapa].spriteID != AGUA_SUELO) personaje.enBarca = false;
-			//estaPersonaje();
+			estaPersonaje();
 		}
 		else if (tecla==ABAJO && personaje.y < 160 ){
 			if(personaje.y > 33 && scrollY > 0) scrollY--;
@@ -69,7 +68,7 @@ void RutAtencionTeclado (){
 			personaje.posEnMapa-=8;
 			map1[personaje.posEnMapa].estaPersonaje = true;
 			int res = personaje.x % 32;
-			if(personaje.enBarca &&  res != 0 && map1[personaje.posEnMapa].spriteID != AGUA_SUELO) { // Si al salir de la barca,y el sprite no esta alineado con la tile (personaje.x mod spriteSize)
+			if(subirBarca &&  res != 0 && map1[personaje.posEnMapa].spriteID != AGUA_SUELO) { // Si al salir de la barca,y el sprite no esta alineado con la tile (personaje.x mod spriteSize)
 				if(personaje.x % 32 > 16){
 					personaje.x = personaje.x + (32 - res/*para llegar a lo que queda del resto de 32*/) % 32;
 				}
@@ -77,8 +76,7 @@ void RutAtencionTeclado (){
 					personaje.x = personaje.x - res;
 				}
 			}
-			if(personaje.enBarca && map1[personaje.posEnMapa].spriteID != AGUA_SUELO) personaje.enBarca = false;
-			//estaPersonaje();	
+			estaPersonaje();
 		}
 		//iprintf("\x1b[7;0H Indice del mapa personaje: %d", personaje.posEnMapa);
 		//iprintf("\x1b[8;0H Posicion Personaje: (%d,%d)", personaje.x, personaje.y);

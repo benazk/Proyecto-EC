@@ -127,20 +127,19 @@ void renderMapa(int tipoMapa){ //Pinta el mapa en pantalla
 
         int l;
         for (l = 0; l < numMonedas; l++){
-            monedas[l].spriteIndice = spriteIndice;
-            EstablecerPaletaPrincipal(monedas[l].spriteID);
-            MostrarSprite(monedas[l].spriteIndice, monedas[l].posx, monedas[l].posy + scrollY*32, monedas[l].spriteSize, monedas[l].gfxpoint, 0);
-            spriteIndice++;
+            if(!monedas[l].recogida){
+                monedas[l].spriteIndice = spriteIndice;
+                EstablecerPaletaPrincipal(monedas[l].spriteID);
+                MostrarSprite(monedas[l].spriteIndice, monedas[l].posx, monedas[l].posy + scrollY*32, monedas[l].spriteSize, monedas[l].gfxpoint, 0);
+                spriteIndice++;
+            }
         }
 
         EstablecerPaletaPrincipal(0); // Lo mismo con el personaje
         MostrarSprite(0,personaje.x, personaje.y, 1, gfxpersonaje, 1);
         oamUpdate(&oamMain);
-        if(!map1[personaje.posEnMapa].caminable && !personaje.enBarca){// Esto comprueba si el personaje no esta en la barca y en una zona no caminable (muere en tal caso)
-            //morir(); // Mueres
-        }
         if(floor(personaje.posEnMapa/8) >= personaje.estadisticas->nivActual->altura + 6 - 1){
-            //ganar(); // Ganas
+            ganar(); // Ganas
         }
         j = 0;
         i = 0;

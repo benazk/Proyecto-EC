@@ -40,6 +40,7 @@ void initStructs(){ //Esto pone valores por defecto a structs estaticos con una 
 	stat.monedas = 0;
 	mapa[0] = (Nivel){14, 160, 1}; // Máximo de scrollY, tamaño de array del mapa y dificultad
 	mapa[1] = (Nivel){14, 160, 2};
+	mapa[2] = (Nivel){14, 160, 3};
 	stat.nivActual = &mapa[0];
 	personaje.x = 96;
 	personaje.y = 160;
@@ -59,6 +60,7 @@ void crearMonedas(){
 			spawned = true;
 			monedas[i].posx = x;
 			monedas[i].posy = y;
+			monedas[i].gestorMoneda = &GC;
 			monedas[i].spriteID = MONEDA_SPRITE;
 			monedas[i].gfxpoint = monedaSuelo;
 			monedas[i].spriteBitMap = monedaTile;
@@ -73,6 +75,7 @@ void crearMonedas(){
 		Moneda *m = &monedas[numMonedas++];
 		m->posx = x;
 		m->posy = y;
+		m->gestorMoneda = &GC;
 		m->spriteID = MONEDA_SPRITE;
 		m->gfxpoint = monedaSuelo;
 		m->spriteBitMap = monedaTile;
@@ -80,14 +83,13 @@ void crearMonedas(){
 		m->size = 27;
 		m->valor = 1;
 		m->recogida = false;
-		iprintf("\x1b[1;0H Cant: %d", numMonedas);
 	}
 	
 }
 
 bool VerificarColision(int x1, int x2, int y1, int y2, int width1, int width2, int height1, int height2, int a){ // Sirve para saber si ha habido una colisión entre dos entidades
     bool collision = false;
-	if ((x1 < (x2 + width2) && (x1 + width1) > x2) && (y1 < (y2 + height2) && (y1 + height1) > y2)){} 
+	if ((x1 < (x2 + width2) && (x1 + width1) > x2) && (y1 < (y2 + height2) && (y1 + height1) > y2))
 		collision = true;
 	
 	//iprintf("\x1b[%d;0H Personaje: (%d %d), Enemigo:(%d %d)", a, x2, y2, x1, y1);
@@ -97,7 +99,14 @@ bool VerificarColision(int x1, int x2, int y1, int y2, int width1, int width2, i
 	return collision;
 }
 
-
+bool VerificarPunto(int x1, int x2, int y1, int y2, int size1){
+	bool touch = false;
+	if(x2 < (x1 + size1 + (32-size1)/2) && y2 < (y1 + size1 + (32-size1)/2)){
+		touch = true;
+	}
+	iprintf("\x1b[4;4H Toco moneda? %d", touch);
+	return touch; // Verifica que 
+}
 
 
 void spawnEnemigo(int x, int y, int tipoEnemigo, int dir, int origen, int column) { // Pone un enemigo en el array de enemigos (El bucle es por si un enemigo se ha eliminado y para que otro ocupe su posición)
@@ -170,7 +179,6 @@ void morir(){
 	}
 	personaje.posEnMapa = 3;
 	personaje.vivo = false;
-	personaje.enBarca = false;
 	personaje.x = 96;
 	personaje.y = 160;
 	personaje.estadisticas->monedas = 0;
@@ -217,7 +225,6 @@ void ganar(){
 	}
 	personaje.posEnMapa = 3;
 	personaje.vivo = false;
-	personaje.enBarca = false;
 	personaje.x = 96;
 	personaje.y = 160;
 	personaje.estadisticas->monedas = 0;
@@ -285,7 +292,7 @@ void juego(){
 					int i;
 					for(i = 0; i < MAX_MONEDAS; i++) crearMonedas();
 					renderMapa(personaje.estadisticas->nivelNum);
-					iprintf("\x1b[6;H Cantidad de sprites: %d", spriteIndice);
+					iprintf("\x1b[6;0H Cantidad de sprites: %d", spriteIndice);
 					Estado=JUEGO;
 					subEstado=IDLE;
 				}
@@ -297,7 +304,10 @@ void juego(){
 				}
 				break;
 			case JUEGO:
-				if(PantallaTactilPulsada()) iprintf("\x1b[14;0H TOUCH %d %d", pos_pantalla.px, pos_pantalla.py);
+				if(PantallaTactilPulsada()) {
+					iprintf("\x1b[14;0H TOUCH %d %d", pos_pantalla.px, pos_pantalla.py);
+					checkMonedas();
+				}
 				if(!TeclaDetectada()) break;
 				tecla = TeclaPulsada();
 				switch (subEstado){
@@ -310,7 +320,10 @@ void juego(){
 							InhibirIntTempo();
 							PararTempo();
 						}
-						//if(personaje.enBarca && map1[personaje.posEnMapa].spriteID == AGUA_SUELO) morir();
+						iprintf("\x1b[0;1H %d MONEDAS", personaje.estadisticas->monedas);
+						if(!subirBarca && map1[personaje.posEnMapa].spriteID == AGUA_SUELO){ 
+							//morir(); // Mueres
+						}
 						break;
 					case PAUSA:
 						if(tecla==SELECT){ //Salir de la pausa, habilitando las interrupciones y reanudando el temporizador

@@ -23,8 +23,7 @@ typedef struct { //Prota
     int x;
     int y;
     int posEnMapa;
-    bool vivo;
-    bool enBarca;  
+    bool vivo; 
     Stats *estadisticas;
 }Prota;
 
@@ -69,6 +68,7 @@ struct Moneda{
     int spriteIndice;
     int valor;
     bool recogida;
+    void (*gestorMoneda)(Moneda* self);
 };
 
 #endif
