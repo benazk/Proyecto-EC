@@ -1,4 +1,5 @@
-rutinasAtencion.o: /home/user/SharedFolder/source/rutinasAtencion.c \
+rutinasAtencion.o:  \
+ /home/user/SharedFiles/Proyecto-EC/source/rutinasAtencion.c \
   /opt/devkitPro/libnds/include/nds.h \
   /opt/devkitPro/libnds/include/nds/libversion.h \
   /opt/devkitPro/libnds/include/nds/ndstypes.h \
@@ -47,14 +48,14 @@ rutinasAtencion.o: /home/user/SharedFolder/source/rutinasAtencion.c \
   /opt/devkitPro/libnds/include/nds/arm9/sprite.h \
   /opt/devkitPro/libnds/include/nds/system.h \
   /opt/devkitPro/libnds/include/nds/arm9/decompress.h \
-  /home/user/SharedFolder/include/definiciones.h \
-  /home/user/SharedFolder/include/perifericos.h \
-  /home/user/SharedFolder/include/fondos.h \
-  /home/user/SharedFolder/include/sprites.h \
-  /home/user/SharedFolder/include/structs.h \
-  /home/user/SharedFolder/include/maps.h \
-  /home/user/SharedFolder/include/structs.h \
-  /home/user/SharedFolder/include/gestionEntidades.h
+  /home/user/SharedFiles/Proyecto-EC/include/definiciones.h \
+  /home/user/SharedFiles/Proyecto-EC/include/perifericos.h \
+  /home/user/SharedFiles/Proyecto-EC/include/fondos.h \
+  /home/user/SharedFiles/Proyecto-EC/include/sprites.h \
+  /home/user/SharedFiles/Proyecto-EC/include/structs.h \
+  /home/user/SharedFiles/Proyecto-EC/include/maps.h \
+  /home/user/SharedFiles/Proyecto-EC/include/structs.h \
+  /home/user/SharedFiles/Proyecto-EC/include/gestionEntidades.h
 
 /opt/devkitPro/libnds/include/nds.h:
 
@@ -152,18 +153,18 @@ rutinasAtencion.o: /home/user/SharedFolder/source/rutinasAtencion.c \
 
 /opt/devkitPro/libnds/include/nds/arm9/decompress.h:
 
-/home/user/SharedFolder/include/definiciones.h:
+/home/user/SharedFiles/Proyecto-EC/include/definiciones.h:
 
-/home/user/SharedFolder/include/perifericos.h:
+/home/user/SharedFiles/Proyecto-EC/include/perifericos.h:
 
-/home/user/SharedFolder/include/fondos.h:
+/home/user/SharedFiles/Proyecto-EC/include/fondos.h:
 
-/home/user/SharedFolder/include/sprites.h:
+/home/user/SharedFiles/Proyecto-EC/include/sprites.h:
 
-/home/user/SharedFolder/include/structs.h:
+/home/user/SharedFiles/Proyecto-EC/include/structs.h:
 
-/home/user/SharedFolder/include/maps.h:
+/home/user/SharedFiles/Proyecto-EC/include/maps.h:
 
-/home/user/SharedFolder/include/structs.h:
+/home/user/SharedFiles/Proyecto-EC/include/structs.h:
 
-/home/user/SharedFolder/include/gestionEntidades.h:
+/home/user/SharedFiles/Proyecto-EC/include/gestionEntidades.h:
