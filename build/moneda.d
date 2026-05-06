@@ -1,0 +1,1 @@
+moneda.o: moneda.s

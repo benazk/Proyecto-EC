@@ -6,18 +6,29 @@
 #include <stdlib.h>	
 #include <unistd.h>	
 
+
+typedef struct { // AÚN NO HE HECHO NADA CON ESTO
+    int altura; // Numero que tiene que alcanzar scrollY para cubrir el mapa sin pasarse
+    int tamMapa; //Longitud del array del mapa
+    int dificultad; // Si la dificultad es alta, las cosas se moverán más rápido
+}Nivel;
+
+typedef struct {
+    int monedas;
+    int nivelNum;
+    Nivel *nivActual;
+}Stats;
+
 typedef struct { //Prota
     int x;
     int y;
     int posEnMapa;
     bool vivo;
     bool enBarca;  
+    Stats *estadisticas;
 }Prota;
 
-typedef struct { // AÚN NO HE HECHO NADA CON ESTO
-    int altura;
-    float tiempo;
-}Nivel;
+
 
 typedef struct{  //Esto será para poner tiles (tambien pueden ser adornos encima del suelo u obstáculos estáticos)
     u8* spriteBitMap;
@@ -26,6 +37,7 @@ typedef struct{  //Esto será para poner tiles (tambien pueden ser adornos encim
     int x;
     int y;
     int spriteSize;
+    int col; // Esto es un apaño para que funcione
     bool enemigoSpawn;
     bool caminable;
     bool estaPersonaje;
@@ -41,13 +53,22 @@ struct Enemigo {  //El struct que contiene los datos de los enemigos
     int spriteID; 
     int spriteSize; // Tamaño de sprite para oam
     int spriteIndice; // El num de sprite a pasarle al oam
+    int tileOrigen; //Es el indice del array de tiles del cual ha aparecido
+    int colOrigen;
     void (*gestorEnemigo)(Enemigo* self);
 };
+typedef struct Moneda Moneda;
+struct Moneda{
+    u8* spriteBitMap;
+    u16* gfxpoint;
+    int posx;
+    int posy;
+    int size;
+    int spriteID;
+    int spriteSize;
+    int spriteIndice;
+    int valor;
+    bool recogida;
+};
 
-
-/*typedef struct {
-    int monedas;
-    int nivelNum;
-    Nivel *nivActual;
-}Stats;*/
 #endif

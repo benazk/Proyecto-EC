@@ -14,6 +14,8 @@ u16* gfxpersonaje;
 u16* gfxCoche;
 u16* florSuelo;
 u16* aguaSuelo;
+u16* metaSuelo;
+u16* monedaSuelo;
 
 extern void memoriaReserva();
 
@@ -36,5 +38,7 @@ extern u8 personajeMap[1024];
 extern u8 cocheMap[1024];
 extern u8 tileFlor[1024];
 extern u8 tileAgua[1024];
+extern u8 metaTile[1024];
+extern u8 monedaTile[1024];
 
 #endif

@@ -1,0 +1,1 @@
+fondoPausa.o: fondoPausa.s

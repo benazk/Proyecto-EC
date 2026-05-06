@@ -12,48 +12,44 @@
 int Estado;
 static int tick=0;
 static int seg=0;
-static float moverEntidad=1.0f;
 extern Prota personaje;
 
 void RutAtencionTeclado (){
-	DeshabilitarInterrrupciones();
+	InhibirIntTempo();
+	ActualizarTeclado();
 	int tecla = TeclaPulsada(); //Función de perifericos.c que mira que bit de TECLAS_DAT está activo
 	switch(Estado){ //Las variables en mayúsculas van a ser elementos de enums
-		//iprintf("\x1b[0;0H scroll vertical: %d", scrollY);
 		case MENU: // Las teclas que se usan en el menú son todas por encuesta (No haremos la B, START y SELECT por interrupción)
-		break;
+			break;
 
 		case JUEGO:
-		if(subEstado==PAUSA) break;
+		if(subEstado==PAUSA || subEstado==MUERTE) break;
 		if (tecla==DERECHA && personaje.x < 224){ // Gestiona cuando el usuario pulsa DERECHA
 			personaje.x += 32;
 			map1[personaje.posEnMapa].estaPersonaje = false;
 			personaje.posEnMapa++;
 			map1[personaje.posEnMapa].estaPersonaje = true;
-			EstablecerPaletaPrincipal(0);
-			MostrarSprite(0,personaje.x, personaje.y, 1, gfxpersonaje, 0); //Esto es mayormente estático, ya que estoy mostrando siempre al personaje y siempre tiene el mismo id de sprite
-			oamUpdate(&oamMain);
+			if(personaje.enBarca && map1[personaje.posEnMapa].spriteID != AGUA_SUELO) personaje.enBarca = false;
+			//estaPersonaje();
+
 		}
-		if (tecla==IZQUIERDA && personaje.x > 0){
+		else if (tecla==IZQUIERDA && personaje.x > 0){
 			personaje.x -= 32;
 			map1[personaje.posEnMapa].estaPersonaje = false;
 			personaje.posEnMapa--;
 			map1[personaje.posEnMapa].estaPersonaje = true;
-			EstablecerPaletaPrincipal(0);
-			MostrarSprite(0,personaje.x, personaje.y, 1, gfxpersonaje, 0);
-			oamUpdate(&oamMain);
+			if(personaje.enBarca && map1[personaje.posEnMapa].spriteID != AGUA_SUELO) personaje.enBarca = false;
+			//estaPersonaje();
 		}
-		if (tecla==ARRIBA && personaje.y > 0){
-			if(personaje.y < 159 && scrollY < 16) scrollY++;
+		else if (tecla==ARRIBA && personaje.y > 0){
+			if(personaje.y < 159 && scrollY < personaje.estadisticas->nivActual->altura) scrollY++;
 			else personaje.y -= 32;
 			map1[personaje.posEnMapa].estaPersonaje = false;
 			personaje.posEnMapa+=8;
 			map1[personaje.posEnMapa].estaPersonaje = true;
 			
 			int res = personaje.x % 32;
-			iprintf("\x1b[9;0H resto de %d y hay agua? %d", res, map1[personaje.posEnMapa].spriteID == AGUA_SUELO);
 			if(personaje.enBarca &&  res != 0 && map1[personaje.posEnMapa].spriteID != AGUA_SUELO) { // Si al salir de la barca,y el sprite no esta alineado con la tile (personaje.x mod spriteSize)
-				iprintf("\x1b[10;0H Alineacion de %d a %d", personaje.x - res, personaje.x + (32 - res));
 				if(personaje.x % 32 > 16){ // Con respecto a la izquierda de la tile
 					personaje.posEnMapa++;
 					personaje.x = personaje.x  + (32 - res/*para llegar a lo que queda del resto de 32*/) % 32; // Esto alinea el personaje con una tile (la más cercana)
@@ -64,21 +60,16 @@ void RutAtencionTeclado (){
 				}
 			} 
 			if(personaje.enBarca && map1[personaje.posEnMapa].spriteID != AGUA_SUELO) personaje.enBarca = false;
-			
-			EstablecerPaletaPrincipal(0);
-			MostrarSprite(0,personaje.x, personaje.y, SPRITE32, gfxpersonaje, 0);
-			oamUpdate(&oamMain);
+			//estaPersonaje();
 		}
-		if (tecla==ABAJO && personaje.y < 160 ){
+		else if (tecla==ABAJO && personaje.y < 160 ){
 			if(personaje.y > 33 && scrollY > 0) scrollY--;
 			else personaje.y += 32;
 			map1[personaje.posEnMapa].estaPersonaje = false;
 			personaje.posEnMapa-=8;
 			map1[personaje.posEnMapa].estaPersonaje = true;
 			int res = personaje.x % 32;
-			iprintf("\x1b[9;0H resto de %d y hay agua? %d", res, map1[personaje.posEnMapa].spriteID == AGUA_SUELO);
 			if(personaje.enBarca &&  res != 0 && map1[personaje.posEnMapa].spriteID != AGUA_SUELO) { // Si al salir de la barca,y el sprite no esta alineado con la tile (personaje.x mod spriteSize)
-				iprintf("\x1b[10;0H Alineacion de %d a %d", personaje.x - res, personaje.x + (32 - res));
 				if(personaje.x % 32 > 16){
 					personaje.x = personaje.x + (32 - res/*para llegar a lo que queda del resto de 32*/) % 32;
 				}
@@ -87,17 +78,13 @@ void RutAtencionTeclado (){
 				}
 			}
 			if(personaje.enBarca && map1[personaje.posEnMapa].spriteID != AGUA_SUELO) personaje.enBarca = false;
-			GuardarSpritesMemoria(gfxpersonaje, personajeMap, 32);
-			EstablecerPaletaPrincipal(0);
-			MostrarSprite(0,personaje.x, personaje.y, 1, gfxpersonaje, 0);
-			oamUpdate(&oamMain);
+			//estaPersonaje();	
 		}
-		iprintf("\x1b[7;0H Indice del mapa personaje: %d", personaje.posEnMapa);
-		iprintf("\x1b[8;0H Está en zona caminable?: %d", map1[personaje.posEnMapa].caminable);
+		//iprintf("\x1b[7;0H Indice del mapa personaje: %d", personaje.posEnMapa);
+		//iprintf("\x1b[8;0H Posicion Personaje: (%d,%d)", personaje.x, personaje.y);
 		break;
 	}
-	//iprintf("\x1b[23;0H Tecla %d", tecla);
-	HabilitarInterrupciones();
+	HabilitarIntTempo();
 }
 
 float Lerp(float start, float end, float amount){ // No prestar atención
@@ -106,21 +93,18 @@ float Lerp(float start, float end, float amount){ // No prestar atención
 }
 
 void RutAtencionTempo(){ // Para gestionar cada tick del temporizador, serán 20 ticks/s si estamos en el juego
-	DeshabilitarInterrrupciones();
-	moverEntidad -= 0.2f;
-	//float alpha_range = (1.0f - moverEntidad) / 1.0f;
-	if(moverEntidad==0.0f) moverEntidad=1.0f;
+	InhibirIntTeclado();
 	switch(Estado){
 		case MENU:
 			break;
 		case JUEGO:
-			if(Estado==PAUSA) break;
-			//enemigo.posx = Lerp(enemigo.posx, enemigo.posx + 32, alpha_range);
+			if(subEstado==PAUSA || subEstado==MUERTE) break;
 			movEnemigo();
-			renderMapa(1);
+			renderMapa(personaje.estadisticas->nivelNum);
 			oamUpdate(&oamMain);
 	}
-	HabilitarInterrupciones();
+	HabilitarIntTeclado();
+	
 }
 
 void EstablecerVectorInt(){ // Para asignarle a cada tipo de interrupción su rutina de atención específica

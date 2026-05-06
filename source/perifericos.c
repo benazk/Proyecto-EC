@@ -6,17 +6,25 @@
  // Variable para guardar la tecla pulsada; valorar si es necesaria
 
 
-
-int TeclaDetectada() {
-	return ((~TECLAS_DAT) & 0x03ff)!=0;
+ static int teclaAnterior = 0;
+ static int recienPulsadas = 0;
+ extern touchPosition pos_pantalla;
+void ActualizarTeclado() { // Llamar UNA VEZ al inicio de cada iteración del bucle del juego
+	 int actual = (~TECLAS_DAT) & 0x03FF;
+	 recienPulsadas = actual & ~teclaAnterior;
+	 teclaAnterior = actual;
 }
 
-int TeclaPulsada(){
-	int i;	
-	for(i = 0; i < 10;i++){
-		if(~TECLAS_DAT & 0x1<<i ) return i;
-	}
-	return -1;
+int TeclaDetectada() {
+    return recienPulsadas != 0;
+}
+
+int TeclaPulsada() {
+	int i;
+    for (i = 0; i < 10; i++) {
+        if (recienPulsadas & (1 << i)) return i;
+    }
+    return -1;
 }
 
 void ConfigurarTeclado(int Conf_Tec){
@@ -73,3 +81,12 @@ void PararTempo(){
 }
 
 
+int PantallaTactilPulsada(){
+    scanKeys();
+    if(keysHeld() & KEY_TOUCH){ 
+        touchRead(&pos_pantalla);
+        return 1;
+    }
+    else
+        return 0;
+}

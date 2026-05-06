@@ -1,3 +1,3 @@
-extern void visualizarPuerta();
-extern void visualizarPuertaAbierta();
-
+extern void visualizarFondoMuerte();
+extern void visualizarFondoVictoria();
+void initBackgrounds();

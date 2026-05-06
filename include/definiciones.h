@@ -23,8 +23,7 @@
 extern int tecla;
 
 // Acceso a los registros de la pantalla táctil
-extern touchPosition PANT_DAT;
-
+touchPosition pos_pantalla;
 // Nombres asignados a las teclas para facilitar la comprensión de nuestro código
 extern const enum teclas{
     A=0, 
@@ -36,21 +35,23 @@ extern const enum teclas{
     ARRIBA=6, 
     ABAJO=7,
     R=8,
-    L=9
+    L=9,
 }teclas;
 
 extern const enum direccion{NORTE=0, ESTE=1, SUR=2, OESTE=3} direc;
 
 
 // Enums asignados a los estados y subestados (Automatas)
-extern const enum estadosJuego{ MENU=0, JUEGO=1, STATS=2} estadosJuego;
-extern const enum subEstadosJuego{ IDLE=0, MOVIENDO=1, HIT=2, PAUSA=3} subEstadosJuego;
+extern const enum estadosJuego{ MENU=0, JUEGO=1, STATS=2} est;
+extern const enum subEstadosJuego{ IDLE=0, MOVIENDO=1, PAUSA=2, MUERTE=3, VICTORIA=4} sub;
 
 extern const enum spritesId{ 
     PERSONAJE=0,
     FLOR_SUELO=1,
     AGUA_SUELO=2,
     COCHE_SPRITE=3,
+    META_SUELO=4,
+    MONEDA_SPRITE=5
 } spritesId; // Para asignar cada sprite con un switch-case dependiendo del sprite necesario.
 
 extern const enum spriteSizes{ SPRITE_CUSTOM=0, SPRITE32=1, SPRITE16=2, SPRITE64=3}spriteSizes; // Para asignar tamaños de sprites tambien con un switch-case
@@ -59,6 +60,10 @@ int subEstado; // Este es el sub estado de la partida
 int scrollY;
 int spriteIndice;
 int numEnemigos;
+int numMonedas;
 int collisionOffsetx;
 int collisionOffsety;
+bool subirBarca;
 #define MAX_ENEMIGOS 12
+#define NUM_MAPAS 2
+#define MAX_MONEDAS 5

@@ -41,7 +41,7 @@ void inicializarFondos() {
     /*  Establecer la afinidad del fondo 3 de la pantalla principal para colores de 16 bits */
     REG_BG3CNT = BG_BMP16_256x256 |
                  BG_BMP_BASE(0) | // Dirección de comienzo de la memoria
-                 BG_PRIORITY(3); // Prioridad baja
+                 BG_PRIORITY(0); // Prioridad baja
 
     /*  Asignar la matriz de identidad a la matriz de transformación del fondo 3 de la pantalla principal */
     REG_BG3PA = 1 << 8;
@@ -77,7 +77,7 @@ void inicializarFondos() {
     /*  Definir la afinidad del fondo 3 de la pantalla secundaria para colores de 16 bits */
     REG_BG3CNT_SUB = BG_BMP16_256x256 |
                      BG_BMP_BASE(0) | // Comienzo de dirección de memoria
-                     BG_PRIORITY(3); // Prioridad baja
+                     BG_PRIORITY(0); // Prioridad baja
 
     /*Asignar la matriz identidad a la matriz de transformación del fondo 3 de la pantalla secundaria */
     REG_BG3PA_SUB = 1 << 8;
