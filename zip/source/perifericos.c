@@ -83,7 +83,7 @@ void PararTempo(){
 
 int PantallaTactilPulsada(){
     scanKeys();
-    if(keysDown() & KEY_TOUCH){ 
+    if(keysHeld() & KEY_TOUCH){ 
         touchRead(&pos_pantalla);
         return 1;
     }

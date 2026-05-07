@@ -54,6 +54,7 @@ rutinasAtencion.o: /home/user/SharedFolder/source/rutinasAtencion.c \
   /home/user/SharedFolder/include/structs.h \
   /home/user/SharedFolder/include/maps.h \
   /home/user/SharedFolder/include/structs.h \
+  /home/user/SharedFolder/include/juego.h \
   /home/user/SharedFolder/include/gestionEntidades.h
 
 /opt/devkitPro/libnds/include/nds.h:
@@ -165,5 +166,7 @@ rutinasAtencion.o: /home/user/SharedFolder/source/rutinasAtencion.c \
 /home/user/SharedFolder/include/maps.h:
 
 /home/user/SharedFolder/include/structs.h:
+
+/home/user/SharedFolder/include/juego.h:
 
 /home/user/SharedFolder/include/gestionEntidades.h:

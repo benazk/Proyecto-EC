@@ -27,7 +27,7 @@ Nivel mapa[NUM_MAPAS];
 int numEnemigos = 0;
 int numMonedas = 0;
 extern touchPosition pos_pantalla;
-int tiempoMaximo;
+int tiempo;
 int tecla;
 extern int spriteIndice;
 extern int scrollY;
@@ -38,9 +38,9 @@ extern int collisionOffsety;
 void initStructs(){ //Esto pone valores por defecto a structs estaticos con una sola instancia y a algunas variables
 	stat.nivelNum = 1;
 	stat.monedas = 0;
-	mapa[0] = (Nivel){14, 160, 1, 60}; // Máximo de scrollY, tamaño de array del mapa y dificultad
-	mapa[1] = (Nivel){14, 160, 2, 45};
-	mapa[2] = (Nivel){14, 160, 3, 30};
+	mapa[0] = (Nivel){14, 160, 1}; // Máximo de scrollY, tamaño de array del mapa y dificultad
+	mapa[1] = (Nivel){14, 160, 2};
+	mapa[2] = (Nivel){14, 160, 3};
 	stat.nivActual = &mapa[0];
 	personaje.x = 96;
 	personaje.y = 160;
@@ -50,28 +50,14 @@ void initStructs(){ //Esto pone valores por defecto a structs estaticos con una 
 }
 
 void crearMonedas(){
-	int x = rand() % 224;
-	int y = rand() % personaje.estadisticas->nivActual->altura + 6 - 1;	// Puede ir desde la columna mas alta del mapa hasta 0
-	Moneda *m = &monedas[numMonedas];
-	m->posx = x;
-	m->posy = y;
-	m->gestorMoneda = &GC;
-	m->spriteID = MONEDA_SPRITE;
-	m->gfxpoint = monedaSuelo;
-	m->spriteBitMap = monedaTile;
-	m->spriteSize = SPRITE32;
-	m->size = 27;
-	m->valor = 1;
-	m->recogida = false;
-	numMonedas++;
-	
-}
-void recrearMoneda(){ //Cuando se pilla una moneda, se sustituye con esta función
+	bool spawned = false; //Solo una moneda se crea o sustituye por llamada a esta funcion
+    if (numMonedas >= MAX_MONEDAS) return;
 	int i;
 	int x = rand() % 224;
-	int y = (rand() % 32*(personaje.estadisticas->nivActual->altura));// - 32*(personaje.estadisticas->nivActual->altura + 6); // Puede ir desde arriba del mapa (Número negativo) hasta y = 192 (abajo del mapa)
-	for(i = 0; i < numMonedas; i++){
+	int y = (rand() % 32*(personaje.estadisticas->nivActual->altura)) - 32*(personaje.estadisticas->nivActual->altura + 6); // Puede ir desde arriba del mapa (Número negativo) hasta y = 192 (abajo del mapa)
+	for(i = 0; i < numEnemigos; i++){
 		if(monedas[i].recogida){ //En caso de que en array haya un hueco para una moneda, es ocupado y se salta el paso de crear otra instancia de Moneda
+			spawned = true;
 			monedas[i].posx = x;
 			monedas[i].posy = y;
 			monedas[i].gestorMoneda = &GC;
@@ -81,19 +67,35 @@ void recrearMoneda(){ //Cuando se pilla una moneda, se sustituye con esta funci�
 			monedas[i].spriteSize = SPRITE32;
 			monedas[i].size = 27;
 			monedas[i].valor = 1;
-			monedas[i].recogida = false;
-			return;
-			
+			monedas[i].recogida = 0;
+			//iprintf("\x1b[1;0H Moneda:(%d %d)",monedas[i].posx ,monedas[i].posy);
 		}
 	}
+	if(!spawned){
+		Moneda *m = &monedas[numMonedas++];
+		m->posx = x;
+		m->posy = y;
+		m->gestorMoneda = &GC;
+		m->spriteID = MONEDA_SPRITE;
+		m->gfxpoint = monedaSuelo;
+		m->spriteBitMap = monedaTile;
+		m->spriteSize = SPRITE32;
+		m->size = 27;
+		m->valor = 1;
+		m->recogida = false;
+	}
+	
 }
 
-bool VerificarColision(int x1, int x2, int y1, int y2, int width1, int width2, int height1, int height2, int a){ // Sirve para saber si ha habido una colisión entre dos entidades con anchura/altura
+bool VerificarColision(int x1, int x2, int y1, int y2, int width1, int width2, int height1, int height2, int a){ // Sirve para saber si ha habido una colisión entre dos entidades
     bool collision = false;
 	if ((x1 < (x2 + width2) && (x1 + width1) > x2) && (y1 < (y2 + height2) && (y1 + height1) > y2))
 		collision = true;
+	
+	//iprintf("\x1b[%d;0H Personaje: (%d %d), Enemigo:(%d %d)", a, x2, y2, x1, y1);
 	collisionOffsetx = abs(x2 - x1);
 	collisionOffsety = abs(y2 - y1);
+	//iprintf("\x1b[10;0H CollisionOffset: (%d %d)", collisionOffsetx, collisionOffsety);
 	return collision;
 }
 
@@ -102,7 +104,8 @@ bool VerificarPunto(int x1, int x2, int y1, int y2, int size1){
 	if(x2 < (x1 + size1 + (32-size1)/2) && y2 < (y1 + size1 + (32-size1)/2)){
 		touch = true;
 	}
-	return touch; // Verifica que una moneda ha sido tocada con la touchScreen
+	iprintf("\x1b[4;4H Toco moneda? %d", touch);
+	return touch; // Verifica que 
 }
 
 
@@ -202,15 +205,6 @@ void ganar(){
 	DeshabilitarInterrrupciones();
 	PararTempo();
 	consoleClear();
-	iprintf("\x1b[2;0H Desarrolladores: Yo");
-	iprintf("\x1b[4;0H Diseno de niveles: Yo");
-	iprintf("\x1b[6;0H Banda sonora: Yo (no)");
-	iprintf("\x1b[8;0H Modelos 3D: Nadie");
-	iprintf("\x1b[10;0H Sprites: Yo");
-	iprintf("\x1b[12;0H Menciones especiales:");
-	iprintf("\x1b[13;0H Benat Ezquerro");
-	iprintf("\x1b[15;0H Creditos: Yo");
-	iprintf("\x1b[17;0H Yo, 2026");
 	int j;
 	for (j = 0; j < numEnemigos; j++) { // Actualiza la posicion de los enemigos cada tick del reloj
 		enemigos[j].spriteIndice = 0;
@@ -252,6 +246,7 @@ void ganar(){
 
 
 void juego(){
+	srand(time(NULL));
 	spriteIndice = 1; // No está en 0 ya que el personaje es el indice 0
 	initStructs();
 	Estado=MENU;
@@ -284,31 +279,32 @@ void juego(){
 			
 			case MENU:
 				iprintf("\x1b[4;2H Jugar (START)");
-				iprintf("\x1b[12;2H Salir (B)");
+				iprintf("\x1b[12;2H Stats (SELECT)");
+				iprintf("\x1b[20;2H Salir (B)");
 				if(!TeclaDetectada()) break;
 				tecla = TeclaPulsada();
 				if(tecla==START){ //Lleva al juego, muestra el mapa y todo.
-					srand(time(NULL));
 					HabilitarIntTeclado();
 					HabilitarIntTempo();
 					PonerEnMarchaTempo();
 					consoleClear();
 					GuardarSpritesMemoria(gfxpersonaje, personajeMap, SPRITE32);
-					tiempoMaximo = personaje.estadisticas->nivActual->tiempo;
 					int i;
 					for(i = 0; i < MAX_MONEDAS; i++) crearMonedas();
 					renderMapa(personaje.estadisticas->nivelNum);
-					
+					iprintf("\x1b[6;0H Cantidad de sprites: %d", spriteIndice);
 					Estado=JUEGO;
 					subEstado=IDLE;
+				}
+				if(tecla==SELECT){ //Si la tecla es select, te lleva a las stats
+
 				}
 				if(tecla==B){ // Cierra el emulador
 					swiSoftReset();//Funcion de nds para "apagar" la consola
 				}
 				break;
 			case JUEGO:
-				PantallaTactilPulsada();
-				if(keysUp() & KEY_TOUCH) { // Como al pulsar no funciona bien, espero a que deje de pulsar y en esa posicion hago el check
+				if(PantallaTactilPulsada()) {
 					iprintf("\x1b[14;0H TOUCH %d %d", pos_pantalla.px, pos_pantalla.py);
 					checkMonedas();
 				}
@@ -324,6 +320,7 @@ void juego(){
 							InhibirIntTempo();
 							PararTempo();
 						}
+						iprintf("\x1b[0;1H %d MONEDAS", personaje.estadisticas->monedas);
 						if(!subirBarca && map1[personaje.posEnMapa].spriteID == AGUA_SUELO){ 
 							//morir(); // Mueres
 						}

@@ -7,5 +7,4 @@ void movEnemigo(); //Gestiona el movimiento de los enemigos (aqui implemento par
 void GM(Enemigo *);
 void GC(Moneda *);
 void estaPersonaje();
-void checkMonedas();
 #endif

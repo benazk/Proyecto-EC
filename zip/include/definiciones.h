@@ -57,14 +57,13 @@ extern const enum spritesId{
 extern const enum spriteSizes{ SPRITE_CUSTOM=0, SPRITE32=1, SPRITE16=2, SPRITE64=3}spriteSizes; // Para asignar tamaños de sprites tambien con un switch-case
 int Estado; // Este es el estado de la partida
 int subEstado; // Este es el sub estado de la partida
-int scrollY; // Pseudo viewport
-int spriteIndice; 
-int tiempoMaximo; // Este es el tiempo de cada nivel
+int scrollY;
+int spriteIndice;
 int numEnemigos;
 int numMonedas;
-int collisionOffsetx; // Colisiones con barco/enemigo, para que no sea necesario estar perfectamente alineado con el barco/enemigo para subirte
+int collisionOffsetx;
 int collisionOffsety;
 bool subirBarca;
 #define MAX_ENEMIGOS 12
-#define NUM_MAPAS 3
-#define MAX_MONEDAS 20
+#define NUM_MAPAS 2
+#define MAX_MONEDAS 5

@@ -8,7 +8,6 @@
 #include "sprites.h"
 #include "structs.h"
 #include "maps.h"
-#include "juego.h"
 #include "gestionEntidades.h"
 int Estado;
 static int tick=0;
@@ -98,13 +97,6 @@ void RutAtencionTempo(){ // Para gestionar cada tick del temporizador, serán 20
 			break;
 		case JUEGO:
 			if(subEstado==PAUSA || subEstado==MUERTE) break;
-			tick++;
-			if(tick == 20){
-				tiempoMaximo--;
-			}
-			if(tiempoMaximo==-1){
-				morir();
-			}
 			movEnemigo();
 			renderMapa(personaje.estadisticas->nivelNum);
 			oamUpdate(&oamMain);

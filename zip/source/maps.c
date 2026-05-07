@@ -126,23 +126,19 @@ void renderMapa(int tipoMapa){ //Pinta el mapa en pantalla
         }
 
         int l;
-        EstablecerPaletaPrincipal(0); // Lo mismo con el personaje
-        MostrarSprite(0,personaje.x, personaje.y, 1, gfxpersonaje, 1);
-        
-        for (l = 0; l < MAX_MONEDAS; l++){ // Generar monedas funciona igual que generar enemigos, pero las monedas desaparecen cuando se "recogen"
-            monedas[l].spriteIndice = spriteIndice;
-            if(monedas[l].recogida || monedas[l].posy > 6 + scrollY - 1 || monedas[l].posy < scrollY - 1){
-                BorrarSprite(monedas[l].spriteIndice, monedas[l].posx, monedas[l].posy + scrollY*32, monedas[l].spriteSize, monedas[l].gfxpoint, 0);
-                spriteIndice++;
-            }
-            else{
+        for (l = 0; l < numMonedas; l++){
+            if(!monedas[l].recogida){
+                monedas[l].spriteIndice = spriteIndice;
                 EstablecerPaletaPrincipal(monedas[l].spriteID);
-                MostrarSprite(monedas[l].spriteIndice, monedas[l].posx, (-1)*32*monedas[l].posy + 160 + scrollY*32, monedas[l].spriteSize, monedas[l].gfxpoint, 0);
+                MostrarSprite(monedas[l].spriteIndice, monedas[l].posx, monedas[l].posy + scrollY*32, monedas[l].spriteSize, monedas[l].gfxpoint, 0);
                 spriteIndice++;
             }
         }
+
+        EstablecerPaletaPrincipal(0); // Lo mismo con el personaje
+        MostrarSprite(0,personaje.x, personaje.y, 1, gfxpersonaje, 1);
         oamUpdate(&oamMain);
-        if(floor(personaje.posEnMapa/8) >= personaje.estadisticas->nivActual->altura + 6 - 1){ // Si el personaje ha llegado a la tile más alta del mapa, este gana
+        if(floor(personaje.posEnMapa/8) >= personaje.estadisticas->nivActual->altura + 6 - 1){
             ganar(); // Ganas
         }
         j = 0;

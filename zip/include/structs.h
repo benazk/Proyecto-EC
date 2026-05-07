@@ -11,7 +11,6 @@ typedef struct { // AÚN NO HE HECHO NADA CON ESTO
     int altura; // Numero que tiene que alcanzar scrollY para cubrir el mapa sin pasarse
     int tamMapa; //Longitud del array del mapa
     int dificultad; // Si la dificultad es alta, las cosas se moverán más rápido
-    int tiempo;
 }Nivel;
 
 typedef struct {

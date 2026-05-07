@@ -15,7 +15,6 @@ extern int numEnemigos;
 extern int spriteIndice;
 extern int scrollY;
 bool subirBarca = 0;
-bool recogida = false;
 void movEnemigo(){
     int i;
     for(i = 0; i < numEnemigos; i++){
@@ -52,21 +51,20 @@ void estaPersonaje(){
 }
 
 void checkMonedas(){
-    int i = 0;
-    recogida=false;
-    while(i < MAX_MONEDAS && !recogida){
-        monedas[i].gestorMoneda(&monedas[i]);
-        i++;
+    int i;
+    for(i = 0; i < numMonedas; i++){
+        if(monedas[i].gestorMoneda != NULL) {
+            monedas[i].gestorMoneda(&monedas[i]);
+        }
     }
+    
     i = 0;
     
 }
 void GC(Moneda *self){ // Como se mueve de izquierda a derecha y viceversa, tengo una variable dirección y vuelvo a dibujar el sprite cada vez que lo muevo
-    if(VerificarPunto(self->posx, pos_pantalla.px, self->posy + scrollY*32, pos_pantalla.px, self->size) && !self->recogida){
+    if(VerificarPunto(self->posx, pos_pantalla.px, self->posy + scrollY*32, pos_pantalla.px, self->size)){
+        iprintf("\x1b[4;4H TOCO MONEDA");
         personaje.estadisticas->monedas += self->valor;
         self->recogida = true;
-        //recrearMoneda();
-        oamUpdate(&oamMain);
-        recogida=true;
     }
 }
