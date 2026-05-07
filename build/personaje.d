@@ -1,1 +1,0 @@
-personaje.o: personaje.s

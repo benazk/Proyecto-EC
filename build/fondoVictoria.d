@@ -1,1 +1,0 @@
-fondoVictoria.o: fondoVictoria.s

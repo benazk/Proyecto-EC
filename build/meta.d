@@ -1,1 +1,0 @@
-meta.o: meta.s

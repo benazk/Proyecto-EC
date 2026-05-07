@@ -1,1 +1,0 @@
-fondoMuerte.o: fondoMuerte.s

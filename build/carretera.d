@@ -1,1 +1,0 @@
-carretera.o: carretera.s
