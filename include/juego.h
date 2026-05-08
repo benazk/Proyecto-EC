@@ -8,3 +8,5 @@ void ganar();
 void crearMonedas();
 void recrearMoneda();
 bool VerificarPunto(int x1, int x2, int y1, int y2, int size1);
+void resetVariables();
+void checkOpciones();

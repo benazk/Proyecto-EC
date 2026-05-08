@@ -35,12 +35,12 @@ extern int collisionOffsetx;
 extern int collisionOffsety;
 
 
-void initStructs(){ //Esto pone valores por defecto a structs estaticos con una sola instancia y a algunas variables
+void initStructs(){ //Esto pone valores por defecto a structs estáticos con una sola instancia y a algunas variables
 	stat.nivelNum = 1;
 	stat.monedas = 0;
-	mapa[0] = (Nivel){14, 160, 1, 60}; // Máximo de scrollY, tamaño de array del mapa y dificultad
-	mapa[1] = (Nivel){14, 160, 2, 45};
-	mapa[2] = (Nivel){14, 160, 3, 30};
+	mapa[0] = (Nivel){14, 160, 60}; // Máximo de scrollY, tamaño de array del mapa y tiempo
+	mapa[1] = (Nivel){20, 208, 45};
+	mapa[2] = (Nivel){24, 240, 30};
 	stat.nivActual = &mapa[0];
 	personaje.x = 96;
 	personaje.y = 160;
@@ -69,7 +69,7 @@ void crearMonedas(){
 void recrearMoneda(){ //Cuando se pilla una moneda, se sustituye con esta función
 	int i;
 	int x = rand() % 224;
-	int y = (rand() % 32*(personaje.estadisticas->nivActual->altura));// - 32*(personaje.estadisticas->nivActual->altura + 6); // Puede ir desde arriba del mapa (Número negativo) hasta y = 192 (abajo del mapa)
+	int y = (rand() % 32*(personaje.estadisticas->nivActual->altura + 6 - 1));// - 32*(personaje.estadisticas->nivActual->altura + 6); // Puede ir desde arriba del mapa (Número negativo) hasta y = 192 (abajo del mapa)
 	for(i = 0; i < numMonedas; i++){
 		if(monedas[i].recogida){ //En caso de que en array haya un hueco para una moneda, es ocupado y se salta el paso de crear otra instancia de Moneda
 			monedas[i].posx = x;
@@ -99,7 +99,7 @@ bool VerificarColision(int x1, int x2, int y1, int y2, int width1, int width2, i
 
 bool VerificarPunto(int x1, int x2, int y1, int y2, int size1){
 	bool touch = false;
-	if(x2 < (x1 + size1 + (32-size1)/2) && y2 < (y1 + size1 + (32-size1)/2)){
+	if(x2 < (x1 + size1) && y2 < (y1 + size1)){
 		touch = true;
 	}
 	return touch; // Verifica que una moneda ha sido tocada con la touchScreen
@@ -115,18 +115,10 @@ void spawnEnemigo(int x, int y, int tipoEnemigo, int dir, int origen, int column
 			spawned = true;
 			enemigos[i].posx = x;
 			enemigos[i].posy = y;
-			enemigos[i].spriteID = tipoEnemigo;
 			enemigos[i].gestorEnemigo = &GM;
 			enemigos[i].direccion = dir;
 			enemigos[i].tileOrigen = origen;
 			enemigos[i].colOrigen = column;
-			switch(tipoEnemigo){
-				case COCHE_SPRITE:
-					enemigos[i].gfxpoint = gfxCoche;
-					enemigos[i].spriteBitMap = cocheMap;
-					enemigos[i].spriteSize = SPRITE32;
-					break;
-			}
 		}
 	}
 	if(!spawned){
@@ -136,9 +128,9 @@ void spawnEnemigo(int x, int y, int tipoEnemigo, int dir, int origen, int column
 		e->spriteID = tipoEnemigo;
 		e->gestorEnemigo = &GM;
 		e->direccion = dir;
-		enemigos[i].tileOrigen = origen;
-		enemigos[i].colOrigen = column;
-		switch(tipoEnemigo){
+		e->tileOrigen = origen;
+		e->colOrigen = column;
+		switch(tipoEnemigo){ // Por falta de tiempo este switch se queda con un solo case (Hay muchos switch así)
 			case COCHE_SPRITE:
 				e->gfxpoint = gfxCoche;
 				e->spriteBitMap = cocheMap;
@@ -149,15 +141,14 @@ void spawnEnemigo(int x, int y, int tipoEnemigo, int dir, int origen, int column
 	
 }
 
-void morir(){
-	subEstado = MUERTE;
+void resetVariables(){
 	oamClear(&oamMain, 0, 0);
 	oamUpdate(&oamMain);
 	DeshabilitarInterrrupciones();
 	PararTempo();
 	consoleClear();
 	int j;
-	for (j = 0; j < numEnemigos; j++) { // Actualiza la posicion de los enemigos cada tick del reloj
+	for (j = 0; j < numEnemigos; j++) { //"elimina" a los enemigos del array
 		enemigos[j].spriteIndice = 0;
 		map1[enemigos[j].tileOrigen].enemigoSpawn = true; // Si el enemigo se pasa de x, la tile que genera enemigos puede volver a generarlos
 		enemigos[j].posx = 0;
@@ -168,10 +159,18 @@ void morir(){
 		enemigos[j].gestorEnemigo = NULL;
 		enemigos[j].tileOrigen = 0;
 	}
-	switch(personaje.estadisticas->nivActual->dificultad){
+	switch(personaje.estadisticas->nivelNum){ // Pone al personaje al inicio del nivel
 		case 1:
 			map1[personaje.posEnMapa].estaPersonaje = false;
 			map1[3].estaPersonaje = true;
+			break;
+		case 2:
+			map2[personaje.posEnMapa].estaPersonaje = false;
+			map2[3].estaPersonaje = true;
+			break;
+		case 3:
+			map3[personaje.posEnMapa].estaPersonaje = false;
+			map3[3].estaPersonaje = true;
 			break;
 	}
 	personaje.posEnMapa = 3;
@@ -186,6 +185,11 @@ void morir(){
 	collisionOffsety = 32;
 	pos_pantalla.px = 0;
 	pos_pantalla.py = 0;
+}
+
+void morir(){
+	subEstado = MUERTE;
+	resetVariables();
 	videoSetMode(MODE_5_2D | // Set the graphics mode to Mode 5
 		DISPLAY_BG2_ACTIVE | // Enable BG2 for display
 		DISPLAY_BG3_ACTIVE | // Enable BG3 for display
@@ -197,11 +201,7 @@ void morir(){
 
 void ganar(){
 	subEstado = VICTORIA;
-	oamClear(&oamMain, 0, 0);
-	oamUpdate(&oamMain);
-	DeshabilitarInterrrupciones();
-	PararTempo();
-	consoleClear();
+	resetVariables();
 	iprintf("\x1b[2;0H Desarrolladores: Yo");
 	iprintf("\x1b[4;0H Diseno de niveles: Yo");
 	iprintf("\x1b[6;0H Banda sonora: Yo (no)");
@@ -211,57 +211,93 @@ void ganar(){
 	iprintf("\x1b[13;0H Benat Ezquerro");
 	iprintf("\x1b[15;0H Creditos: Yo");
 	iprintf("\x1b[17;0H Yo, 2026");
-	int j;
-	for (j = 0; j < numEnemigos; j++) { // Actualiza la posicion de los enemigos cada tick del reloj
-		enemigos[j].spriteIndice = 0;
-		map1[enemigos[j].tileOrigen].enemigoSpawn = true; // Si el enemigo se pasa de x, la tile que genera enemigos puede volver a generarlos
-		enemigos[j].posx = 0;
-		enemigos[j].posy = 0;
-		enemigos[j].spriteSize = 0;
-		enemigos[j].spriteID = 0;
-		enemigos[j].gfxpoint = NULL;
-		enemigos[j].gestorEnemigo = NULL;
-		enemigos[j].tileOrigen = 0;
-	}
-	switch(personaje.estadisticas->nivActual->dificultad){
-		case 1:
-			map1[personaje.posEnMapa].estaPersonaje = false;
-			map1[3].estaPersonaje = true;
-			break;
-	}
-	personaje.posEnMapa = 3;
-	personaje.vivo = false;
-	personaje.x = 96;
-	personaje.y = 160;
-	personaje.estadisticas->monedas = 0;
-	scrollY = 0;
-	numEnemigos = 0;
-	spriteIndice = 1;
-	collisionOffsetx = 32;
-	collisionOffsety = 32;
-	pos_pantalla.px = 0;
-	pos_pantalla.py = 0;
-	videoSetMode(MODE_5_2D | // Set the graphics mode to Mode 5
-		DISPLAY_BG2_ACTIVE | // Enable BG2 for display
-		DISPLAY_BG3_ACTIVE | // Enable BG3 for display
-		DISPLAY_SPR_ACTIVE | // Enable sprites for display
-		DISPLAY_SPR_1D       // Enable 1D tiled sprites
+	videoSetMode(MODE_5_2D | 
+		DISPLAY_BG2_ACTIVE | 
+		DISPLAY_BG3_ACTIVE | 
+		DISPLAY_SPR_ACTIVE | 
+		DISPLAY_SPR_1D       
 		);
 	visualizarFondoVictoria();
 }
 
 
+
+void checkOpciones(){
+
+	if(pos_pantalla.py <= 64){
+		visualizarFondoSelectUno();
+		stat.nivActual = &mapa[0];
+		stat.nivelNum = 1;
+		int latch = 58982;//(int)(65536 - (33554432/256)*1/20); 20 interrupciones por segundo, 20 ticks/s
+		int timer_control = 0x0042;
+		ConfigurarTemporizador(latch, timer_control);
+		GuardarSpritesMemoria(florSuelo, tileFlor, SPRITE32); //Es necesario guardar todos los sprites necesarios en memoria antes de nada
+        GuardarSpritesMemoria(aguaSuelo, tileAgua, SPRITE32);
+        GuardarSpritesMemoria(gfxCoche, cocheMap, SPRITE32);
+	}
+	else if (pos_pantalla.py > 64 && pos_pantalla.py <=128){
+		visualizarFondoSelectDos();
+		stat.nivActual = &mapa[1];
+		stat.nivelNum = 2;
+		int latch = 60293;//(int)(65536 - (33554432/256)*1/25); 25 interrupciones por segundo, 25 ticks/s
+		int timer_control = 0x0042;
+		ConfigurarTemporizador(latch, timer_control);
+		GuardarSpritesMemoria(sueloSuelo, tileSuelo, SPRITE32); //Es necesario guardar todos los sprites necesarios en memoria antes de nada
+        GuardarSpritesMemoria(aguaSuelo2, tileAgua2, SPRITE32);
+        GuardarSpritesMemoria(gfxCoche2, tileFlor2, SPRITE32);
+	}
+	else{ // ESTO AUN NO ESTÁ HECHO
+		visualizarFondoSelectTres();
+		stat.nivActual = &mapa[2];
+		stat.nivelNum = 3;
+		int latch = 60854;//(int)(65536 - (33554432/256)*1/28); 28 interrupciones por segundo, 28 ticks/s
+		int timer_control = 0x0042;
+		ConfigurarTemporizador(latch, timer_control);
+		/*GuardarSpritesMemoria(florSuelo, tileFlor, SPRITE32); //Es necesario guardar todos los sprites necesarios en memoria antes de nada
+        GuardarSpritesMemoria(aguaSuelo, tileAgua, SPRITE32);
+        GuardarSpritesMemoria(gfxCoche, cocheMap, SPRITE32);*/
+	}
+}
+
+void irMenu(){ //Para volver al menú
+	consoleClear();
+	iprintf("\x1b[4;2H Jugar (START)");
+	iprintf("\x1b[12;2H Salir (B)");
+	iprintf("\x1b[20;2H Elige la dificultad con");
+	iprintf("\x1b[22;2H la pantalla tactil");
+	visualizarFondoSelectUno();
+	stat.nivActual = &mapa[0];
+		stat.nivelNum = 1;
+		int latch = 58982;//(int)(65536 - (33554432/256)*1/20); 20 interrupciones por segundo, 20 ticks/s
+		int timer_control = 0x0042;
+		ConfigurarTemporizador(latch, timer_control);
+}
+
 void juego(){
 	spriteIndice = 1; // No está en 0 ya que el personaje es el indice 0
 	initStructs();
 	Estado=MENU;
+	iprintf("\x1b[4;2H Jugar (START)");
+	iprintf("\x1b[12;2H Salir (B)");
+	iprintf("\x1b[20;2H Elige la dificultad con");
+	iprintf("\x1b[22;2H la pantalla tactil");
+	videoSetMode(MODE_5_2D | 
+		DISPLAY_BG2_ACTIVE | 
+		DISPLAY_BG3_ACTIVE | 
+		DISPLAY_SPR_ACTIVE | 
+		DISPLAY_SPR_1D       
+		);
 	
-	// Configurar el teclado.
-	// Configurar el temporizador.
-	// Establecer las rutinas de atención a interrupciones.
-	// Habilitar las interrupciones del teclado.
-	// Habilitar las interrupciones del temporizador.
-	// Habilitar interrupciones.
+	visualizarFondoSelectUno();
+	
+	// Con esta configuración muestra al personaje y el mapa 1, estos sprites se descargarán de memoria cuando se cambie de mapa
+	GuardarSpritesMemoria(florSuelo, tileFlor, SPRITE32); //Es necesario guardar todos los sprites necesarios en memoria antes de nada
+    GuardarSpritesMemoria(aguaSuelo, tileAgua, SPRITE32);
+    GuardarSpritesMemoria(gfxCoche, cocheMap, SPRITE32);
+	GuardarSpritesMemoria(metaSuelo, metaTile, SPRITE32);
+    GuardarSpritesMemoria(monedaSuelo, monedaTile, SPRITE32);
+	GuardarSpritesMemoria(gfxpersonaje, personajeMap, SPRITE32);
+
 	ConfigurarTeclado(0x4000 | 0x03F1); // Como las teclas SELECT, START y B van por interrupción, se pondrán sus bits a 1, es decir 0100 0011 1111 0001 o 0x43F1     
 
 	int latch = 58982;//(int)(65536 - (33554432/256)*1/20); 20 interrupciones por segundo, 20 ticks/s
@@ -274,17 +310,17 @@ void juego(){
 	HabilitarInterrupciones();
 
 	
-	// Con esta configuración muestra al personaje y el mapa
-	
-	
+
 	while(1){ //Bucle del juego
 		ActualizarTeclado(); 
 		int tecla;
 		switch(Estado){
 			
 			case MENU:
-				iprintf("\x1b[4;2H Jugar (START)");
-				iprintf("\x1b[12;2H Salir (B)");
+				PantallaTactilPulsada();
+				if(keysUp() & KEY_TOUCH) { // Como al pulsar no funciona bien, espero a que deje de pulsar y en esa posicion hago el check
+					checkOpciones(); // Para seleccionar la dificultad con la pantalla táctil
+				}
 				if(!TeclaDetectada()) break;
 				tecla = TeclaPulsada();
 				if(tecla==START){ //Lleva al juego, muestra el mapa y todo.
@@ -293,12 +329,14 @@ void juego(){
 					HabilitarIntTempo();
 					PonerEnMarchaTempo();
 					consoleClear();
-					GuardarSpritesMemoria(gfxpersonaje, personajeMap, SPRITE32);
+					videoSetMode(MODE_5_2D | 
+						DISPLAY_SPR_ACTIVE | 
+						DISPLAY_SPR_1D       
+						);
 					tiempoMaximo = personaje.estadisticas->nivActual->tiempo;
 					int i;
 					for(i = 0; i < MAX_MONEDAS; i++) crearMonedas();
-					renderMapa(personaje.estadisticas->nivelNum);
-					
+					renderMapa(personaje.estadisticas->nivelNum); // Se renderiza el mapa dependiendo del 
 					Estado=JUEGO;
 					subEstado=IDLE;
 				}
@@ -337,59 +375,68 @@ void juego(){
 							PonerEnMarchaTempo();
 						}
 						else if(tecla==B){
+							videoSetMode(MODE_5_2D | 
+								DISPLAY_BG2_ACTIVE | 
+								DISPLAY_BG3_ACTIVE | 
+								DISPLAY_SPR_ACTIVE | 
+								DISPLAY_SPR_1D       
+								);
 							Estado=MENU;
-							consoleClear();
+							irMenu();
+							subEstado=IDLE;
 							oamClear(&oamMain, 0, 0);
 							oamUpdate(&oamMain);
 						}
 						break;
 					case MUERTE:
 						if(tecla==START){ //Salir de la pausa, habilitando las interrupciones y reanudando el temporizador
-							videoSetMode(MODE_5_2D | // Set the graphics mode to Mode 5
-								DISPLAY_BG2_ACTIVE | // Enable BG2 for display
-								DISPLAY_SPR_ACTIVE | // Enable sprites for display
-								DISPLAY_SPR_1D       // Enable 1D tiled sprites
+							videoSetMode(MODE_5_2D | 
+								DISPLAY_SPR_ACTIVE | 
+								DISPLAY_SPR_1D       
 								);
 							subEstado=IDLE;
+							resetVariables();
 							consoleClear();
 							HabilitarIntTeclado();
 							HabilitarIntTempo();
 							PonerEnMarchaTempo();
 						}
 						else if(tecla==B){
-							videoSetMode(MODE_5_2D | // Set the graphics mode to Mode 5
-								DISPLAY_BG2_ACTIVE | // Enable BG2 for display
-								DISPLAY_SPR_ACTIVE | // Enable sprites for display
-								DISPLAY_SPR_1D       // Enable 1D tiled sprites
+							videoSetMode(MODE_5_2D | 
+								DISPLAY_BG2_ACTIVE | 
+								DISPLAY_BG3_ACTIVE | 
+								DISPLAY_SPR_ACTIVE | 
+								DISPLAY_SPR_1D       
 								);
 							Estado=MENU;
+							irMenu();
 							subEstado=IDLE;
-							consoleClear();
 							oamClear(&oamMain, 0, 0);
 							oamUpdate(&oamMain);
 						}
 					case VICTORIA:
 						if(tecla==START){ //Salir de la pausa, habilitando las interrupciones y reanudando el temporizador
-							videoSetMode(MODE_5_2D | // Set the graphics mode to Mode 5
-								DISPLAY_BG2_ACTIVE | // Enable BG2 for display
-								DISPLAY_SPR_ACTIVE | // Enable sprites for display
-								DISPLAY_SPR_1D       // Enable 1D tiled sprites
+							videoSetMode(MODE_5_2D |
+								DISPLAY_SPR_ACTIVE |
+								DISPLAY_SPR_1D       
 								);
 							subEstado=IDLE;
+							resetVariables();
 							consoleClear();
 							HabilitarIntTeclado();
 							HabilitarIntTempo();
 							PonerEnMarchaTempo();
 						}
 						else if(tecla==B){
-							videoSetMode(MODE_5_2D | // Set the graphics mode to Mode 5
-								DISPLAY_BG2_ACTIVE | // Enable BG2 for display
-								DISPLAY_SPR_ACTIVE | // Enable sprites for display
-								DISPLAY_SPR_1D       // Enable 1D tiled sprites
+							videoSetMode(MODE_5_2D | 
+								DISPLAY_BG2_ACTIVE | 
+								DISPLAY_BG3_ACTIVE | 
+								DISPLAY_SPR_ACTIVE | 
+								DISPLAY_SPR_1D       
 								);
 							Estado=MENU;
+							irMenu();
 							subEstado=IDLE;
-							consoleClear();
 							oamClear(&oamMain, 0, 0);
 							oamUpdate(&oamMain);
 					}

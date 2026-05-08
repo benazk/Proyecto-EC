@@ -11,6 +11,9 @@
 #include "graficos.h"
 #include "fondoMuerte.h" //Generado con grit
 #include "fondoVictoria.h" //Generado con grit
+#include "fondoSelectUno.h" //Generado con grit
+#include "fondoSelectDos.h" //Generado con grit
+#include "fondoSelectTres.h" //Generado con grit
 
 
 /* Se elige el canal de DMA que se utilizará para copiar las imágenes en memoria */
@@ -34,11 +37,36 @@ void visualizarFondoVictoria() {
                      fondoVictoriaBitmapLen); // Longitud en bytes, variable que se genera automáticamente 
 }
 
+void visualizarFondoSelectUno() {
+    //dmaCopyHalfWords(3, fondoVictoriaPal, BG_PALETTE, fondoVictoriaPalLen);
+	dmaCopyHalfWords(DMA_CHANNEL,
+                     fondoSelectUnoBitmap, // Variable que se genera automáticamente 
+                     (uint16 *)BG_BMP_RAM(0), // Dirección del fondo principal 
+                     fondoSelectUnoBitmapLen); // Longitud en bytes, variable que se genera automáticamente 
+}
+
+void visualizarFondoSelectDos() {
+    //dmaCopyHalfWords(3, fondoVictoriaPal, BG_PALETTE, fondoVictoriaPalLen);
+	dmaCopyHalfWords(DMA_CHANNEL,
+                     fondoSelectDosBitmap, // Variable que se genera automáticamente 
+                     (uint16 *)BG_BMP_RAM(0), // Dirección del fondo principal 
+                     fondoSelectDosBitmapLen); // Longitud en bytes, variable que se genera automáticamente 
+}
+
+void visualizarFondoSelectTres() {
+    //dmaCopyHalfWords(3, fondoVictoriaPal, BG_PALETTE, fondoVictoriaPalLen);
+	dmaCopyHalfWords(DMA_CHANNEL,
+                     fondoSelectTresBitmap, // Variable que se genera automáticamente 
+                     (uint16 *)BG_BMP_RAM(0), // Dirección del fondo principal 
+                     fondoSelectTresBitmapLen); // Longitud en bytes, variable que se genera automáticamente 
+}
+
+
 void initBackgrounds() {
     /*  Set up affine background 3 on main as a 16-bit color background. */
     REG_BG3CNT = BG_BMP16_256x256 |
                  BG_BMP_BASE(0) | // The starting place in memory
-                 BG_PRIORITY(0); // A low priority
+                 BG_PRIORITY(3); // A low priority
 
     /*  Set the affine transformation matrix for the main screen background 3
      *  to be the identity matrix.

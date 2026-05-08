@@ -51,7 +51,10 @@ extern const enum spritesId{
     AGUA_SUELO=2,
     COCHE_SPRITE=3,
     META_SUELO=4,
-    MONEDA_SPRITE=5
+    MONEDA_SPRITE=5,
+    SUELO_SUELO=6,
+    COCHE_SPRITE2=7,
+    AGUA_SUELO2=8
 } spritesId; // Para asignar cada sprite con un switch-case dependiendo del sprite necesario.
 
 extern const enum spriteSizes{ SPRITE_CUSTOM=0, SPRITE32=1, SPRITE16=2, SPRITE64=3}spriteSizes; // Para asignar tamaños de sprites tambien con un switch-case

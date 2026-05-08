@@ -62,7 +62,7 @@ void checkMonedas(){
     
 }
 void GC(Moneda *self){ // Como se mueve de izquierda a derecha y viceversa, tengo una variable dirección y vuelvo a dibujar el sprite cada vez que lo muevo
-    if(VerificarPunto(self->posx, pos_pantalla.px, self->posy + scrollY*32, pos_pantalla.px, self->size) && !self->recogida){
+    if(VerificarPunto(self->posx, pos_pantalla.px, self->posy + scrollY*32, pos_pantalla.px, 32) && !self->recogida){
         personaje.estadisticas->monedas += self->valor;
         self->recogida = true;
         //recrearMoneda();

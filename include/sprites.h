@@ -16,7 +16,9 @@ u16* florSuelo;
 u16* aguaSuelo;
 u16* metaSuelo;
 u16* monedaSuelo;
-
+u16* gfxCoche2;
+u16* sueloSuelo;
+u16* aguaSuelo2;
 extern void memoriaReserva();
 
 extern void EstablecerPaletaPrincipal(int spriteID);
@@ -40,5 +42,8 @@ extern u8 tileFlor[1024];
 extern u8 tileAgua[1024];
 extern u8 metaTile[1024];
 extern u8 monedaTile[1024];
+extern u8 tileAgua2[1024];
+extern u8 tileSuelo[1024];
+extern u8 tileFlor2[1024];
 
 #endif
