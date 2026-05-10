@@ -20,7 +20,7 @@ void movEnemigo(){
     int i;
     for(i = 0; i < numEnemigos; i++){
         if(enemigos[i].gestorEnemigo != NULL) {
-            enemigos[i].gestorEnemigo(&enemigos[i]);
+            enemigos[i].gestorEnemigo(&enemigos[i]); //Llamada a la función interna, que a su vez llama a la función real (GM)
         }
     }
     i = 0;

@@ -104,7 +104,7 @@ Tile map2[208] = {                                                              
 
     {tileAgua2, NULL, AGUA_SUELO2, 0, 0, SPRITE32, 24, false, false, false},{tileAgua2, NULL, AGUA_SUELO2, 32, 0, SPRITE32, 24, false, false, false},{tileAgua2, NULL, AGUA_SUELO2, 64, 0, SPRITE32, 24, false, false, false},{tileAgua2, NULL, AGUA_SUELO2, 96, 0, SPRITE32, 24, false, false, false},{tileAgua2, NULL, AGUA_SUELO2, 128, 0, SPRITE32, 24, false, false, false},{tileAgua2, NULL, AGUA_SUELO2, 160, 0, SPRITE32, 24, false, false, false},{tileAgua2, NULL, AGUA_SUELO2, 192, 0, SPRITE32, 24, false, false, false},{tileAgua2, NULL, AGUA_SUELO2, 224, 0, SPRITE32, 24, true, false, false},
     
-    {metaTile, NULL, META_SUELO, 0, 0, SPRITE32, 25, false, true, false},{metaTile, NULL, META_SUELO, 32, 0, SPRITE32, 25, false, true, false},{metaTile, NULL, META_SUELO, 64, 0, SPRITE32, 25, false, true, false},{metaTile, NULL, META_SUELO, 96, 0, SPRITE32, 25, false, true, false},{metaTile, NULL, META_SUELO, 128, 0, SPRITE32, 25, false, true, false},{metaTile, NULL, META_SUELO, 160, 0, SPRITE32, 25, false, true, false},{metaTile, NULL, META_SUELO, 192, 0, SPRITE32, 25, false, true, false},{metaTile, NULL, META_SUELO, 224, 0, SPRITE32, 19, false, true, false},
+    {metaTile, NULL, META_SUELO, 0, 0, SPRITE32, 25, false, true, false},{metaTile, NULL, META_SUELO, 32, 0, SPRITE32, 25, false, true, false},{metaTile, NULL, META_SUELO, 64, 0, SPRITE32, 25, false, true, false},{metaTile, NULL, META_SUELO, 96, 0, SPRITE32, 25, false, true, false},{metaTile, NULL, META_SUELO, 128, 0, SPRITE32, 25, false, true, false},{metaTile, NULL, META_SUELO, 160, 0, SPRITE32, 25, false, true, false},{metaTile, NULL, META_SUELO, 192, 0, SPRITE32, 25, false, true, false},{metaTile, NULL, META_SUELO, 224, 0, SPRITE32, 25, false, true, false},
 };
 Tile map3[240] = {};
 
@@ -159,7 +159,6 @@ void renderMapa(int tipoMapa){ //Pinta el mapa en pantalla
                 spriteIndice++;
             }
             else{ //Si se ven pues claro
-                iprintf("\x1b[%d;0H Se ve enemigo", j);
                 EstablecerPaletaPrincipal(enemigos[j].spriteID);
                 MostrarSprite(enemigos[j].spriteIndice, enemigos[j].posx, enemigos[j].posy + scrollY*32, enemigos[j].spriteSize, enemigos[j].gfxpoint, 2);
                 spriteIndice++;
@@ -188,7 +187,7 @@ void renderMapa(int tipoMapa){ //Pinta el mapa en pantalla
                     if(map2[i].gfxpoint == NULL) map2[i].gfxpoint = sueloSuelo;
                     EstablecerPaletaPrincipal(SUELO_SUELO);
                     break;
-                case AGUA_SUELO:
+                case AGUA_SUELO2:
                     if(map2[i].gfxpoint == NULL) map2[i].gfxpoint = aguaSuelo2;
                     EstablecerPaletaPrincipal(AGUA_SUELO2);
                     
@@ -220,7 +219,6 @@ void renderMapa(int tipoMapa){ //Pinta el mapa en pantalla
                 spriteIndice++;
             }
             else{ //Si se ven pues claro
-                iprintf("\x1b[%d;0H Se ve enemigo", j);
                 EstablecerPaletaPrincipal(enemigos[j].spriteID);
                 MostrarSprite(enemigos[j].spriteIndice, enemigos[j].posx, enemigos[j].posy + scrollY*32, enemigos[j].spriteSize, enemigos[j].gfxpoint, 2);
                 spriteIndice++;
@@ -255,11 +253,14 @@ void renderMapa(int tipoMapa){ //Pinta el mapa en pantalla
         else{
             EstablecerPaletaPrincipal(monedas[l].spriteID);
             MostrarSprite(monedas[l].spriteIndice, monedas[l].posx, (-1)*32*monedas[l].posy + 160 + scrollY*32, monedas[l].spriteSize, monedas[l].gfxpoint, 0);
-            spriteIndice++;
+            spriteIndice++;                     
         }
     }
+    iprintf("\x1b[4;0H %d segundos", tiempoMaximo);
+    iprintf("\x1b[6;0H %d Monedas", personaje.estadisticas->monedas);
+    iprintf("\x1b[22;0H Pausa [SELECT]");
     oamUpdate(&oamMain);
     if(floor(personaje.posEnMapa/8) >= personaje.estadisticas->nivActual->altura + 6 - 1){ // Si el personaje ha llegado a la tile más alta del mapa, este gana
-        ganar(); // Ganas
+        iprintf("\x1b[7;15H SIGMA");//ganar(); // Ganas
     }
 }

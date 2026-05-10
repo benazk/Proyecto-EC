@@ -40,7 +40,7 @@ extern const enum teclas{
 
 extern const enum direccion{NORTE=0, ESTE=1, SUR=2, OESTE=3} direc;
 
-
+                                
 // Enums asignados a los estados y subestados (Automatas)
 extern const enum estadosJuego{ MENU=0, JUEGO=1, STATS=2} est;
 extern const enum subEstadosJuego{ IDLE=0, MOVIENDO=1, PAUSA=2, MUERTE=3, VICTORIA=4} sub;
@@ -57,17 +57,17 @@ extern const enum spritesId{
     AGUA_SUELO2=8
 } spritesId; // Para asignar cada sprite con un switch-case dependiendo del sprite necesario.
 
-extern const enum spriteSizes{ SPRITE_CUSTOM=0, SPRITE32=1, SPRITE16=2, SPRITE64=3}spriteSizes; // Para asignar tamaños de sprites tambien con un switch-case
+extern const enum spriteSizes{ SPRITE_CUSTOM=0, SPRITE32=1, SPRITE16=2, SPRITE64=3}spriteSizes; // Para asignar tamaños de sprites tambien con un switch-case (No usado)
 int Estado; // Este es el estado de la partida
 int subEstado; // Este es el sub estado de la partida
 int scrollY; // Pseudo viewport
-int spriteIndice; 
+int spriteIndice; // Indice a pasarle al OAM
 int tiempoMaximo; // Este es el tiempo de cada nivel
 int numEnemigos;
 int numMonedas;
 int collisionOffsetx; // Colisiones con barco/enemigo, para que no sea necesario estar perfectamente alineado con el barco/enemigo para subirte
 int collisionOffsety;
 bool subirBarca;
-#define MAX_ENEMIGOS 12
+#define MAX_ENEMIGOS 25
 #define NUM_MAPAS 3
 #define MAX_MONEDAS 20

@@ -49,7 +49,7 @@ void initStructs(){ //Esto pone valores por defecto a structs estáticos con una
 	scrollY = 0;
 }
 
-void crearMonedas(){
+void crearMonedas(){ 
 	int x = rand() % 224;
 	int y = rand() % personaje.estadisticas->nivActual->altura + 6 - 1;	// Puede ir desde la columna mas alta del mapa hasta 0
 	Moneda *m = &monedas[numMonedas];
@@ -64,9 +64,8 @@ void crearMonedas(){
 	m->valor = 1;
 	m->recogida = false;
 	numMonedas++;
-	
 }
-void recrearMoneda(){ //Cuando se pilla una moneda, se sustituye con esta función
+void recrearMoneda(){ //Cuando se pilla una moneda, se sustituye con esta función (Función en desuso)
 	int i;
 	int x = rand() % 224;
 	int y = (rand() % 32*(personaje.estadisticas->nivActual->altura + 6 - 1));// - 32*(personaje.estadisticas->nivActual->altura + 6); // Puede ir desde arriba del mapa (Número negativo) hasta y = 192 (abajo del mapa)
@@ -136,6 +135,11 @@ void spawnEnemigo(int x, int y, int tipoEnemigo, int dir, int origen, int column
 				e->spriteBitMap = cocheMap;
 				e->spriteSize = SPRITE32;
 				break;
+			case COCHE_SPRITE2:
+				e->gfxpoint = gfxCoche2;
+				e->spriteBitMap = tileFlor2;
+				e->spriteSize = SPRITE32;
+				break;
 		}
 	}
 	
@@ -174,7 +178,6 @@ void resetVariables(){
 			break;
 	}
 	personaje.posEnMapa = 3;
-	personaje.vivo = false;
 	personaje.x = 96;
 	personaje.y = 160;
 	personaje.estadisticas->monedas = 0;
@@ -246,8 +249,8 @@ void checkOpciones(){
         GuardarSpritesMemoria(aguaSuelo2, tileAgua2, SPRITE32);
         GuardarSpritesMemoria(gfxCoche2, tileFlor2, SPRITE32);
 	}
-	else{ // ESTO AUN NO ESTÁ HECHO
-		visualizarFondoSelectTres();
+	else{ // ESTO AUN NO ESTÁ HECHO (NO LO VOY A HACER)
+		/*visualizarFondoSelectTres();
 		stat.nivActual = &mapa[2];
 		stat.nivelNum = 3;
 		int latch = 60854;//(int)(65536 - (33554432/256)*1/28); 28 interrupciones por segundo, 28 ticks/s
@@ -267,10 +270,14 @@ void irMenu(){ //Para volver al menú
 	iprintf("\x1b[22;2H la pantalla tactil");
 	visualizarFondoSelectUno();
 	stat.nivActual = &mapa[0];
-		stat.nivelNum = 1;
-		int latch = 58982;//(int)(65536 - (33554432/256)*1/20); 20 interrupciones por segundo, 20 ticks/s
-		int timer_control = 0x0042;
-		ConfigurarTemporizador(latch, timer_control);
+	stat.nivelNum = 1;
+	int latch = 58982;//(int)(65536 - (33554432/256)*1/20); 20 interrupciones por segundo, 20 ticks/s
+	int timer_control = 0x0042;
+	ConfigurarTemporizador(latch, timer_control);
+	subEstado=IDLE;
+	Estado=MENU;
+	oamClear(&oamMain, 0, 0);
+	oamUpdate(&oamMain);
 }
 
 void juego(){
@@ -336,12 +343,12 @@ void juego(){
 					tiempoMaximo = personaje.estadisticas->nivActual->tiempo;
 					int i;
 					for(i = 0; i < MAX_MONEDAS; i++) crearMonedas();
-					renderMapa(personaje.estadisticas->nivelNum); // Se renderiza el mapa dependiendo del 
 					Estado=JUEGO;
-					subEstado=IDLE;
+					renderMapa(personaje.estadisticas->nivelNum); // Se renderiza el mapa dependiendo del 
+					
 				}
-				if(tecla==B){ // Cierra el emulador
-					swiSoftReset();//Funcion de nds para "apagar" la consola
+				if(tecla==B){ // Cierra el programa
+					return 0;
 				}
 				break;
 			case JUEGO:
@@ -361,11 +368,13 @@ void juego(){
 							InhibirIntTeclado();
 							InhibirIntTempo();
 							PararTempo();
+							break;
 						}
 						if(!subirBarca && map1[personaje.posEnMapa].spriteID == AGUA_SUELO){ 
-							//morir(); // Mueres
+							morir(); // Mueres
+							break;
 						}
-						break;
+						
 					case PAUSA:
 						if(tecla==SELECT){ //Salir de la pausa, habilitando las interrupciones y reanudando el temporizador
 							subEstado=IDLE;
@@ -373,6 +382,7 @@ void juego(){
 							HabilitarIntTeclado();
 							HabilitarIntTempo();
 							PonerEnMarchaTempo();
+							break;
 						}
 						else if(tecla==B){
 							videoSetMode(MODE_5_2D | 
@@ -381,13 +391,9 @@ void juego(){
 								DISPLAY_SPR_ACTIVE | 
 								DISPLAY_SPR_1D       
 								);
-							Estado=MENU;
 							irMenu();
-							subEstado=IDLE;
-							oamClear(&oamMain, 0, 0);
-							oamUpdate(&oamMain);
+							break;
 						}
-						break;
 					case MUERTE:
 						if(tecla==START){ //Salir de la pausa, habilitando las interrupciones y reanudando el temporizador
 							videoSetMode(MODE_5_2D | 
@@ -400,6 +406,7 @@ void juego(){
 							HabilitarIntTeclado();
 							HabilitarIntTempo();
 							PonerEnMarchaTempo();
+							break;
 						}
 						else if(tecla==B){
 							videoSetMode(MODE_5_2D | 
@@ -408,11 +415,8 @@ void juego(){
 								DISPLAY_SPR_ACTIVE | 
 								DISPLAY_SPR_1D       
 								);
-							Estado=MENU;
 							irMenu();
-							subEstado=IDLE;
-							oamClear(&oamMain, 0, 0);
-							oamUpdate(&oamMain);
+							break;
 						}
 					case VICTORIA:
 						if(tecla==START){ //Salir de la pausa, habilitando las interrupciones y reanudando el temporizador
@@ -426,6 +430,7 @@ void juego(){
 							HabilitarIntTeclado();
 							HabilitarIntTempo();
 							PonerEnMarchaTempo();
+							break;
 						}
 						else if(tecla==B){
 							videoSetMode(MODE_5_2D | 
@@ -434,21 +439,14 @@ void juego(){
 								DISPLAY_SPR_ACTIVE | 
 								DISPLAY_SPR_1D       
 								);
-							Estado=MENU;
 							irMenu();
-							subEstado=IDLE;
-							oamClear(&oamMain, 0, 0);
-							oamUpdate(&oamMain);
-					}
+							break;
+						}
 					default:
 						break;
 				}
 				
 				break;
-			case STATS:
-				if(!TeclaDetectada()) break;
-				tecla = TeclaPulsada();
-				break;  
 		}
 		
 	}
