@@ -299,10 +299,8 @@ void juego(){
 	GuardarSpritesMemoria(gfxpersonaje, personajeMap, SPRITE32);
 
 	ConfigurarTeclado(0x4000 | 0x03F1); // Como las teclas SELECT, START y B van por interrupción, se pondrán sus bits a 1, es decir 0100 0011 1111 0001 o 0x43F1     
-
 	int latch = 58982;//(int)(65536 - (33554432/256)*1/20); 20 interrupciones por segundo, 20 ticks/s
 	int timer_control = 0x0042;
-
 	ConfigurarTemporizador(latch, timer_control);
 
 	EstablecerVectorInt();
