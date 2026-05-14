@@ -23,7 +23,6 @@ typedef struct { //Prota
     int x;
     int y;
     int posEnMapa;
-    bool vivo; 
     Stats *estadisticas;
 }Prota;
 
@@ -54,7 +53,7 @@ struct Enemigo {  //El struct que contiene los datos de los enemigos
     int spriteIndice; // El num de sprite a pasarle al oam
     int tileOrigen; //Es el indice del array de tiles del cual ha aparecido
     int colOrigen;
-    void (*gestorEnemigo)(Enemigo* self);
+    void (*gestorEnemigo)(Enemigo* self); // Es un pseudo método de clase que realmente es un puntero a una función que como parámetro toma un puntero al mismo struct 
 };
 typedef struct Moneda Moneda;
 struct Moneda{
@@ -66,7 +65,6 @@ struct Moneda{
     int spriteID;
     int spriteSize;
     int spriteIndice;
-    int valor;
     bool recogida;
     void (*gestorMoneda)(Moneda* self);
 };

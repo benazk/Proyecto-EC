@@ -63,7 +63,7 @@ void RutAtencionTeclado (){
 			estaPersonaje();
 		}
 		else if (tecla==ABAJO && personaje.y < 160 ){
-			if(personaje.y > 33 && scrollY > 0) scrollY--;
+			if(personaje.y > 65 && scrollY > 0) scrollY--;
 			else personaje.y += 32;
 			map1[personaje.posEnMapa].estaPersonaje = false;
 			personaje.posEnMapa-=8;
@@ -86,11 +86,6 @@ void RutAtencionTeclado (){
 	HabilitarIntTempo();
 }
 
-float Lerp(float start, float end, float amount){ // No prestar atención
-    float result = start + amount*(end - start);
-    return result;
-}
-
 void RutAtencionTempo(){ // Para gestionar cada tick del temporizador, serán 20 ticks/s si estamos en el juego
 	InhibirIntTeclado();
 	switch(Estado){
@@ -99,12 +94,31 @@ void RutAtencionTempo(){ // Para gestionar cada tick del temporizador, serán 20
 		case JUEGO:
 			if(subEstado==PAUSA || subEstado==MUERTE) break;
 			tick++;
-			if(tick == 20){
-				tiempoMaximo--;
+			switch(personaje.estadisticas->nivelNum){
+				case 1:
+					if(tick == 20){
+						tiempoMaximo--;
+						tick = 0;
+					}
+					break;
+				case 2:
+					if(tick == 25){
+						tiempoMaximo--;
+						tick = 0;
+					}
+					break;
+				case 3:
+					if(tick == 28){
+						tiempoMaximo--;
+						tick = 0;
+					}
+					break;		
 			}
-			if(tiempoMaximo==-1){
+			if(tiempoMaximo == -1){
 				morir();
+				return;
 			}
+			consoleClear();
 			movEnemigo();
 			renderMapa(personaje.estadisticas->nivelNum);
 			oamUpdate(&oamMain);
