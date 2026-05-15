@@ -118,7 +118,7 @@ void RutAtencionTempo(){ // Para gestionar cada tick del temporizador, serán 20
 				morir();
 				return;
 			}
-			consoleClear();
+			
 			movEnemigo();
 			renderMapa(personaje.estadisticas->nivelNum);
 			oamUpdate(&oamMain);

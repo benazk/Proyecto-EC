@@ -42,7 +42,7 @@ extern const enum direccion{NORTE=0, ESTE=1, SUR=2, OESTE=3} direc;
 
                                 
 // Enums asignados a los estados y subestados (Automatas)
-extern const enum estadosJuego{ MENU=0, JUEGO=1, STATS=2} est;
+extern const enum estadosJuego{ MENU=0, JUEGO=1, CREDITOS=2} est;
 extern const enum subEstadosJuego{ IDLE=0, MOVIENDO=1, PAUSA=2, MUERTE=3, VICTORIA=4} sub;
 
 extern const enum spritesId{ 
@@ -68,6 +68,7 @@ int numMonedas;
 int collisionOffsetx; // Colisiones con barco/enemigo, para que no sea necesario estar perfectamente alineado con el barco/enemigo para subirte
 int collisionOffsety;
 bool subirBarca;
+int puntuaje;
 #define MAX_ENEMIGOS 25
 #define NUM_MAPAS 3
 #define MAX_MONEDAS 20

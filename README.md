@@ -1,2 +1,2 @@
 # Proyecto-EC
-Frogger GOD
+Este es el juego del proyecto de EC.

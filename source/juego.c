@@ -33,7 +33,7 @@ extern int spriteIndice;
 extern int scrollY;
 extern int collisionOffsetx;
 extern int collisionOffsety;
-
+int puntuaje = 0;
 
 void initStructs(){ //Esto pone valores por defecto a structs estáticos con una sola instancia y a algunas variables
 	stat.nivelNum = 1;
@@ -61,7 +61,6 @@ void crearMonedas(){
 	m->spriteBitMap = monedaTile;
 	m->spriteSize = SPRITE32;
 	m->size = 27;
-	m->valor = 1;
 	m->recogida = false;
 	numMonedas++;
 }
@@ -79,7 +78,6 @@ void recrearMoneda(){ //Cuando se pilla una moneda, se sustituye con esta funci�
 			monedas[i].spriteBitMap = monedaTile;
 			monedas[i].spriteSize = SPRITE32;
 			monedas[i].size = 27;
-			monedas[i].valor = 1;
 			monedas[i].recogida = false;
 			return;
 			
@@ -191,8 +189,10 @@ void resetVariables(){
 }
 
 void morir(){
+	puntuaje = personaje.estadisticas->monedas * 250;
 	subEstado = MUERTE;
 	resetVariables();
+	iprintf("\x1b[2;0H Puntuaje final: %d", puntuaje);
 	videoSetMode(MODE_5_2D | // Set the graphics mode to Mode 5
 		DISPLAY_BG2_ACTIVE | // Enable BG2 for display
 		DISPLAY_BG3_ACTIVE | // Enable BG3 for display
@@ -200,20 +200,14 @@ void morir(){
 		DISPLAY_SPR_1D       // Enable 1D tiled sprites
 		);
 	visualizarFondoMuerte();
+	puntuaje = 0;
 }
 
 void ganar(){
+	puntuaje = tiempoMaximo * 100 + personaje.estadisticas->monedas * 250;
 	subEstado = VICTORIA;
 	resetVariables();
-	iprintf("\x1b[2;0H Desarrolladores: Yo");
-	iprintf("\x1b[4;0H Diseno de niveles: Yo");
-	iprintf("\x1b[6;0H Banda sonora: Yo (no)");
-	iprintf("\x1b[8;0H Modelos 3D: Nadie");
-	iprintf("\x1b[10;0H Sprites: Yo");
-	iprintf("\x1b[12;0H Menciones especiales:");
-	iprintf("\x1b[13;0H Benat Ezquerro");
-	iprintf("\x1b[15;0H Creditos: Yo");
-	iprintf("\x1b[17;0H Yo, 2026");
+	iprintf("\x1b[2;0H Puntuaje final: %d", puntuaje);
 	videoSetMode(MODE_5_2D | 
 		DISPLAY_BG2_ACTIVE | 
 		DISPLAY_BG3_ACTIVE | 
@@ -221,13 +215,19 @@ void ganar(){
 		DISPLAY_SPR_1D       
 		);
 	visualizarFondoVictoria();
+	puntuaje = 0;
 }
 
 
 
 void checkOpciones(){
-
+	consoleClear();
+	iprintf("\x1b[4;2H Jugar (START)");
+	iprintf("\x1b[12;2H Salir (B)");
+	iprintf("\x1b[20;2H Elige la dificultad con");
+	iprintf("\x1b[22;2H la pantalla tactil");
 	if(pos_pantalla.py <= 64){
+		Estado=MENU;
 		visualizarFondoSelectUno();
 		stat.nivActual = &mapa[0];
 		stat.nivelNum = 1;
@@ -239,6 +239,7 @@ void checkOpciones(){
         GuardarSpritesMemoria(gfxCoche, cocheMap, SPRITE32);
 	}
 	else if (pos_pantalla.py > 64 && pos_pantalla.py <=128){
+		Estado=MENU;
 		visualizarFondoSelectDos();
 		stat.nivActual = &mapa[1];
 		stat.nivelNum = 2;
@@ -249,14 +250,25 @@ void checkOpciones(){
         GuardarSpritesMemoria(aguaSuelo2, tileAgua2, SPRITE32);
         GuardarSpritesMemoria(gfxCoche2, tileFlor2, SPRITE32);
 	}
-	else{ // ESTO AUN NO ESTÁ HECHO (NO LO VOY A HACER)
-		/*visualizarFondoSelectTres();
-		stat.nivActual = &mapa[2];
+	else{ // ESTO AUN NO ESTÁ HECHO (HE PUESTO UNOS CRÉDITOS)
+		Estado=CREDITOS;
+		visualizarFondoSelectTres();
+		consoleClear();
+		iprintf("\x1b[2;0H Desarrolladores: Yo");
+		iprintf("\x1b[4;0H Diseno de niveles: Yo");
+		iprintf("\x1b[6;0H Banda sonora: Yo (no)");
+		iprintf("\x1b[8;0H Modelos 3D: Nadie");
+		iprintf("\x1b[10;0H Sprites: Yo");
+		iprintf("\x1b[12;0H Menciones especiales:");
+		iprintf("\x1b[13;0H Benat Ezquerro");
+		iprintf("\x1b[15;0H Creditos: Yo");
+		iprintf("\x1b[17;0H Yo, 2026");
+		/*stat.nivActual = &mapa[2];
 		stat.nivelNum = 3;
 		int latch = 60854;//(int)(65536 - (33554432/256)*1/28); 28 interrupciones por segundo, 28 ticks/s
 		int timer_control = 0x0042;
 		ConfigurarTemporizador(latch, timer_control);
-		/*GuardarSpritesMemoria(florSuelo, tileFlor, SPRITE32); //Es necesario guardar todos los sprites necesarios en memoria antes de nada
+		GuardarSpritesMemoria(florSuelo, tileFlor, SPRITE32); //Es necesario guardar todos los sprites necesarios en memoria antes de nada
         GuardarSpritesMemoria(aguaSuelo, tileAgua, SPRITE32);
         GuardarSpritesMemoria(gfxCoche, cocheMap, SPRITE32);*/
 	}
@@ -346,23 +358,24 @@ void juego(){
 					
 				}
 				if(tecla==B){ // Cierra el programa
-					return 0;
+					swiSoftReset();
 				}
 				break;
 			case JUEGO:
 				PantallaTactilPulsada();
 				if(keysUp() & KEY_TOUCH) { // Como al pulsar no funciona bien, espero a que deje de pulsar y en esa posicion hago el check
-					iprintf("\x1b[14;0H TOUCH %d %d", pos_pantalla.px, pos_pantalla.py);
+					//iprintf("\x1b[14;0H TOUCH %d %d", pos_pantalla.px, pos_pantalla.py);
 					checkMonedas();
 				}
 				if(!TeclaDetectada()) break;
 				tecla = TeclaPulsada();
 				switch (subEstado){
 					case IDLE:
+						
 						if(tecla==SELECT){ //Para entrar en un estado de pausa, que inhibe todas las interrupciones y detiene el temporizador
 							subEstado=PAUSA;
 							consoleClear();
-							iprintf("\x1b[6;H PAUSA");
+							iprintf("\x1b[10;12H PAUSA");
 							InhibirIntTeclado();
 							InhibirIntTempo();
 							PararTempo();
@@ -393,7 +406,7 @@ void juego(){
 							break;
 						}
 					case MUERTE:
-						if(tecla==START){ //Salir de la pausa, habilitando las interrupciones y reanudando el temporizador
+						if(tecla==START){ //Salir de la muerte, habilitando las interrupciones y reanudando el temporizador
 							videoSetMode(MODE_5_2D | 
 								DISPLAY_SPR_ACTIVE | 
 								DISPLAY_SPR_1D       
@@ -417,7 +430,7 @@ void juego(){
 							break;
 						}
 					case VICTORIA:
-						if(tecla==START){ //Salir de la pausa, habilitando las interrupciones y reanudando el temporizador
+						if(tecla==START){ //Salir de la victoria, habilitando las interrupciones y reanudando el temporizador
 							videoSetMode(MODE_5_2D |
 								DISPLAY_SPR_ACTIVE |
 								DISPLAY_SPR_1D       
@@ -445,6 +458,12 @@ void juego(){
 				}
 				
 				break;
+				case CREDITOS:
+					PantallaTactilPulsada();
+					if(keysUp() & KEY_TOUCH) { // Como al pulsar no funciona bien, espero a que deje de pulsar y en esa posicion hago el check
+						checkOpciones(); // Para seleccionar la dificultad con la pantalla táctil
+					}
+					break;
 		}
 		
 	}

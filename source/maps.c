@@ -256,11 +256,12 @@ void renderMapa(int tipoMapa){ //Pinta el mapa en pantalla
             spriteIndice++;                     
         }
     }
+    consoleClear();
     iprintf("\x1b[4;0H %d segundos", tiempoMaximo);
     iprintf("\x1b[6;0H %d Monedas", personaje.estadisticas->monedas);
     iprintf("\x1b[22;0H Pausa [SELECT]");
     oamUpdate(&oamMain);
     if(floor(personaje.posEnMapa/8) >= personaje.estadisticas->nivActual->altura + 6 - 1){ // Si el personaje ha llegado a la tile más alta del mapa, este gana
-        iprintf("\x1b[7;15H SIGMA");//ganar(); // Ganas
+        ganar(); // Ganas
     }
 }

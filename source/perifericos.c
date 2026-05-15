@@ -6,9 +6,10 @@
  // Variable para guardar la tecla pulsada; valorar si es necesaria
 
 
- static int teclaAnterior = 0;
- static int recienPulsadas = 0;
- extern touchPosition pos_pantalla;
+static int teclaAnterior = 0;
+static int recienPulsadas = 0;
+extern touchPosition pos_pantalla;
+
 void ActualizarTeclado() { // Llamar UNA VEZ al inicio de cada iteración del bucle del juego
 	 int actual = (~TECLAS_DAT) & 0x03FF;
 	 recienPulsadas = actual & ~teclaAnterior;
